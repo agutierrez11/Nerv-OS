@@ -40,3 +40,28 @@ Para la auditoría del equipo de Data, todos los artefactos se persisten localme
 
 ---
 *Propietario de la Arquitectura: Antonio (NERV / Toku Project)*
+
+---
+
+## 5. Architectural Roadmap (In Progress)
+
+Para alinear el desarrollo con las mejores prácticas de Data Engineering y Machine Learning, NERV OS se rige por las siguientes premisas estructurales:
+
+### 5.1. Feedback Loop Activo (Memoria RAG)
+**Estado:** `Implementado en feature/nerv-upgrade-rag`
+No realizamos *fine-tuning* (modificación de pesos). En su lugar, aplicamos **In-Context Learning**. Se guardan las objeciones reales de los comerciales en `memory/feedback_loop/objections_library.json` y se inyectan dinámicamente en el prompt del agente. El sistema "aprende" sin el costo computacional de re-entrenar un LLM, permitiendo trazabilidad total y eliminando el entrenamiento de "caja negra".
+
+### 5.2. Capa de Validación de Datos (Pydantic)
+**Estado:** `En Roadmap (src/toku_radar/validators/)`
+La entrada del sistema será blindada usando esquemas de validación estrictos con `Pydantic`. Si los datos de entrada carecen de URL, Sector o contexto válido, la ejecución se aborta. Esto evita el efecto GIGO (Garbage In, Garbage Out) y reduce llamadas inútiles a la API.
+
+### 5.3. Orquestación de "Agentes de Control" (Galileo Logic)
+**Estado:** `En Roadmap (agents.yaml)`
+Migración de la lógica de auditoría hacia un agente independiente ("The Auditor"). Su misión será recibir el dossier final, validarlo contra los datos crudos y, si detecta una alucinación (ej. inventar métricas), **rechazar la generación y disparar una re-evaluación automática**.
+
+### 5.4. Abstracción de Modelos y Enrutamiento (GroqRotator Avanzado)
+**Estado:** `En Roadmap (groq_rotator.py)`
+Implementación de lógica de ruteo inteligente de LLMs:
+- `Llama-3.3-70B`: Exclusivo para simulación de agentes complejos (Estratega, Psicólogo).
+- `Llama-3.1-8B`: Tareas deterministas y ligeras (Formateo Markdown, Resumen Crudo).
+Optimización de costos y latencia sin sacrificar la calidad del resultado final.
