@@ -1,0 +1,58 @@
+tarea_investigacion:
+  description: >
+    Investiga noticias de 2024-2025 para {empresa} ESPECÍFICAMENTE en el mercado de México y LATAM. 
+    Busca problemas operativos, estrategias de ecommerce en México, o fricciones locales de pagos.
+    REGLA: Ignora los reportes globales de Estados Unidos o Europa. Céntrate en la operación regional.
+  expected_output: >
+    Un reporte de 3 puntos clave sobre la operación en LATAM con fuentes reales.
+  agent: investigador
+
+tarea_psicologia:
+  description: >
+    Busca perfiles de LinkedIn para {empresa}. 
+    ¡CRÍTICO! Busca SOLO decisores regionales en México/LATAM con títulos como: "Country Manager México", "CFO Latam", "Director de Finanzas", "Head de Ecommerce", "Head de Pagos", "Director de Pagos".
+    IGNORA a los CEOs o CFOs Globales. Si la persona no está en México o LATAM, descártala.
+    Aplica ingeniería inversa de la API de Crystal para definir:
+    1. Primary DISC Type (D, I, S, C).
+    2. Communication Advice (Do's & Don'ts).
+    3. Behavioral Traits (Motivadores y Fortalezas).
+    4. Favikon Authority Score: Nivel de influencia en el sector.
+  expected_output: >
+    Reporte de Perfilado Psicológico del DECISOR LATAM/MÉXICO con estructura Crystal API.
+  agent: psicologo
+
+tarea_simulacion_gemelo:
+  description: >
+    Actúa como el Gemelo Digital del decisor principal de {empresa}. 
+    Basado en tu perfil DISC y tu autoridad (Favikon), critica la propuesta de Toku.
+    Dinos: "Como [Tu Puesto], lo que me hace dudar es..." y "Lo que me convencería es...".
+  expected_output: >
+    Diálogo directo del Gemelo Digital (Simulación de objeciones reales).
+  agent: gemelo_digital
+
+tarea_dossier_final:
+  description: >
+    Consolida la investigación y el perfil psicológico en un Dossier Forense Altamente Accionable para Ventas B2B.
+    IGNORA por completo la generación de empresas "lookalikes" o competidores; concéntrate SOLO en la empresa objetivo y cómo venderle.
+    
+    El reporte DEBE seguir EXACTAMENTE esta estructura Markdown:
+    
+    ## 🎯 A QUIÉN HABLARLE (Decision Makers LATAM)
+    Lista los roles exactos (ej. Country Manager, CFO, Head de Pagos en México/LATAM) identificados en la investigación.
+    Para cada uno, explica brevemente POR QUÉ son los dueños del dolor financiero/operativo.
+    
+    ## 💬 QUÉ DECIRLE (Scripts de Venta por Rol)
+    Escribe un guión de acercamiento (Cold Message o apertura de llamada) EXACTO y PALABRA POR PALABRA para cada rol identificado.
+    El mensaje debe estar adaptado a su perfil psicológico (DISC) detectado y mencionar su problema operativo específico.
+    
+    ## ⚔️ PLAN DE ATAQUE TÁCTICO
+    Schwerpunkt: Foco principal de entrada. Qué producto de Toku (o solución) resuelve su dolor más grande.
+    Flanqueo: Ángulo secundario de entrada si el principal falla.
+    
+    ## ⚠️ ABOGADO DEL DIABLO Y MANEJO DE OBJECIONES
+    Resumen de las fricciones y dudas planteadas por el Gemelo Digital, y exactamente CÓMO REBATIRLAS en vivo.
+    
+    REGLA ESTRICTA: NO generes listas de otras empresas similares, NO generes "Lookalikes". Sólo entrégame las instrucciones exactas de a quién llamarle de {empresa} y qué decirle.
+  expected_output: >
+    Dossier final en Markdown estructurado y altamente accionable, sin lookalikes.
+  agent: estratega
