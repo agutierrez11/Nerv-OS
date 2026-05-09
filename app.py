@@ -103,39 +103,57 @@ with tab1:
 
     if generar and empresa:
         with st.spinner(f"Analizando {empresa} con {engine_type}..."):
-            if engine_type == "⚡ Motor Rápido":
-                from orchestrator import TokuDossierEngine
-                engine = TokuDossierEngine()
-                dossier = engine.generate_dossier(empresa, sector, pitch, contexto_crm=prior_knowledge)
-            else:
-                import sys
-                from pathlib import Path
-                src_path = str(Path(__file__).parent / "src")
-                if src_path not in sys.path:
-                    sys.path.append(src_path)
+            try:
+                if engine_type == "⚡ Motor Rápido":
+                    from orchestrator import TokuDossierEngine
+                    engine = TokuDossierEngine()
+                    dossier = engine.generate_dossier(empresa, sector, pitch, contexto_crm=prior_knowledge)
+                else:
+                    import sys
+                    from pathlib import Path
+                    src_path = str(Path(__file__).parent / "src")
+                    if src_path not in sys.path:
+                        sys.path.append(src_path)
+                        
+                    try:
+                        from toku_radar.crew import TokuCrew
+                    except ImportError:
+                        from src.toku_radar.crew import TokuCrew
                     
-                try:
-                    from toku_radar.crew import TokuCrew
-                except ImportError:
-                    from src.toku_radar.crew import TokuCrew
-                
-                # Setup Log UI
-                log_container = st.expander("🕵️ Agentes Trabajando (Live Log)", expanded=True)
-                log_text = st.empty()
-                global full_log
-                full_log = ""
-                
-                def update_log(msg):
+                    # Setup Log UI
+                    log_container = st.expander("🕵️ Agentes Trabajando (Live Log)", expanded=True)
+                    log_text = st.empty()
                     global full_log
-                    full_log += msg + "\n\n"
-                    log_text.markdown(f"```text\n{full_log}\n```")
+                    full_log = ""
+                    
+                    def update_log(msg):
+                        global full_log
+                        full_log += msg + "\n\n"
+                        log_text.markdown(f"```text\n{full_log}\n```")
 
-                crew = TokuCrew(empresa, sector, pitch, prior_knowledge=prior_knowledge, log_callback=update_log)
-                dossier = str(crew.run()) if hasattr(crew, 'run') else str(crew.kickoff())
+                    crew = TokuCrew(empresa, sector, pitch, prior_knowledge=prior_knowledge, log_callback=update_log)
+                    dossier = str(crew.run()) if hasattr(crew, 'run') else str(crew.kickoff())
 
-        st.success("✅ Dossier generado")
-        st.divider()
-        st.markdown(dossier)
+                st.success("✅ Dossier generado")
+                st.divider()
+                st.markdown(dossier)
+            except Exception as e:
+                import traceback
+                error_trace = traceback.format_exc()
+                st.error("⚠️ La inteligencia artificial experimentó un error o tardó demasiado en responder (Timeout).")
+                st.info("Por favor, inténtalo de nuevo en 1 minuto.")
+                
+                # Enviar alerta por Telegram
+                try:
+                    from src.toku_radar.tools.telegram_alerter import send_crash_alert
+                    error_msg = str(e)[:100]
+                    if "504" in str(e) or "502" in str(e):
+                        error_msg = "HTTP Gateway Time-out (OpenResty / Ollama)"
+                    send_crash_alert("NERV OS (Streamlit)", error_msg, f"Usuario intentó generar dossier para '{empresa}'")
+                except Exception as alert_e:
+                    print(f"Error al intentar enviar alerta: {alert_e}")
+                
+                st.stop()
 
         # Guardar y ofrecer descarga
         import re
