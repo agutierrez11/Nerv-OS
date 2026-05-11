@@ -12,6 +12,12 @@ from core.resilience import retry_with_backoff, CircuitBreaker
 from core.database import db
 from core.cache import cache
 
+# --- CONFIGURACION DE RUTAS ---
+ROOT_DIR = Path(__file__).parent.parent.parent.parent.absolute()
+SRC_DIR = ROOT_DIR / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
 from toku_radar.tools.search import SerperSearch
 from toku_radar.tools.firecrawl_tool import FirecrawlTool
 from toku_radar.tools.wiki import get_company_profile

@@ -1,8 +1,24 @@
+import sys
+from pathlib import Path
+
+# --- CONFIGURACION DE RUTAS ---
+ROOT_DIR = Path(__file__).parent.absolute()
+SRC_DIR = ROOT_DIR / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
 import streamlit as st
 import csv
 import os
-from pathlib import Path
 from dotenv import load_dotenv
+
+# --- CONFIGURACION DE RUTAS NERV 2.0 ---
+ROOT_DIR = Path(__file__).parent.absolute()
+SRC_DIR = ROOT_DIR / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
 # --- CONFIGURACION NERV 2.0 ---
 from ui.styles import apply_styles
