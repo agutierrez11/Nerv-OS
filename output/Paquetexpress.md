@@ -1,3 +1,10 @@
+---
+title: "Paquetexpress"
+type: "Otros"
+tags: ["Discovery", "Exploración de necesidades de pagos", "Tecnologías de pagos"]
+id: "paquetexpress"
+---
+
 # 🎯 Dossier Toku: Paquetexpress
 **Sector:** Otros | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:43

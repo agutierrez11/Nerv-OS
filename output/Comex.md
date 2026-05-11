@@ -1,3 +1,10 @@
+---
+title: "Comex"
+type: "Logística"
+tags: ["Digitalización de Cobranza", "Comercio Exterior", "Orquestación de Pagos"]
+id: "comex"
+---
+
 # 🎯 Dossier Toku: Comex
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:40

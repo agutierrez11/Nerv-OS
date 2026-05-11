@@ -1,5 +1,12 @@
+---
+title: "AutoZone"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Problemas de Pago en Línea"]
+id: "autozone"
+---
+
 # 🎯 Dossier Toku: AutoZone
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:36
 
 ---

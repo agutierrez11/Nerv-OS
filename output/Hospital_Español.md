@@ -1,3 +1,10 @@
+---
+title: "Hospital Español"
+type: "Salud"
+tags: ["Gestión de pagos", "Seguridad de la información", "Ciberseguridad"]
+id: "hospital_español"
+---
+
 # 🎯 Dossier Toku: Hospital Español
 **Sector:** Health | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:42
@@ -5,13 +12,13 @@
 ---
 
 ## ⚖️ Clasificación de Prospecto
-🟢 LEAD CALIENTE — Debido a la reciente filtración de 400 mil datos del Hospital Español en México, lo que sugiere una necesidad urgente de mejorar la seguridad y la gestión de pagos.
+🟢 LEAD CALIENTE — Debido a la reciente filtración de 400 mil datos del Hospital Español en [[[[México]]]], lo que sugiere una necesidad urgente de mejorar la seguridad y la gestión de pagos.
 
 ## 🧠 Hipótesis Forense
 El Hospital Español enfrenta un reto significativo en la gestión de pagos y la seguridad de la información, lo que puede estar afectando su reputación y la confianza de sus pacientes. La reciente filtración de datos y la necesidad de mejorar la calidad y la seguridad del servicio de salud sugieren que el hospital podría beneficiarse de una plataforma fintech como Toku, que ofrece orquestación de pagos, gateway de cobros y cobranza digital, BNPL, recurrencia y suscripciones automatizadas, payouts masivos y ciberseguridad.
 
 ## 🔬 Fricción Operativa
-- La filtración de 400 mil datos del Hospital Español en México sugiere una falta de seguridad en la gestión de la información (fuente: https://www.tiktok.com/@ignaciogvillasenor/video/7523049173109738759).
+- La filtración de 400 mil datos del Hospital Español en [[[[México]]]] sugiere una falta de seguridad en la gestión de la información (fuente: https://www.tiktok.com/@ignaciogvillasenor/video/7523049173109738759).
 - La necesidad de mejorar la calidad y la seguridad del servicio de salud, como se menciona en el programa de la ANHP, sugiere que el hospital puede estar experimentando fricciones operativas en la gestión de pagos y la atención al paciente (fuente: https://anhp.mx/congreso-anhp/programa/).
 
 ## 💸 Dolor Financiero / Riesgo

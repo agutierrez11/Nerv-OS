@@ -1,3 +1,10 @@
+---
+title: "La Costeña"
+type: "Logística"
+tags: ["Digitalización de Cobranza", "BNPL", "Gestión de Pagos", "Cobranza Digital"]
+id: "la_costeña"
+---
+
 # 🎯 Dossier Toku: La Costeña
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:39
@@ -11,7 +18,7 @@
 La Costeña enfrenta desafíos en la gestión de sus operaciones de pago y cobranza, especialmente en su canal tradicional, lo que puede estar afectando su eficiencia y rentabilidad. Toku puede ayudar a resolver estos retos a través de su plataforma de orquestación de pagos, cobros y cobranza digital, así como con su solución de crédito embebido (BNPL) para distribuidores y puntos de venta, mejorando así la experiencia del cliente y reduciendo los costos operativos.
 
 ## 🔬 Fricción Operativa
-- La falta de una solución de pago digital integral puede estar generando fricciones en la gestión de los pagos y cobros, afectando la eficiencia y la satisfacción del cliente (Fuente: Reporte Anual 2020 de GS1 México).
+- La falta de una solución de pago digital integral puede estar generando fricciones en la gestión de los pagos y cobros, afectando la eficiencia y la satisfacción del cliente (Fuente: Reporte Anual 2020 de GS1 [[[[México]]]]).
 - La necesidad de manejar múltiples métodos de pago y la falta de una plataforma de cobros y cobranza digital pueden estar aumentando los costos operativos y reduciendo la competitividad de La Costeña.
 
 ## 💸 Dolor Financiero / Riesgo

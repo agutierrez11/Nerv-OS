@@ -1,3 +1,10 @@
+---
+title: "Alpura"
+type: "Goods"
+tags: ["Digitalización de Cobranza", "BNPL", "Gestión de Pagos"]
+id: "alpura"
+---
+
 # 🎯 Dossier Toku: Alpura
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:39

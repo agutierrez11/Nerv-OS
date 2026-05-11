@@ -1,3 +1,10 @@
+---
+title: "Grupo El Zorro"
+type: "Logística"
+tags: ["Digitalización de Cobranza", "BNPL", "Gestión de Cobranzas"]
+id: "grupo_el_zorro"
+---
+
 # 🎯 Dossier Toku: Grupo El Zorro
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:40

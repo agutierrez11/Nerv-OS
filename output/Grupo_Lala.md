@@ -1,3 +1,10 @@
+---
+title: "Grupo Lala"
+type: "Logística"
+tags: ["Digitalización de Cobranza", "BNPL", "Gestión de Pagos"]
+id: "grupo_lala"
+---
+
 # 🎯 Dossier Toku: Grupo Lala
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:39

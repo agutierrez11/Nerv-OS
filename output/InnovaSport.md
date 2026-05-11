@@ -1,5 +1,12 @@
+---
+title: "InnovaSport"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Gestión de Pagos"]
+id: "innovasport"
+---
+
 # 🎯 Dossier Toku: InnovaSport
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:36
 
 ---

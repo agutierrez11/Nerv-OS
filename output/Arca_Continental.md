@@ -1,3 +1,10 @@
+---
+title: "Arca Continental"
+type: "Logística"
+tags: ["Digitalización de Cobranza", "BNPL", "Gestión de Pagos", "Cobranza Digital"]
+id: "arca_continental"
+---
+
 # 🎯 Dossier Toku: Arca Continental
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:38

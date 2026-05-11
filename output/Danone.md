@@ -1,3 +1,10 @@
+---
+title: "Danone"
+type: "Goods"
+tags: ["Digitalización de Cobranza", "BNPL", "Dolores Operativos", "Dolores Financieros"]
+id: "danone"
+---
+
 # 🎯 Dossier Toku: Danone
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:39

@@ -1,3 +1,10 @@
+---
+title: "TecSalud"
+type: "Salud"
+tags: ["Fintech", "Pagos", "Gestión Financiera"]
+id: "tecsalud"
+---
+
 # 🎯 Dossier Toku: TecSalud
 **Sector:** Health | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:42

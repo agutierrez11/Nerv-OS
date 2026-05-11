@@ -1,3 +1,10 @@
+---
+title: "Kimberly Clark de Mexico"
+type: "Goods"
+tags: ["Digitalización de Cobranza", "BNPL", "Orquestación de Pagos y Cobranza Digital"]
+id: "kimberly_clark_de_mexico"
+---
+
 # 🎯 Dossier Toku: Kimberly Clark de Mexico
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:40

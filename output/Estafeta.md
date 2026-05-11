@@ -1,3 +1,10 @@
+---
+title: "Estafeta"
+type: "Logística"
+tags: ["Legislación aduanal", "Costos de envío", "Gestión de pagos"]
+id: "estafeta"
+---
+
 # 🎯 Dossier Toku: Estafeta
 **Sector:** Otros | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:42

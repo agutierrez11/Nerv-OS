@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@graphlab-fr/cosma": "^2.6.1"
+  }
+}

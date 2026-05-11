@@ -8,18 +8,24 @@ class GalileoAuditor:
 
     def audit_fact(self, fact, context):
         prompt = f"""
-        ACTÚA COMO UN AUDITOR DE GALILEO AI. 
-        Tu misión es encontrar alucinaciones o datos sin sustento.
+        ACTÚA COMO EL AUDITOR JEFE DE GALILEO AI (Nivel Metacognitivo). 
+        Tu misión es destruir el "humo" y las falsas promesas. 
         
         DATO A VERIFICAR: {fact}
-        CONTEXTO DE REFERENCIA: {context}
+        CONTEXTO DE REFERENCIA (Hallazgos del Investigador): {context}
         
-        Responde con un 'Hallucination Score' (0-10) y una breve justificación.
-        Si el dato NO está en el contexto, el score debe ser mayor a 7.
+        REGLAS DE AUDITORÍA:
+        1. ¿Tiene Evidencia?: Si el dato NO incluye un enlace (URL) de respaldo, el Hallucination Score sube automáticamente a 8+.
+        2. Consistencia Lógica: ¿El Estratega está exagerando? Si el contexto dice "problemas leves" y el Estratega dice "colapso total", es una alucinación de tono (Score 7).
+        3. Fuente Directa: ¿El link realmente existe en el contexto de referencia?
+        
+        RESPUESTA:
+        - Hallucination Score (0-10): 
+        - Veredicto Metacognitivo: Explica brevemente si hay evidencia real o si es "humo" estratégico.
         """
         
         resp = self.rotator.create_completion(
-            model="llama3-8b-8192",
+            model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": prompt}],
             temperature=0
         )

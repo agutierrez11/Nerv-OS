@@ -1,3 +1,10 @@
+---
+title: "Grupo KUO"
+type: "Goods"
+tags: ["Digitalización de Cobranza", "Plataformas de Pagos", "Optimización de Procesos"]
+id: "grupo_kuo"
+---
+
 # 🎯 Dossier Toku: Grupo KUO
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:39

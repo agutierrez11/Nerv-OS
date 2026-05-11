@@ -1,5 +1,12 @@
+---
+title: "Pandora"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Gestión de Pagos"]
+id: "pandora"
+---
+
 # 🎯 Dossier Toku: Pandora
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:36
 
 ---

@@ -1,3 +1,9 @@
+---
+title: "Productos de Consumo Z"
+type: "Retail"
+tags: ["Digitalización de Cobranza", "BNPL", "Gestión de Pagos"]
+---
+
 # 🎯 Dossier Toku: Productos de Consumo Z
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:40

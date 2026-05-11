@@ -1,5 +1,12 @@
+---
+title: "Adidas"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Dolores de Pago", "Dolores de Conversión", "Dolores de Satisfacción del Cliente"]
+id: "adidas"
+---
+
 # 🎯 Dossier Toku: Adidas
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:35
 
 ---
@@ -12,7 +19,7 @@ Adidas enfrenta el reto de mejorar su experiencia de pago y cobro en línea, lo 
 
 ## 🔬 Fricción Operativa
 - La falta de una pasarela de pagos eficiente y segura puede estar generando problemas de cobro y pérdida de ventas (fuente: La división de SPIN no es un banco, pero eso no ... - Instagram).
-- La complejidad en la gestión de cobros y cobranza puede estar consumiendo recursos y tiempo valiosos para la empresa (fuente: Cobranza, facturación y Medios de Pagos - Komunika Latam).
+- La complejidad en la gestión de cobros y cobranza puede estar consumiendo recursos y tiempo valiosos para la empresa (fuente: Cobranza, facturación y Medios de [[[[Pagos]]]] - Komunika Latam).
 
 ## 💸 Dolor Financiero / Riesgo
 - La falta de una solución de pago eficiente y segura puede estar generando pérdidas financieras debido a la falta de conversión de ventas y la pérdida de clientes insatisfechos.

@@ -1,5 +1,12 @@
+---
+title: "Platanomelon"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Experiencia de Pago", "Lealtad de Clientes"]
+id: "platanomelon"
+---
+
 # 🎯 Dossier Toku: Platanomelon
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:38
 
 ---

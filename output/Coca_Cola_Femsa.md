@@ -1,3 +1,10 @@
+---
+title: "Coca Cola Femsa"
+type: "Logística"
+tags: ["Digitalización de Cobranza", "Financiamiento BNPL", "Gestión de Cobranza"]
+id: "coca_cola_femsa"
+---
+
 # 🎯 Dossier Toku: Coca Cola Femsa
 **Sector:** Goods | **Pitch:** Digitalización de Cobranza en Canal Tradicional + BNPL
 **Generado:** 2026-05-06 15:38

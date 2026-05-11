@@ -1,3 +1,10 @@
+---
+title: "FedEx Mexico"
+type: "Logística"
+tags: ["Discovery", "Exploración de necesidades de pagos", "Tecnología de pagos"]
+id: "fedex_mexico"
+---
+
 # 🎯 Dossier Toku: FedEx Mexico
 **Sector:** Otros | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:42

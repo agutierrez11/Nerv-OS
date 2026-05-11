@@ -1,5 +1,12 @@
+---
+title: "Grupo Martí"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Ciberseguridad"]
+id: "grupo_martí"
+---
+
 # 🎯 Dossier Toku: Grupo Martí
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:36
 
 ---

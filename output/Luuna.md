@@ -1,5 +1,12 @@
+---
+title: "Luuna"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Gestión de Suscripciones"]
+id: "luuna"
+---
+
 # 🎯 Dossier Toku: Luuna
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:37
 
 ---

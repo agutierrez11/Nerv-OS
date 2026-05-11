@@ -4,7 +4,9 @@ tarea_investigacion:
     Busca problemas operativos, estrategias de ecommerce en México, o fricciones locales de pagos.
     REGLA: Ignora los reportes globales de Estados Unidos o Europa. Céntrate en la operación regional.
   expected_output: >
-    Un reporte de 3 puntos clave sobre la operación en LATAM con fuentes reales.
+    Un reporte detallado sobre la operación en LATAM. 
+    REGLA DE ORO: CADA hallazgo (pérdidas, problemas, noticias) DEBE incluir el enlace (URL) de la fuente entre paréntesis. 
+    Si no hay link, el dato no es válido.
   agent: investigador
 
 tarea_psicologia:
@@ -24,10 +26,13 @@ tarea_psicologia:
 tarea_simulacion_gemelo:
   description: >
     Actúa como el Gemelo Digital del decisor principal de {empresa}. 
-    Basado en tu perfil DISC y tu autoridad (Favikon), critica la propuesta de Toku.
-    Dinos: "Como [Tu Puesto], lo que me hace dudar es..." y "Lo que me convencería es...".
+    ¡ADVERTENCIA!: Sé extremadamente escéptico y agresivo. Tu misión es evitar el "Sesgo del Superviviente".
+    No asumas que Toku funcionará porque "suena bien". 
+    Investiga y menciona posibles puntos de FRACASO o integraciones fallidas que empresas de tu sector hayan tenido con competidores de Toku.
+    
+    Pregunta directamente: "Sé que [Competidor] falló en [Razón de fallo] hace tiempo en una escala similar... ¿Por qué Toku no cometería el mismo error?" o "Mi mayor miedo es que esto sea otro parche que explote en el próximo Black Friday".
   expected_output: >
-    Diálogo directo del Gemelo Digital (Simulación de objeciones reales).
+    Simulación forense de objeciones de alto nivel, enfocada en evitar el fracaso histórico y el sesgo del superviviente.
   agent: gemelo_digital
 
 tarea_dossier_final:
@@ -35,15 +40,24 @@ tarea_dossier_final:
     Consolida la investigación y el perfil psicológico en un Dossier Forense Altamente Accionable para Ventas B2B.
     IGNORA por completo la generación de empresas "lookalikes" o competidores; concéntrate SOLO en la empresa objetivo y cómo venderle.
     
-    El reporte DEBE seguir EXACTAMENTE esta estructura Markdown:
+    El reporte DEBE seguir EXACTAMENTE esta estructura Markdown para ser compatible con el Grafo de NERV:
     
+    ---
+    empresa: "{empresa}"
+    sector: "{sector}"
+    entidades_clave: []
+    tecnologias: []
+    estatus_auditoria: "Galileo Pending"
+    ---
+
     ## 🎯 A QUIÉN HABLARLE (Decision Makers LATAM)
-    Lista los roles exactos (ej. Country Manager, CFO, Head de Pagos en México/LATAM) identificados en la investigación.
+    Usa [[Wikilinks]] para los nombres de las personas identificadas.
+    Lista los roles exactos (ej. [[Country Manager]], [[CFO]], [[Head de Pagos]] en México/LATAM) identificados en la investigación.
     Para cada uno, explica brevemente POR QUÉ son los dueños del dolor financiero/operativo.
     
     ## 💬 QUÉ DECIRLE (Scripts de Venta por Rol)
     Escribe un guión de acercamiento (Cold Message o apertura de llamada) EXACTO y PALABRA POR PALABRA para cada rol identificado.
-    El mensaje debe estar adaptado a su perfil psicológico (DISC) detectado y mencionar su problema operativo específico.
+    El mensaje debe estar adaptado a su perfil psicológico ([[DISC]]) detectado y mencionar su problema operativo específico.
     
     ## ⚔️ PLAN DE ATAQUE TÁCTICO
     Schwerpunkt: Foco principal de entrada. Qué producto de Toku (o solución) resuelve su dolor más grande.
@@ -53,6 +67,7 @@ tarea_dossier_final:
     Resumen de las fricciones y dudas planteadas por el Gemelo Digital, y exactamente CÓMO REBATIRLAS en vivo.
     
     REGLA ESTRICTA: NO generes listas de otras empresas similares, NO generes "Lookalikes". Sólo entrégame las instrucciones exactas de a quién llamarle de {empresa} y qué decirle.
+    REGLA DE EVIDENCIA: Mantén los links de las fuentes originales en el cuerpo del dossier cuando menciones datos financieros o crisis operativas.
   expected_output: >
-    Dossier final en Markdown estructurado y altamente accionable, sin lookalikes.
+    Dossier final en Markdown estructurado para Grafos (Wikilinks + YAML), altamente accionable y con evidencia.
   agent: estratega

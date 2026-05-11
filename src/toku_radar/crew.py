@@ -14,16 +14,24 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path=r"C:\Users\Antonio\.gemini\antigravity\scratch\.env")
 
 from toku_radar.tools.groq_rotator import GroqRotator
+from toku_radar.tools.deepseek_client import DeepSeekClient
 
 class Agent:
-    def __init__(self, config, log_callback=None):
+    def __init__(self, config, log_callback=None, engine="groq"):
         self.role = config['role']
         self.goal = config['goal']
         self.backstory = config['backstory']
         self.log_callback = log_callback
+        self.engine = engine
         
-        # Rotador de llaves en lugar de cliente estático
-        self.rotator = GroqRotator(log_callback=self.log_callback)
+        if self.engine == "deepseek":
+            self.rotator = DeepSeekClient(log_callback=self.log_callback)
+            self.model_planning = "deepseek-chat"
+            self.model_final = "deepseek-chat"
+        else:
+            self.rotator = GroqRotator(log_callback=self.log_callback)
+            self.model_planning = "llama-3.1-8b-instant"
+            self.model_final = "llama-3.3-70b-versatile"
         
         self.search_tool = SerperSearch()
         self.firecrawl_tool = FirecrawlTool()
@@ -64,7 +72,7 @@ class Agent:
         
         try:
             resp = self.rotator.create_completion(
-                model="llama3-8b-8192",
+                model=self.model_planning,
                 messages=[{"role": "user", "content": planning_prompt}],
                 temperature=0.3
             )
@@ -74,12 +82,17 @@ class Agent:
             plan = "Continuar con estrategia estándar."
 
         # 3. EJECUCIÓN Y RESPUESTA FINAL
-        observation = self._execute_tool(plan, task_desc)
+        # Optimizamos: Solo el investigador hace búsqueda obligatoria. 
+        # Los demás agentes solo usan herramientas si el plan lo pide explícitamente y no tienen contexto.
+        if "investigador" in self.role.lower() or "gemelo" in self.role.lower() or "firecrawl" in plan.lower() or "search" in plan.lower():
+            observation = self._execute_tool(plan, task_desc)
+        else:
+            observation = "Usando contexto previo y análisis deductivo."
         
         final_prompt = f"Genera el entregable final para: {task_desc}. Plan: {plan}. Obs: {observation}. Contexto: {context}"
         
         final_resp = self.rotator.create_completion(
-            model="llama-3.3-70b-versatile",
+            model=self.model_final,
             messages=[{"role": "user", "content": final_prompt}],
             temperature=0.2
         )
@@ -119,25 +132,25 @@ class TokuCrew:
             initial_context = f"CONTEXTO PREVIO Y MEMORIA RAG:\n{past_objections}\nObjeción Actual del Vendedor: {self.prior_knowledge}\n\nINTELIGENCIA RECOLECTADA:\n{initial_context}"
             
         # 2. Agentes
-        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback)
+        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq")
         res_investigacion = investigador.execute(
             self.tasks_config['tarea_investigacion']['description'].format(empresa=self.empresa, sector=self.sector),
             context=initial_context
         )
         
-        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback)
+        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek")
         res_psicologia = psicologo.execute(
             self.tasks_config['tarea_psicologia']['description'].format(empresa=self.empresa),
             context=res_investigacion
         )
         
-        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback)
+        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek")
         res_gemelo = gemelo.execute(
             self.tasks_config['tarea_simulacion_gemelo']['description'].format(empresa=self.empresa),
             context=f"PERFIL: {res_psicologia}\nNOTICIAS: {res_investigacion}"
         )
         
-        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback)
+        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek")
         dossier_preliminar = estratega.execute(
             self.tasks_config['tarea_dossier_final']['description'],
             context=f"INVEST: {res_investigacion}\nPSICO: {res_psicologia}\nTWIN: {res_gemelo}"
@@ -185,4 +198,4 @@ class TokuCrew:
         # 4. GUARDAR EN MEMORIA PARA EL FUTURO (Collective Intelligence) - Guardamos la versión técnica
         self.memory.save_dossier(self.empresa, self.sector, technical_output)
         
-        return clean_output
+        return technical_output

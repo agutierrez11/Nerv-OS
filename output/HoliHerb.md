@@ -1,5 +1,12 @@
+---
+title: "HoliHerb"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Gestión de Pagos", "Automatización de Procesos"]
+id: "holiherb"
+---
+
 # 🎯 Dossier Toku: HoliHerb
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:38
 
 ---

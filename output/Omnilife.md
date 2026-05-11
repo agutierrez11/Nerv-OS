@@ -1,5 +1,12 @@
+---
+title: "Omnilife"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Ciberseguridad", "Prevención de Fraude en Pagos"]
+id: "omnilife"
+---
+
 # 🎯 Dossier Toku: Omnilife
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:37
 
 ---

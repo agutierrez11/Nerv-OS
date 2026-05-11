@@ -1,3 +1,10 @@
+---
+title: "Hospital Angeles"
+type: "Salud"
+tags: ["Gestión de pagos", "Cobros", "Plataforma de pago integral", "Orquestación de pagos", "Ciberseguridad", "Payouts masivos", "Falta de plataforma de pago unificada", "Fricciones operativas", "Dolores financieros", "Pérdidas financieras", "Fraude", "Costos administrativos elevados", "Plataforma de pago integral", "Seguridad", "Personalización"]
+id: "hospital_angeles"
+---
+
 # 🎯 Dossier Toku: Hospital Angeles
 **Sector:** Health | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:41
@@ -5,7 +12,7 @@
 ---
 
 ## ⚖️ Clasificación de Prospecto
-🟢 LEAD CALIENTE — Debido a que Hospital Angeles es un sistema de salud privado grande en México con múltiples hospitales y sedes, lo que sugiere una gran necesidad de soluciones de pago eficientes y seguras.
+🟢 LEAD CALIENTE — Debido a que Hospital Angeles es un sistema de salud privado grande en [[[[México]]]] con múltiples hospitales y sedes, lo que sugiere una gran necesidad de soluciones de pago eficientes y seguras.
 
 ## 🧠 Hipótesis Forense
 Hospital Angeles enfrenta retos en la gestión de pagos y cobros, especialmente considerando su tamaño y alcance en todo el país. La falta de una plataforma de pago integral y segura puede estar generando fricciones operativas y financieras, afectando la experiencia del paciente y la eficiencia de los procesos administrativos. Toku puede resolver estos retos ofreciendo una solución de pago completa que incluye orquestación de pagos, gateway de cobros y cobranza digital, crédito embebido, recurrencia y suscripciones automatizadas, payouts masivos y ciberseguridad.

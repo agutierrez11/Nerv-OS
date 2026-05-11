@@ -19,8 +19,8 @@ class MiroPredictor:
         """
         
         resp = self.rotator.create_completion(
-            model="llama3-8b-8192",
+            model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.7 # Mayor temperatura para simular "votos" diversos
+            temperature=0.3
         )
         return resp.choices[0].message.content

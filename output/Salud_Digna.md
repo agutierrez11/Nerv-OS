@@ -1,3 +1,10 @@
+---
+title: "Salud Digna"
+type: "Health"
+tags: ["Orquestación de pagos", "Gateway de cobros", "Cobranza digital", "Recurrencia y suscripciones automatizadas", "Seguridad de pagos"]
+id: "salud_digna"
+---
+
 # 🎯 Dossier Toku: Salud Digna
 **Sector:** Health | **Pitch:** Discovery - Exploración de necesidades de pagos
 **Generado:** 2026-05-06 15:41

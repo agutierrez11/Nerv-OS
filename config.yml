@@ -1,0 +1,32 @@
+# Configuración de Cosma para NERV GTM Radar
+title: "NERV OS Intelligence Graph"
+files_origin: "./output"
+export_target: "./output/cosmoscope"
+history: false
+generate_id: always
+
+record_types:
+  undefined:
+    fill: "#858585"
+    stroke: "#858585"
+  Retail:
+    fill: "#984ea3"
+    stroke: "#984ea3"
+  Fintech:
+    fill: "#ff7f00"
+    stroke: "#ff7f00"
+  Ecommerce:
+    fill: "#00ccff"
+    stroke: "#00ccff"
+  Logística:
+    fill: "#00ff88"
+    stroke: "#00ff88"
+  Salud:
+    fill: "#ff0088"
+    stroke: "#ff0088"
+
+# Parámetros del Grafo
+graph_parameters:
+  force_atlas_2:
+    gravity: 0.15
+    scaling_ratio: 2.0

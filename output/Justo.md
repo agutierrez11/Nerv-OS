@@ -1,5 +1,12 @@
+---
+title: "Justo"
+type: "Ecommerce"
+tags: ["Orquestación de Pagos", "Recurrencia y Suscripciones", "Dolores de Pagos"]
+id: "justo"
+---
+
 # 🎯 Dossier Toku: Justo
-**Sector:** Ecommerce | **Pitch:** Orquestación de Pagos + Recurrencia y Suscripciones
+**Sector:** [[[[Ecommerce]]]] | **Pitch:** Orquestación de [[[[Pagos]]]] + Recurrencia y Suscripciones
 **Generado:** 2026-05-06 15:37
 
 ---
