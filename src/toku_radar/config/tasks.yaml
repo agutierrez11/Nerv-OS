@@ -71,3 +71,22 @@ tarea_dossier_final:
   expected_output: >
     Dossier final en Markdown estructurado para Grafos (Wikilinks + YAML), altamente accionable y con evidencia.
   agent: estratega
+
+tarea_estructuracion_datos:
+  description: >
+    Toma el Dossier Final y toda la investigacion previa de {empresa}.
+    Extrae la informacion necesaria para completar las siguientes columnas de la tabla empresas_v3:
+    - nombre: {empresa}
+    - vertical: Sector principal.
+    - uvp: Propuesta Unica de Valor de la empresa.
+    - strategic_hook: El angulo de entrada mas potente para Toku.
+    - pain_1_conversion: Problemas de conversion detectados.
+    - pain_2_compliance: Riesgos de cumplimiento o regulacion.
+    - pain_3_fraude: Vulnerabilidades ante fraude.
+    - competidor_1, competidor_2, competidor_3: Rivales directos mencionados.
+    - killer_argument: El argumento definitivo para que nos compren.
+    - strategic_notes: Resumen ejecutivo para el equipo de ventas.
+    - tier: Califica de 1 a 3 segun potencial (1 es mas alto).
+  expected_output: >
+    Un objeto JSON con los campos: nombre, vertical, uvp, strategic_hook, pain_1_conversion, pain_2_compliance, pain_3_fraude, competidor_1, competidor_2, competidor_3, killer_argument, strategic_notes, tier.
+  agent: ingeniero_datos

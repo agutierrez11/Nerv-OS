@@ -1,6 +1,7 @@
 import sys
 import os
 import re
+from core.logger import logger
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -29,7 +30,7 @@ class TokuDossierEngine:
 
     def generate_dossier(self, empresa: str, sector: str, pitch: str, contexto_crm: str = "") -> str:
         """Genera el dossier usando la Swarm Intelligence de TokuCrew."""
-        print(f"\n[NERV OS] Desplegando enjambre de agentes para: {empresa}")
+        logger.info(f"NERV OS: Desplegando enjambre para {empresa}")
         
         # Iniciar la tripulación (Crew)
         crew = TokuCrew(empresa, sector, pitch, prior_knowledge=contexto_crm, log_callback=print)
