@@ -31,5 +31,10 @@ def apply_styles():
             background-color: #111;
             border: 1px solid #222;
         }
+        /* Ocultar elementos de Streamlit para una vista profesional */
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        .stDeployButton {display:none;}
     </style>
     """, unsafe_allow_html=True)
