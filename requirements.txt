@@ -6,6 +6,4 @@ pyyaml
 streamlit
 supabase
 langchain-community
-sqlite3
 pydantic
-concurrent.futures
