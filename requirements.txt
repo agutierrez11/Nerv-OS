@@ -7,3 +7,5 @@ streamlit
 supabase
 langchain-community
 pydantic
+wikipedia
+requests

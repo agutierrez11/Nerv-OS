@@ -4,7 +4,7 @@ from datetime import datetime
 
 class TokuMemory:
     """Implementación de Memoria Persistente (Knowledge Base Style)."""
-    def __init__(self, memory_path="C:/Users/Antonio/.gemini/antigravity/scratch/Toku_GTM_Radar/memory"):
+    def __init__(self, memory_path="memory"):
         self.memory_path = memory_path
         self.feedback_path = os.path.join(self.memory_path, "feedback_loop")
         
