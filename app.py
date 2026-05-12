@@ -24,6 +24,7 @@ if str(ROOT_DIR) not in sys.path:
 from ui.styles import apply_styles
 from ui.individual import render_individual_tab
 from ui.batch import render_batch_tab
+from ui.lab import render_lab_tab
 from core.logger import logger
 
 # Cargar entorno opcionalmente
@@ -61,13 +62,16 @@ else:
     st.error("Archivo companies.csv no encontrado.")
 
 # Tabs principales
-tab_ind, tab_batch = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch"])
+tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
 
 with tab_ind:
     render_individual_tab(companies_data, OUTPUT_DIR)
 
 with tab_batch:
     render_batch_tab(companies_data, OUTPUT_DIR)
+
+with tab_lab:
+    render_lab_tab()
 
 # Footer con observabilidad
 st.sidebar.title("🛠️ Observabilidad")
