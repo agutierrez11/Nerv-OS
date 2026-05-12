@@ -27,6 +27,7 @@ from toku_radar.tools.miro_predictor import MiroPredictor
 from toku_radar.tools.memory import TokuMemory
 from toku_radar.tools.groq_rotator import GroqRotator
 from toku_radar.tools.deepseek_client import DeepSeekClient
+from toku_radar.tools.google_suite import google_suite
 
 # Cargar .env opcionalmente (para desarrollo local)
 if os.path.exists(".env"):
@@ -59,15 +60,28 @@ class Agent:
         self.memory = TokuMemory()
 
     def _execute_tool(self, plan_text, task_desc):
-        """Lógica de decisión de herramienta basada en el plan dinámico."""
-        if "firecrawl" in plan_text.lower() or "scrape" in plan_text.lower():
+        """Lógica de decisión de herramienta avanzada (Google Suite + Fallbacks)."""
+        plan_lower = plan_text.lower()
+        msg = ""
+        res = ""
+
+        if "maps" in plan_lower or "sentimiento" in plan_lower or "reseñas" in plan_lower:
+            msg = "## Action: Google Maps Local Intelligence"
+            res = str(google_suite.analyze_local_sentiment(task_desc))
+        elif "noticias" in plan_lower or "news" in plan_lower:
+            msg = "## Action: Google News Deep Scan"
+            res = str(google_suite.search_news(task_desc))
+        elif "trends" in plan_lower or "tendencias" in plan_lower:
+            msg = "## Action: Google Trends Analysis"
+            res = str(google_suite.get_trends(task_desc))
+        elif "firecrawl" in plan_lower or "scrape" in plan_lower:
             msg = "## Action: Firecrawl Deep Scraping"
-            res = "Resultado de scraping profundo..." # Placeholder para ahorro de tiempo
-        elif "wiki" in plan_text.lower():
+            res = "Resultado de scraping profundo..."
+        elif "wiki" in plan_lower:
             msg = "## Action: Wikipedia lookup"
             res = get_company_profile(task_desc[:30])
         else:
-            msg = "## Action: Serper Search"
+            msg = "## Action: Standard Search (Serper)"
             res = self.search_tool._query(task_desc)
         
         if self.log_callback: self.log_callback(f"  {msg}")
@@ -75,41 +89,44 @@ class Agent:
 
     @retry_with_backoff(retries=3, backoff_in_seconds=2)
     def execute(self, task_desc, context=""):
-        logger.info(f"Agente {self.role} iniciando tarea: {task_desc[:50]}...")
+        logger.info(f"Agente {self.role} iniciando razonamiento Hermes...")
         if self.log_callback: self.log_callback(f"\n[ AGENT: {self.role} ]")
         
-        # 1. CONSULTA A LA MEMORIA (Knowledge Base Style)
         past_intelligence = self.memory.search_similar_cases(context[:100])
+        
+        # BUCLE DE RAZONAMIENTO ESTILO HERMES 3
+        full_conversation = [
+            {"role": "system", "content": f"""Eres {self.role}. {self.backstory}
+            REGLAS DE OPERACION:
+            1. Empieza con <thought> para planificar tus pasos.
+            2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search).
+            3. Analiza la observacion y genera el entregable final.
+            """},
+            {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
+        ]
 
-        # 2. PLANIFICACIÓN DINÁMICA (Hermes Style)
-        planning_prompt = f"""
-        Eres {self.role}. Tu meta es {self.goal}.
-        Tarea actual: {task_desc}
-        Contexto previo: {context}
-        Inteligencia en Memoria: {past_intelligence}
-        
-        PLAN (Hermes Reasoning): Explica qué buscarás y por qué, considerando lo que ya sabemos.
-        """
-        
+        # 1. Fase de Pensamiento y Decision
         resp = llm_breaker.call(self.rotator.create_completion,
             model=self.model_planning,
-            messages=[{"role": "user", "content": planning_prompt}],
+            messages=full_conversation,
             temperature=0.3
         )
-        plan = resp.choices[0].message.content
-        if self.log_callback: self.log_callback(f"  ## Pensamiento: {plan[:200]}...")
+        thought_process = resp.choices[0].message.content
+        if self.log_callback: self.log_callback(f"  ## Pensamiento: {thought_process[:200]}...")
 
-        # 3. EJECUCIÓN Y RESPUESTA FINAL
-        if "investigador" in self.role.lower() or "gemelo" in self.role.lower() or "firecrawl" in plan.lower() or "search" in plan.lower():
-            observation = self._execute_tool(plan, task_desc)
+        # 2. Fase de Accion (Si el pensamiento lo requiere)
+        if any(kw in thought_process.lower() for kw in ["usar herramienta", "buscar", "investigar", "maps", "news"]):
+            observation = self._execute_tool(thought_process, task_desc)
         else:
-            observation = "Usando contexto previo y análisis deductivo."
-        
-        final_prompt = f"Genera el entregable final para: {task_desc}. Plan: {plan}. Obs: {observation}. Contexto: {context}"
-        
+            observation = "La informacion actual es suficiente para el entregable."
+
+        # 3. Sintesis Final
+        full_conversation.append({"role": "assistant", "content": thought_process})
+        full_conversation.append({"role": "user", "content": f"Observacion recibida: {observation}\nGenera ahora el entregable final."})
+
         final_resp = llm_breaker.call(self.rotator.create_completion,
             model=self.model_final,
-            messages=[{"role": "user", "content": final_prompt}],
+            messages=full_conversation,
             temperature=0.2
         )
         return final_resp.choices[0].message.content
