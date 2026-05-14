@@ -9,3 +9,5 @@ langchain-community
 pydantic
 wikipedia
 requests
+fastapi
+uvicorn
