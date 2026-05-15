@@ -3,9 +3,9 @@ import streamlit as st
 def apply_styles():
     st.markdown("""
     <style>
-        /* FONDO CLARO Y LIMPIO */
-        .main { background-color: #f8fafc; }
-        .stApp { background-color: #f8fafc; color: #1e293b; }
+        /* FONDO CLARO Y LIMPIO - MODO LIGHT */
+        .main { background-color: #f8fafc !important; }
+        .stApp { background-color: #f8fafc !important; color: #1e293b !important; }
         
         /* TITULOS - AZUL PROFUNDO */
         h1 { color: #1e3a8a !important; font-family: 'Inter', sans-serif; font-weight: 800; }
@@ -15,39 +15,39 @@ def apply_styles():
             color: #1e3a8a !important; 
             font-weight: 800 !important; 
             font-size: 1.5rem !important;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0 !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 20px !important;
         }
         
-        /* LABELS - MÁXIMO CONTRASTE EN OSCURO */
+        /* LABELS - MÁXIMO CONTRASTE (NEGRO SOBRE BLANCO) */
         label, 
         .stWidgetLabel, 
         [data-testid="stWidgetLabel"] p, 
         [data-testid="stHeader"] p { 
-            color: #0f172a !important; 
-            font-weight: 700 !important;
-            font-size: 1rem !important;
+            color: #000000 !important; 
+            font-weight: 800 !important;
+            font-size: 1.1rem !important;
             opacity: 1 !important;
         }
         
-        /* INPUTS Y TEXTAREAS - FONDO BLANCO, BORDE GRIS */
+        /* INPUTS Y TEXTAREAS - FONDO BLANCO, BORDE OSCURO */
         .stTextInput input, .stTextArea textarea {
             background-color: #ffffff !important;
-            color: #1e293b !important;
-            border: 2px solid #cbd5e1 !important;
+            color: #000000 !important;
+            border: 2px solid #94a3b8 !important;
             font-size: 1rem !important;
             border-radius: 8px !important;
         }
         .stTextInput input:focus, .stTextArea textarea:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
         }
         
         /* RADIO BUTTONS */
         .stRadio label { 
-            color: #334155 !important; 
-            font-weight: 600 !important; 
+            color: #000000 !important; 
+            font-weight: 700 !important; 
         }
         
         /* CAJAS DE NOTIFICACIÓN */
@@ -57,22 +57,23 @@ def apply_styles():
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
         }
         
-        /* BOTÓN PRINCIPAL - TOKU BLUE */
+        /* BOTÓN PRINCIPAL - TOKU BLUE GRADIENT */
         .stButton > button {
             background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%) !important;
             color: #ffffff !important;
-            font-weight: 700 !important;
+            font-weight: 800 !important;
             font-size: 1.1rem !important;
             text-transform: uppercase;
             letter-spacing: 1px;
             border-radius: 10px !important;
-            padding: 15px !important;
+            padding: 18px !important;
             border: none !important;
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3) !important;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4) !important;
+            width: 100% !important;
         }
         .stButton > button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4) !important;
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.5) !important;
         }
 
         /* SIDEBAR PROFESIONAL */
@@ -83,30 +84,22 @@ def apply_styles():
 
         /* METRIC CARDS */
         .metric-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background: white !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            color: #1e293b !important;
         }
 
-        /* OCULTAR ELEMENTOS INNECESARIOS */
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-    </style>
-        .metric-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
+        /* EXPANDERS */
         .stExpander {
-            background-color: #111;
-            border: 1px solid #222;
+            background-color: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
         }
-        /* Ocultar elementos de Streamlit para una vista profesional */
+
+        /* OCULTAR ELEMENTOS DE STREAMLIT */
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         header {visibility: hidden;}
