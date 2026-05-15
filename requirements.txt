@@ -9,4 +9,3 @@ requests
 fastapi
 uvicorn
 langchain-groq
-langchain-openai

@@ -4,7 +4,6 @@ crew_engine.py — Orquestación Avanzada con CrewAI + Groq + DeepSeek + Galileo
 import os
 from crewai import Agent, Task, Crew, Process
 from langchain_groq import ChatGroq
-from langchain_openai import ChatOpenAI
 from langchain.tools import tool
 from tools.search import SerperSearch
 from tools.wiki import get_company_profile
@@ -23,12 +22,11 @@ groq_llm = ChatGroq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-# DeepSeek para precisión (Agente Estratega)
-deepseek_llm = ChatOpenAI(
-    model_name="deepseek-chat",
-    openai_api_base="https://api.deepseek.com/v1",
-    openai_api_key=os.getenv("DEEPSEEK_API_KEY"),
-    temperature=0.2
+# DeepSeek Fallback (Usando Groq 70b para evitar errores de compilación en Vercel)
+deepseek_llm = ChatGroq(
+    temperature=0.2,
+    model_name="llama3-70b-8192",
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 # Instanciar herramientas
