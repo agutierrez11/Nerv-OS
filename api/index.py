@@ -7,7 +7,8 @@ import sys
 # Añadir el directorio raíz al path para importar crew_engine
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from crew_engine import TokuCrew
+# Eliminamos la importación global para evitar colapsos al arrancar
+# from crew_engine import TokuCrew
 
 app = FastAPI()
 
@@ -149,6 +150,7 @@ async def save_intelligence(request: IntelRequest):
 @app.post("/api/analyze")
 async def run_analysis(request: AnalysisRequest):
     try:
+        from crew_engine import TokuCrew
         crew = TokuCrew(
             empresa=request.empresa,
             sector=request.sector,
