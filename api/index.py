@@ -63,11 +63,25 @@ async def save_intelligence(request: IntelRequest):
             "timestamp": datetime.now().isoformat()
         })
         
-        # Guardar
+        # Guardar localmente
         with open(memory_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
+        
+        # Sincronizar con Supabase
+        try:
+            from core.database import db
+            db.add_knowledge(
+                content=request.content,
+                metadata={
+                    "company": request.company,
+                    "sector": request.sector,
+                    "type": request.type
+                }
+            )
+        except:
+            pass
             
-        return {"success": True, "message": "Intelligence registered in NERV Core"}
+        return {"success": True, "message": "Intelligence registered in NERV Core and Cloud"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

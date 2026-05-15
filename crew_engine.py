@@ -9,6 +9,7 @@ from langchain.tools import tool
 from tools.search import SerperSearch
 from tools.wiki import get_company_profile
 from tools.firecrawl_tool import FirecrawlTool
+from core.database import db
 
 # --- CONFIGURACIÓN DE OBSERVABILIDAD (GALILEO) ---
 from phoenix.trace.langchain import LangChainInstrumentor
@@ -113,4 +114,19 @@ class TokuCrew:
             verbose=True
         )
 
-        return crew.kickoff()
+        db.log_search(self.empresa, "STARTED")
+        result = crew.kickoff()
+        
+        # Sincronizar con Supabase (Datos estructurados simplificados)
+        try:
+            db.upsert_empresa({
+                "nombre": self.empresa,
+                "sector": self.sector,
+                "dossier": str(result),
+                "pitch_usado": self.pitch
+            })
+            db.log_search(self.empresa, "COMPLETED")
+        except:
+            pass
+
+        return result
