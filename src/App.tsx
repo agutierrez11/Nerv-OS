@@ -358,7 +358,7 @@ const App = () => {
                       <select className="bg-blue-950/20 border-2 border-blue-500/40 p-3 rounded-xl text-[10px] font-mono text-blue-400 outline-none focus:border-blue-400"
                         value={intelData.type} onChange={e => setIntelData({...intelData, type: e.target.value})}>
                         <option value="objection">SALES OBJECTION</option>
-                        <option value="value_prop">ATTACK ANGLE</option>
+                        <option value="value_prop">VALUE PROPOSITION</option>
                       </select>
                     </div>
                     <textarea rows={8} placeholder="PASTE REAL-WORLD OBJECTIONS OR WINNING SALES ARGUMENTS..." 
