@@ -34,18 +34,28 @@ class SerperSearch:
         except Exception as e:
             return f"[Error Serper: {e}]"
 
-    def research_company(self, empresa: str, sector: str, pitch: str) -> dict:
+    def research_company(self, empresa: str, sector: str, pitch: str, url: str = "") -> dict:
         """
-        3 queries por empresa.
-        Query 1: Contexto estratégico.
-        Query 2: Dolor operativo.
-        Query 3: LinkedIn Discovery (C-Levels).
+        4 queries por empresa para asegurar inteligencia real.
         """
         time.sleep(1)
-        q1 = f'"{empresa}" México noticias estrategia pagos cobros 2024 2025'
-        q2 = f'"{empresa}" {sector} cobranza pagos digitales desafío operativo México'
-        q3 = f'site:linkedin.com/in/ "{empresa}" (CFO OR "Director de Finanzas" OR "Head of Payments" OR "Director de Pagos" OR eCommerce) México'
-        q4 = f'site:favikon.com "{empresa}" OR "ranking LinkedIn" México'
+        
+        # Si hay URL, la usamos para anclar la búsqueda
+        site_filter = f"site:{url.replace('https://', '').replace('http://', '').split('/')[0]}" if url else ""
+        
+        # Query 1: Información General y Estrategia (Más flexible)
+        q1 = f'"{empresa}" México estrategia negocio 2024 2025'
+        if url: q1 += f' OR "{url}"'
+        
+        # Query 2: Dolor Operativo / Pagos (Foco en el problema)
+        q2 = f'"{empresa}" problemas pagos cobranza México OR "quejas" pagos'
+        if site_filter: q2 = f'{site_filter} "pagos" OR "cobros" OR "contacto"'
+        
+        # Query 3: LinkedIn / C-Levels
+        q3 = f'site:linkedin.com/in/ "{empresa}" (CFO OR "Director" OR "Pagos" OR "Finanzas") México'
+        
+        # Query 4: Noticias Recientes
+        q4 = f'"{empresa}" noticias 2024 2025 México'
 
         return {
             "contexto_estrategico": self._query(q1),

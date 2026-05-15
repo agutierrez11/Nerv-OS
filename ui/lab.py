@@ -38,12 +38,12 @@ def render_lab_tab():
                 log_container.markdown(f"`{msg}`")
 
             # Instanciamos el Crew con el modo especial de Lab
-            # (Enviamos la URL del vendedor en el pitch)
             full_pitch = f"Vendedor: {url_vendedor} | Producto: {producto}"
             crew = TokuCrew(
                 empresa=empresa_nombre,
                 sector="General", 
                 pitch=full_pitch,
+                url_cliente=url_cliente, # PASAR LA URL
                 prior_knowledge=objeciones,
                 log_callback=lab_logger
             )

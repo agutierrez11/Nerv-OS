@@ -31,11 +31,15 @@ def setup_logger(name="nerv_os", log_file="logs/nerv_os.log"):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
-    # Handler para consola (Legible para humanos)
+    # Handler para consola (Ultra-visible para el usuario)
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
-    console_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setLevel(logging.DEBUG) # Forzar DEBUG en consola para ver todo
+    console_formatter = logging.Formatter('\033[92m%(asctime)s\033[0m - \033[94m%(name)s\033[0m - \033[93m%(levelname)s\033[0m - %(message)s')
     console_handler.setFormatter(console_formatter)
+    
+    # Limpiar handlers previos si existen para evitar duplicados al recargar Streamlit
+    if logger.hasHandlers():
+        logger.handlers.clear()
 
     # Handler para archivo (JSON estructurado)
     file_handler = RotatingFileHandler(log_file, maxBytes=10*1024*1024, backupCount=5)
@@ -44,6 +48,10 @@ def setup_logger(name="nerv_os", log_file="logs/nerv_os.log"):
 
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
+
+    logger.info("="*50)
+    logger.info("🚀 NERV OS ENGINE - SISTEMA OPERATIVO")
+    logger.info("="*50)
 
     return logger
 

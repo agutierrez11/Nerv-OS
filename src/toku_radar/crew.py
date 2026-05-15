@@ -139,10 +139,12 @@ class Agent:
         return final_resp.choices[0].message.content
 
 class TokuCrew:
-    def __init__(self, empresa, sector, pitch, prior_knowledge="", log_callback=None):
+    def __init__(self, empresa, sector, vendedor="Toku", producto="Solución de Pagos", url_cliente="", prior_knowledge="", log_callback=None):
         self.empresa = empresa
         self.sector = sector
-        self.pitch = pitch
+        self.vendedor = vendedor
+        self.producto = producto
+        self.url_cliente = url_cliente
         self.prior_knowledge = prior_knowledge
         self.log_callback = log_callback
         self.base_path = os.path.dirname(__file__)
@@ -154,11 +156,11 @@ class TokuCrew:
             self.tasks_config = yaml.safe_load(f)
 
     def kickoff(self):
-        logger.info(f"Iniciando NERV OS para: {self.empresa}")
+        logger.info(f"Iniciando NERV OS para: {self.empresa} (Vendedor: {self.vendedor})")
         db.log_search(self.empresa, "STARTED")
 
-        # 1. Ingesta Inicial (Con Cache)
-        cache_key = f"research_{self.empresa}_{self.sector}".lower()
+        # 1. Ingesta Inicial (Con Cache y URL Directa)
+        cache_key = f"research_{self.empresa}_{self.url_cliente}".lower()
         cached_data = cache.get(cache_key)
         
         if cached_data:
@@ -166,47 +168,67 @@ class TokuCrew:
             raw_intel = cached_data
         else:
             searcher = SerperSearch()
-            raw_intel = searcher.research_company(self.empresa, self.sector, self.pitch)
+            # Pasamos la URL para una búsqueda más precisa
+            raw_intel = searcher.research_company(self.empresa, self.sector, self.pitch, url=self.url_cliente)
             cache.set(cache_key, raw_intel)
         
-        initial_context = str(raw_intel['contexto_estrategico'])
+        initial_context = f"CONTEXTO ESTRATÉGICO:\n{raw_intel['contexto_estrategico']}\n\nDOLOR OPERATIVO:\n{raw_intel['dolor_operativo']}\n\nPEOPLE:\n{raw_intel['linkedin_discovery']}"
+        
         if self.prior_knowledge:
-            self.memory.save_objection(self.empresa, self.sector, self.prior_knowledge)
-            
-        past_objections = self.memory.search_objections(self.sector)
-        if self.prior_knowledge or past_objections:
-            initial_context = f"MEMORIA RAG:\n{past_objections}\nObjecion: {self.prior_knowledge}\n\nINTEL:\n{initial_context}"
+            initial_context = f"{initial_context}\n\nCONTEXTO PREVIO/OBJECIONES:\n{self.prior_knowledge}"
             
         # 2. Ejecucion del Enjambre
         investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq")
         res_investigacion = investigador.execute(
-            self.tasks_config['tarea_investigacion']['description'].format(empresa=self.empresa, sector=self.sector),
+            self.tasks_config['tarea_investigacion']['description'].format(
+                empresa=self.empresa, 
+                sector=self.sector,
+                vendedor=self.vendedor,
+                producto=self.producto
+            ),
             context=initial_context
         )
         
         psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek")
         res_psicologia = psicologo.execute(
-            self.tasks_config['tarea_psicologia']['description'].format(empresa=self.empresa),
+            self.tasks_config['tarea_psicologia']['description'].format(
+                empresa=self.empresa,
+                vendedor=self.vendedor,
+                producto=self.producto
+            ),
             context=res_investigacion
         )
         
         gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek")
         res_gemelo = gemelo.execute(
-            self.tasks_config['tarea_simulacion_gemelo']['description'].format(empresa=self.empresa),
+            self.tasks_config['tarea_simulacion_gemelo']['description'].format(
+                empresa=self.empresa,
+                vendedor=self.vendedor,
+                producto=self.producto
+            ),
             context=f"PERFIL: {res_psicologia}\nNOTICIAS: {res_investigacion}"
         )
         
         estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek")
         dossier_preliminar = estratega.execute(
-            self.tasks_config['tarea_dossier_final']['description'],
+            self.tasks_config['tarea_dossier_final']['description'].format(
+                empresa=self.empresa,
+                sector=self.sector,
+                vendedor=self.vendedor,
+                producto=self.producto
+            ),
             context=f"INVEST: {res_investigacion}\nPSICO: {res_psicologia}\nTWIN: {res_gemelo}"
         )
 
-        # --- FASE 3: ESTRUCTURACION SUPABASE (NERV 2.0) ---
-        if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando con Supabase ]")
+        # --- FASE 3: ESTRUCTURACION SUPABASE ---
+        if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando ]")
         data_engineer = Agent(self.agents_config['ingeniero_datos'], log_callback=self.log_callback, engine="groq")
         json_output_raw = data_engineer.execute(
-            self.tasks_config['tarea_estructuracion_datos']['description'].format(empresa=self.empresa),
+            self.tasks_config['tarea_estructuracion_datos']['description'].format(
+                empresa=self.empresa,
+                vendedor=self.vendedor,
+                producto=self.producto
+            ),
             context=dossier_preliminar
         )
         

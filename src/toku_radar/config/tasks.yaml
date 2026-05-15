@@ -1,91 +1,50 @@
 tarea_investigacion:
   description: >
     Investiga {empresa} en el mercado de México y LATAM. 
-    1. Usa herramientas de búsqueda para encontrar noticias de 2024-2025 sobre rondas de inversion, 
-    multas regulatorias o expansión regional.
-    2. Identifica fricciones locales ESPECÍFICAS que Toku pueda resolver (ej. problemas de cobranza, pagos fallidos, etc.).
+    1. Usa herramientas de búsqueda para encontrar noticias de 2024-2025.
+    2. Identifica fricciones locales ESPECÍFICAS que {vendedor} pueda resolver con {producto}.
   expected_output: >
-    Reporte forense detallado con links directos a noticias de 2024-2025.
+    Reporte forense detallado con links directos a fuentes originales.
   agent: investigador
 
 tarea_psicologia:
   description: >
     Busca perfiles de LinkedIn para {empresa}. 
-    ¡CRÍTICO! Busca SOLO decisores regionales en México/LATAM con títulos como: "Country Manager México", "CFO Latam", "Director de Finanzas", "Head de Ecommerce", "Head de Pagos", "Director de Pagos".
-    IGNORA a los CEOs o CFOs Globales. Si la persona no está en México o LATAM, descártala.
-    Aplica ingeniería inversa de la API de Crystal para definir:
-    1. Primary DISC Type (D, I, S, C).
-    2. Communication Advice (Do's & Don'ts).
-    3. Behavioral Traits (Motivadores y Fortalezas).
-    4. Favikon Authority Score: Nivel de influencia en el sector.
+    Define el tipo DISC del decisor y cómo {vendedor} debe comunicarse con él.
   expected_output: >
-    Reporte de Perfilado Psicológico del DECISOR LATAM/MÉXICO con estructura Crystal API.
+    Reporte de Perfilado Psicológico del DECISOR con estructura DISC.
   agent: psicologo
 
 tarea_simulacion_gemelo:
   description: >
-    Actúa como el Gemelo Digital del decisor principal de {empresa}. 
-    ¡ADVERTENCIA!: Sé extremadamente escéptico y agresivo. Tu misión es evitar el "Sesgo del Superviviente".
-    No asumas que Toku funcionará porque "suena bien". 
-    Investiga y menciona posibles puntos de FRACASO o integraciones fallidas que empresas de tu sector hayan tenido con competidores de Toku.
-    
-    Pregunta directamente: "Sé que [Competidor] falló en [Razón de fallo] hace tiempo en una escala similar... ¿Por qué Toku no cometería el mismo error?" o "Mi mayor miedo es que esto sea otro parche que explote en el próximo Black Friday".
+    Actúa como el Gemelo Digital de {empresa}. 
+    Sé escéptico. Pregunta: "¿Por qué {vendedor} es mejor que la competencia?" 
+    o "¿Cómo garantiza {producto} que no fallará?"
   expected_output: >
-    Simulación forense de objeciones de alto nivel, enfocada en evitar el fracaso histórico y el sesgo del superviviente.
+    Simulación de objeciones de alto nivel.
   agent: gemelo_digital
 
 tarea_dossier_final:
   description: >
-    Consolida la investigación y el perfil psicológico en un Dossier Forense Altamente Accionable para Ventas B2B.
-    IGNORA por completo la generación de empresas "lookalikes" o competidores; concéntrate SOLO en la empresa objetivo y cómo venderle.
-    
-    El reporte DEBE seguir EXACTAMENTE esta estructura Markdown para ser compatible con el Grafo de NERV:
-    
+    Consolida la inteligencia en un Dossier Forense.
+    Estructura:
     ---
     empresa: "{empresa}"
-    sector: "{sector}"
-    entidades_clave: []
-    tecnologias: []
-    estatus_auditoria: "Galileo Pending"
+    vendedor: "{vendedor}"
+    producto: "{producto}"
     ---
-
-    ## 🎯 A QUIÉN HABLARLE (Decision Makers LATAM)
-    Usa [[Wikilinks]] para los nombres de las personas identificadas.
-    Lista los roles exactos (ej. [[Country Manager]], [[CFO]], [[Head de Pagos]] en México/LATAM) identificados en la investigación.
-    Para cada uno, explica brevemente POR QUÉ son los dueños del dolor financiero/operativo.
-    
-    ## 💬 QUÉ DECIRLE (Scripts de Venta por Rol)
-    Escribe un guión de acercamiento (Cold Message o apertura de llamada) EXACTO y PALABRA POR PALABRA para cada rol identificado.
-    El mensaje debe estar adaptado a su perfil psicológico ([[DISC]]) detectado y mencionar su problema operativo específico.
-    
-    ## ⚔️ PLAN DE ATAQUE TÁCTICO
-    Schwerpunkt: Foco principal de entrada. Qué producto de Toku (o solución) resuelve su dolor más grande.
-    Flanqueo: Ángulo secundario de entrada si el principal falla.
-    
-    ## ⚠️ ABOGADO DEL DIABLO Y MANEJO DE OBJECIONES
-    Resumen de las fricciones y dudas planteadas por el Gemelo Digital, y exactamente CÓMO REBATIRLAS en vivo.
-    
-    REGLA ESTRICTA: NO generes listas de otras empresas similares, NO generes "Lookalikes". Sólo entrégame las instrucciones exactas de a quién llamarle de {empresa} y qué decirle.
-    REGLA DE EVIDENCIA: Mantén los links de las fuentes originales en el cuerpo del dossier cuando menciones datos financieros o crisis operativas.
+    ## 🎯 A QUIÉN HABLARLE
+    ## 💬 QUÉ DECIRLE (Scripts para {vendedor})
+    ## ⚔️ PLAN DE ATAQUE (Usando {producto})
+    ## ⚠️ MANEJO DE OBJECIONES
   expected_output: >
-    Dossier final en Markdown estructurado para Grafos (Wikilinks + YAML), altamente accionable y con evidencia.
+    Dossier final en Markdown estructurado y accionable.
   agent: estratega
 
 tarea_estructuracion_datos:
   description: >
-    Toma el Dossier Final y toda la investigacion previa de {empresa}.
-    Extrae la informacion necesaria para completar las siguientes columnas de la tabla empresas_v3:
-    - nombre: {empresa}
-    - vertical: Sector principal.
-    - uvp: Propuesta Unica de Valor de la empresa.
-    - strategic_hook: El angulo de entrada mas potente para Toku.
-    - pain_1_conversion: Problemas de conversion detectados.
-    - pain_2_compliance: Riesgos de cumplimiento o regulacion.
-    - pain_3_fraude: Vulnerabilidades ante fraude.
-    - competidor_1, competidor_2, competidor_3: Rivales directos mencionados.
-    - killer_argument: El argumento definitivo para que nos compren.
-    - strategic_notes: Resumen ejecutivo para el equipo de ventas.
-    - tier: Califica de 1 a 3 segun potencial (1 es mas alto).
+    Toma el Dossier Final de {empresa} y extrae los datos clave:
+    nombre, vertical, uvp, strategic_hook (para {producto}), pains, y killer_argument.
   expected_output: >
-    Un objeto JSON con los campos: nombre, vertical, uvp, strategic_hook, pain_1_conversion, pain_2_compliance, pain_3_fraude, competidor_1, competidor_2, competidor_3, killer_argument, strategic_notes, tier.
+    Objeto JSON estructurado con la inteligencia de mercado.
   agent: ingeniero_datos
