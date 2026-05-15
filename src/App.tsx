@@ -61,6 +61,8 @@ const App = () => {
 
   const handleTabChange = (tabId: string) => {
     if (tabId === 'lab') {
+      setShowPrompt(false);
+      setPendingTab(null);
       setActiveTab(tabId);
     } else if (isAuthorized) {
       setActiveTab(tabId);
@@ -153,7 +155,7 @@ const App = () => {
 
         <nav className="flex bg-blue-950/20 p-1 border border-blue-900/20 rounded-xl mt-4 md:mt-0">
           {[
-            { id: 'lab', label: 'AGNOSTIC LAB', icon: <Beaker size={14}/>, protected: false },
+            { id: 'lab', label: 'NERV.IOS', icon: <Cpu size={14}/>, protected: false },
             { id: 'target', label: 'TARGET SCAN', icon: <Target size={14}/>, protected: true },
             { id: 'intel', label: 'INTEL HUB', icon: <Globe size={14}/>, protected: true }
           ].map(tab => (
@@ -198,7 +200,7 @@ const App = () => {
               <div className="lg:col-span-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
                 <div className="p-6 bg-blue-950/5 border border-blue-900/20 rounded-2xl">
                   <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 mb-8 flex items-center gap-2">
-                    <Zap size={16} className="text-yellow-500"/> AGNOSTIC INTELLIGENCE
+                    <Cpu size={16} className="text-blue-400"/> NERV.IOS INTELLIGENT OS
                   </h2>
                   <div className="space-y-5">
                     <div>
