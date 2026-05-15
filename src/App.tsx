@@ -261,22 +261,22 @@ const App = () => {
                   <div className="space-y-5">
                     <div>
                       <label className="block text-[8px] uppercase text-blue-400 mb-2 font-black tracking-widest">Seller URL (Competitor/Yourself)</label>
-                      <input type="text" className="w-full bg-blue-900/10 border border-blue-500/30 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all placeholder:text-blue-900" 
+                      <input type="text" className="w-full bg-blue-900/10 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all placeholder:text-blue-900/40" 
                         placeholder="https://..." value={labData.vendedor_url} onChange={e => setLabData({...labData, vendedor_url: e.target.value})} />
                     </div>
                     <div>
                       <label className="block text-[8px] uppercase text-blue-400 mb-2 font-black tracking-widest">Target Product/Value Prop</label>
-                      <input type="text" className="w-full bg-blue-900/10 border border-blue-500/30 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all"
+                      <input type="text" className="w-full bg-blue-900/10 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all"
                         placeholder="AI reconciliation..." value={labData.producto} onChange={e => setLabData({...labData, producto: e.target.value})} />
                     </div>
                     <div className="pt-4 border-t border-blue-900/20">
                       <label className="block text-[8px] uppercase text-blue-400 mb-2 font-black tracking-widest">Prospect Name</label>
-                      <input type="text" className="w-full bg-blue-900/10 border border-blue-500/30 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all"
+                      <input type="text" className="w-full bg-blue-900/10 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all"
                         placeholder="Company name..." value={labData.empresa} onChange={e => setLabData({...labData, empresa: e.target.value})} />
                     </div>
                     <div>
                       <label className="block text-[8px] uppercase text-blue-400 mb-2 font-black tracking-widest">Objections / Context</label>
-                      <textarea rows={4} className="w-full bg-blue-900/10 border border-blue-500/30 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all"
+                      <textarea rows={4} className="w-full bg-blue-900/10 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none transition-all"
                         placeholder="Enter context..." value={labData.objeciones} onChange={e => setLabData({...labData, objeciones: e.target.value})} />
                     </div>
                     <button onClick={runLabAnalysis} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all shadow-xl shadow-blue-900/20">
@@ -324,11 +324,11 @@ const App = () => {
                 <div className="p-8 bg-blue-950/10 border border-blue-900/30 rounded-3xl shadow-[0_0_40px_rgba(59,130,246,0.05)]">
                   <h3 className="text-xs font-black text-blue-400 uppercase tracking-[0.4em] mb-8">Forensic Scan config</h3>
                   <div className="space-y-5">
-                    <input type="text" placeholder="COMPANY NAME" className="w-full bg-blue-950/20 border border-blue-500/30 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
+                    <input type="text" placeholder="COMPANY NAME" className="w-full bg-blue-950/20 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
                       value={targetData.empresa} onChange={e => setTargetData({...targetData, empresa: e.target.value})} />
-                    <input type="text" placeholder="SECTOR" className="w-full bg-blue-950/20 border border-blue-500/30 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
+                    <input type="text" placeholder="SECTOR" className="w-full bg-blue-950/20 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
                       value={targetData.sector} onChange={e => setTargetData({...targetData, sector: e.target.value})} />
-                    <textarea rows={6} placeholder="STRATEGIC PITCH" className="w-full bg-blue-950/20 border border-blue-500/30 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
+                    <textarea rows={6} placeholder="STRATEGIC PITCH" className="w-full bg-blue-950/20 border-2 border-blue-500/40 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
                       value={targetData.pitch} onChange={e => setTargetData({...targetData, pitch: e.target.value})} />
                     <button onClick={runTargetAnalysis} className="w-full py-5 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-blue-500 transition-colors">
                       {loading ? 'Scanning...' : 'Execute Target Analysis'}
@@ -353,16 +353,16 @@ const App = () => {
                   </h3>
                   <div className="space-y-5">
                     <div className="grid grid-cols-2 gap-4">
-                      <input type="text" placeholder="COMPANY/SECTOR" className="bg-blue-950/20 border border-blue-500/30 p-3 rounded-xl text-[10px] font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
+                      <input type="text" placeholder="COMPANY/SECTOR" className="bg-blue-950/20 border-2 border-blue-500/40 p-3 rounded-xl text-[10px] font-mono outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-all"
                         value={intelData.company} onChange={e => setIntelData({...intelData, company: e.target.value})} />
-                      <select className="bg-blue-950/20 border border-blue-500/30 p-3 rounded-xl text-[10px] font-mono text-blue-400 outline-none focus:border-blue-400"
+                      <select className="bg-blue-950/20 border-2 border-blue-500/40 p-3 rounded-xl text-[10px] font-mono text-blue-400 outline-none focus:border-blue-400"
                         value={intelData.type} onChange={e => setIntelData({...intelData, type: e.target.value})}>
                         <option value="objection">SALES OBJECTION</option>
                         <option value="value_prop">ATTACK ANGLE</option>
                       </select>
                     </div>
                     <textarea rows={8} placeholder="PASTE REAL-WORLD OBJECTIONS OR WINNING SALES ARGUMENTS..." 
-                      className="w-full bg-blue-950/20 border border-blue-500/30 p-4 rounded-xl text-[11px] font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none leading-relaxed transition-all"
+                      className="w-full bg-blue-950/20 border-2 border-blue-500/40 p-4 rounded-xl text-[11px] font-mono focus:border-blue-400 focus:ring-1 focus:ring-blue-400 outline-none leading-relaxed transition-all"
                       value={intelData.content} onChange={e => setIntelData({...intelData, content: e.target.value})} />
                     <button 
                       onClick={saveIntel}
@@ -370,7 +370,7 @@ const App = () => {
                       className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 shadow-lg shadow-blue-900/20 hover:bg-blue-500"
                     >
                       {intelLoading ? <Activity size={16} className="animate-spin"/> : <Save size={16}/>}
-                      {intelLoading ? 'SYNCING CORE...' : 'UPDATE TOKU KNOWLEDGE'}
+                      {intelLoading ? 'SYNCING CORE...' : 'UPDATE NEURAL CORE'}
                     </button>
                   </div>
                 </div>
@@ -420,7 +420,7 @@ const App = () => {
           <span>SESSION: {isAuthorized ? "AUTHORIZED" : "GUEST"}</span>
         </div>
         <span className="opacity-20 text-blue-500 font-bold">|</span>
-        <span>TOKU MAGI SYSTEM v2.5</span>
+        <span>NERV.IOS CORE v2.5</span>
         <span className="opacity-20 text-blue-500 font-bold">|</span>
         <Activity size={12} className="text-blue-500" />
       </footer>
