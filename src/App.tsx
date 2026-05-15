@@ -150,8 +150,9 @@ const App = () => {
         context: labData.objeciones
       });
       setResult(response.data.data);
-    } catch (error) {
-      setResult("### ERROR: SIGNALS_LOST\nNeural link failure.");
+    } catch (error: any) {
+      const msg = error.response?.data?.detail || error.message || "Neural link failure.";
+      setResult(`### ERROR: SIGNALS_LOST\n${msg}`);
     } finally {
       setLoading(false);
     }
@@ -162,8 +163,9 @@ const App = () => {
     try {
       const response = await axios.post('/api/analyze', targetData);
       setResult(response.data.data);
-    } catch (error) {
-      setResult("### ERROR: SIGNALS_LOST\nMAGI nodes offline.");
+    } catch (error: any) {
+      const msg = error.response?.data?.detail || error.message || "MAGI nodes offline.";
+      setResult(`### ERROR: SIGNALS_LOST\n${msg}`);
     } finally {
       setLoading(false);
     }
