@@ -24,10 +24,52 @@ class AnalysisRequest(BaseModel):
     empresa: str
     sector: str
     pitch: str
+    context: str = ""
+
+class IntelRequest(BaseModel):
+    company: str
+    sector: str
+    content: str
+    type: str # "objection" or "value_prop"
 
 @app.get("/")
 def read_root():
     return {"status": "NERV OS API Online", "version": "2.0"}
+
+@app.post("/api/save-intelligence")
+async def save_intelligence(request: IntelRequest):
+    try:
+        import json
+        from datetime import datetime
+        
+        # Ruta a la memoria (ajustada para el entorno Vercel/Local)
+        memory_path = os.path.join(os.path.dirname(__file__), "..", "memory", "feedback_loop", "objections_library.json")
+        
+        # Crear directorio si no existe
+        os.makedirs(os.path.dirname(memory_path), exist_ok=True)
+        
+        # Cargar datos existentes
+        data = []
+        if os.path.exists(memory_path):
+            with open(memory_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        
+        # Añadir nueva entrada
+        data.append({
+            "company": request.company,
+            "sector": request.sector,
+            "content": request.content,
+            "type": request.type,
+            "timestamp": datetime.now().isoformat()
+        })
+        
+        # Guardar
+        with open(memory_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            
+        return {"success": True, "message": "Intelligence registered in NERV Core"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/analyze")
 async def run_analysis(request: AnalysisRequest):

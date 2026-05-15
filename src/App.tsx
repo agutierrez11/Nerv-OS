@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Shield, Search, Activity, Cpu, Database, 
   ChevronRight, AlertTriangle, FileText, 
-  Target, Globe, Lock, Unlock, Beaker, Zap
+  Target, Globe, Lock, Unlock, Beaker, Zap, 
+  BrainCircuit, Save, Send
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -22,6 +23,7 @@ const App = () => {
   const [pendingTab, setPendingTab] = useState<string | null>(null);
   
   const [loading, setLoading] = useState(false);
+  const [intelLoading, setIntelLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   
   // Form State para LAB (Agnóstico)
@@ -38,6 +40,14 @@ const App = () => {
     empresa: '',
     sector: 'Fintech',
     pitch: 'Soluciones de pago B2B'
+  });
+
+  // Form State para INTEL INJECTION
+  const [intelData, setIntelData] = useState({
+    company: '',
+    sector: 'Fintech',
+    content: '',
+    type: 'objection' // objection or value_prop
   });
 
   const handleTabChange = (tabId: string) => {
@@ -65,7 +75,6 @@ const App = () => {
   const runLabAnalysis = async () => {
     setLoading(true);
     try {
-      // Usamos el mismo endpoint pero con la data del lab
       const full_pitch = `Vendedor: ${labData.vendedor_url} | Producto: ${labData.producto}`;
       const response = await axios.post('/api/analyze', {
         empresa: labData.empresa,
@@ -93,6 +102,19 @@ const App = () => {
     }
   };
 
+  const saveIntel = async () => {
+    setIntelLoading(true);
+    try {
+      await axios.post('/api/save-intelligence', intelData);
+      alert("INTELIGENCIA REGISTRADA EXITOSAMENTE EN NERV CORE");
+      setIntelData({ ...intelData, content: '' });
+    } catch (error) {
+      alert("ERROR AL GUARDAR INTELIGENCIA");
+    } finally {
+      setIntelLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full bg-[#0a0a0a] text-white p-4 md:p-6 overflow-hidden relative font-sans">
       <div className="absolute inset-0 opacity-5 pointer-events-none" 
@@ -101,12 +123,12 @@ const App = () => {
 
       <header className="relative z-10 flex flex-col md:flex-row justify-between items-center border-b border-red-900/40 pb-4 mb-6">
         <div className="flex items-center gap-4">
-          <div className="p-2 bg-red-600 rounded-sm">
+          <div className="p-2 bg-red-600 rounded-sm shadow-[0_0_15px_rgba(255,0,0,0.5)]">
             <Shield size={28} className="text-black" />
           </div>
           <div>
             <h1 className="text-2xl font-black tracking-tighter nerv-text-glow italic">NERV OS v2.0</h1>
-            <p className="text-[9px] text-red-500 font-bold uppercase tracking-[0.3em]">Agnostic Intelligence Platform</p>
+            <p className="text-[9px] text-red-500 font-bold uppercase tracking-[0.3em]">Advanced Sales Intelligence</p>
           </div>
         </div>
 
@@ -140,18 +162,12 @@ const App = () => {
                 <Lock size={48} className="text-red-600 mx-auto mb-6 animate-pulse" />
                 <h3 className="text-sm font-black uppercase tracking-[0.3em] mb-6">Security Clearance Required</h3>
                 <input 
-                  type="password" 
-                  autoFocus
-                  placeholder="ENTER ACCESS KEY"
+                  type="password" autoFocus placeholder="ENTER ACCESS KEY"
                   className="w-full bg-black border border-red-900/50 p-4 text-center text-red-500 font-mono focus:outline-none focus:border-red-500 mb-4"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={password} onChange={(e) => setPassword(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && checkPassword()}
                 />
-                <button 
-                  onClick={checkPassword}
-                  className="w-full py-3 bg-red-600 text-black text-[10px] font-black uppercase tracking-[0.2em]"
-                >
+                <button onClick={checkPassword} className="w-full py-3 bg-red-600 text-black text-[10px] font-black uppercase tracking-[0.2em]">
                   Verify Identity
                 </button>
               </div>
@@ -161,7 +177,7 @@ const App = () => {
               <div className="lg:col-span-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
                 <div className="p-5 bg-red-950/5 border border-red-900/30 rounded">
                   <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-red-500 mb-6 flex items-center gap-2">
-                    <Zap size={14}/> Experiment Configuration
+                    <Zap size={14}/> Agnostic Experiment Lab
                   </h2>
                   <div className="space-y-4">
                     <div>
@@ -189,7 +205,7 @@ const App = () => {
                       <textarea rows={3} className="w-full bg-black border border-red-900/30 p-2 text-xs font-mono"
                         value={labData.objeciones} onChange={e => setLabData({...labData, objeciones: e.target.value})} />
                     </div>
-                    <button onClick={runLabAnalysis} className="w-full py-4 bg-red-600 text-black font-black text-[10px] uppercase tracking-widest hover:bg-red-500 transition-all">
+                    <button onClick={runLabAnalysis} className="w-full py-4 bg-red-600 text-black font-black text-[10px] uppercase tracking-widest hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(255,0,0,0.2)]">
                       {loading ? 'Initializing Lab...' : 'Generate Competitive Match'}
                     </button>
                   </div>
@@ -202,9 +218,9 @@ const App = () => {
                     <p className="text-[10px] font-mono animate-pulse">CROSS-REFERENCING NEURAL SIGNALS...</p>
                   </div>
                 ) : result ? (
-                  <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300 leading-relaxed">{result}</pre>
+                  <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300 leading-relaxed bg-red-950/5 p-4 rounded border border-red-900/10">{result}</pre>
                 ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-gray-700 opacity-30">
+                  <div className="h-full flex flex-col items-center justify-center text-gray-700 opacity-20">
                     <Beaker size={64} />
                     <p className="text-[10px] font-bold uppercase mt-4">Laboratory Idle</p>
                   </div>
@@ -234,22 +250,61 @@ const App = () => {
               </div>
             </motion.div>
           ) : (
-            <motion.div key="intel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="h-full overflow-y-auto pr-4 custom-scrollbar">
-              <div className="flex justify-between items-center mb-8">
-                <div>
-                  <h2 className="text-sm font-black uppercase tracking-[0.4em] text-red-600">Intel Assets: Toku GTM</h2>
-                  <p className="text-[9px] text-gray-600 uppercase font-bold mt-1 tracking-widest">Level 1 Authorization Verified</p>
-                </div>
-                <Unlock size={16} className="text-green-500" />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {PRELOADED_COMPANIES.map((c, i) => (
-                  <div key={i} className="p-5 border border-red-900/30 bg-black/40 hover:bg-red-950/10 cursor-pointer transition-all group">
-                    <span className="text-[8px] font-bold text-red-500 uppercase border border-red-500/30 px-2 py-0.5">{c.sector}</span>
-                    <h4 className="text-lg font-black tracking-tight mt-2 mb-1 group-hover:text-red-500">{c.empresa}</h4>
-                    <p className="text-[9px] text-gray-500 font-mono uppercase">{c.pitch}</p>
+            <motion.div key="intel" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full overflow-hidden">
+              {/* Brain Feed Section */}
+              <div className="flex flex-col gap-6">
+                <div className="p-6 border border-red-900/30 bg-red-950/5 rounded relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <BrainCircuit size={40} className="text-red-500" />
                   </div>
-                ))}
+                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-red-600 mb-6 flex items-center gap-2">
+                    <Send size={14}/> Strategic Intelligence Injection
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <input type="text" placeholder="COMPANY/SECTOR" className="bg-black border border-red-900/30 p-2 text-[10px] font-mono"
+                        value={intelData.company} onChange={e => setIntelData({...intelData, company: e.target.value})} />
+                      <select className="bg-black border border-red-900/30 p-2 text-[10px] font-mono text-red-500"
+                        value={intelData.type} onChange={e => setIntelData({...intelData, type: e.target.value})}>
+                        <option value="objection">REAL OBJECTION</option>
+                        <option value="value_prop">VALUE PROP / PITCH</option>
+                      </select>
+                    </div>
+                    <textarea rows={6} placeholder="ENTER REAL-WORLD DATA, OBJECTIONS OR SUCCESSFUL PITCHES..." 
+                      className="w-full bg-black border border-red-900/30 p-3 text-[10px] font-mono focus:border-red-500"
+                      value={intelData.content} onChange={e => setIntelData({...intelData, content: e.target.value})} />
+                    <button 
+                      onClick={saveIntel}
+                      disabled={intelLoading || !intelData.content}
+                      className="w-full py-3 bg-red-600 text-black font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2"
+                    >
+                      <Save size={14}/> {intelLoading ? 'SYNCING...' : 'FEED NERV CORE'}
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="p-4 border border-red-900/20 rounded text-[9px] text-gray-500 italic">
+                  * All data injected here will be used by MAGI nodes to cross-reference future dossiers in related sectors.
+                </div>
+              </div>
+
+              {/* Assets List Section */}
+              <div className="overflow-y-auto pr-2 custom-scrollbar">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xs font-black uppercase tracking-[0.2em] text-red-600">Sync Assets (Toku)</h2>
+                  <Unlock size={14} className="text-green-500" />
+                </div>
+                <div className="grid grid-cols-1 gap-3">
+                  {PRELOADED_COMPANIES.map((c, i) => (
+                    <div key={i} className="p-4 border border-red-900/20 bg-black/40 hover:border-red-600/50 transition-all cursor-pointer group">
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-[7px] font-bold text-red-600 uppercase tracking-tighter">{c.sector}</span>
+                      </div>
+                      <h4 className="text-sm font-black tracking-tight group-hover:text-red-500">{c.empresa}</h4>
+                      <p className="text-[9px] text-gray-600 font-mono mt-1">{c.pitch}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           )}
