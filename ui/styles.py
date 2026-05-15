@@ -18,12 +18,23 @@ def apply_styles():
             letter-spacing: 1px;
         }
         
-        /* Labels (Nombres de los campos) - Blanco Brillante */
-        label, [data-testid="stWidgetLabel"] p { 
+        /* FORZAR CONTRASTE MÁXIMO EN LABELS */
+        label, 
+        .stWidgetLabel, 
+        [data-testid="stWidgetLabel"] p, 
+        [data-testid="stHeader"] p,
+        .css-16ids99, 
+        .css-v37k9u p { 
             color: #ffffff !important; 
             font-weight: 800 !important;
             font-size: 1.1rem !important;
             opacity: 1 !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Ajuste para los iconos dentro de los labels */
+        [data-testid="stWidgetLabel"] span {
+            color: #ffffff !important;
         }
         
         /* Textos de ayuda y placeholders */
