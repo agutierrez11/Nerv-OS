@@ -58,51 +58,40 @@ class TokuCrew:
         self.prior_knowledge = prior_knowledge
 
     def run(self):
-        # 1. Definir Agentes
-        investigador = NervAgent(
-            role='Investigador Forense de Mercado',
-            goal=f'Encontrar dolores financieros en {self.empresa}',
-            backstory='Experto en OSINT y análisis de mercado.'
-        )
-        
-        psicologo = NervAgent(
-            role='Psicólogo de Ventas (DISC)',
-            goal=f'Definir el perfil de los decisores en {self.empresa}',
-            backstory='Experto en psicología B2B y metodología DISC.'
-        )
-        
-        estratega = NervAgent(
-            role='Director de Estrategia GTM',
-            goal=f'Crear el plan de ataque final para vender {self.pitch}',
-            backstory='El mejor estratega de ventas del mundo.'
-        )
-
-        # 2. Ejecutar Ciclo de Inteligencia
-        db.log_search(self.empresa, "STARTED")
-        
-        # Fase 1: Investigación
-        intel_raw = search_tool.research_company(self.empresa, self.sector, self.pitch)
-        context_investigacion = f"Datos Crudos: {intel_raw.get('contexto_estrategico', '')}\nConocimiento Previo: {self.prior_knowledge}"
-        
-        res_investigacion = investigador.execute(
-            f"Analiza la situación actual de {self.empresa} en el sector {self.sector}.",
-            context=context_investigacion
-        )
-        
-        # Fase 2: Psicología
-        res_psicologia = psicologo.execute(
-            f"Basado en esta investigación, ¿quiénes son los decisores clave?",
-            context=res_investigacion
-        )
-        
-        # Fase 3: Estrategia Final
-        dossier_final = estratega.execute(
-            f"Crea el dossier final de ventas para {self.empresa} enfocado en {self.pitch}.",
-            context=f"INVESTIGACIÓN: {res_investigacion}\nPSICOLOGÍA: {res_psicologia}"
-        )
-
-        # 3. Sincronizar y Retornar
+        # 1. Ejecución Rápida
         try:
+            db.log_search(self.empresa, "STARTED")
+            
+            # Fase 1: Investigación (Limitada para velocidad en Vercel)
+            # Solo hacemos búsqueda esencial si no hay contexto previo
+            if not self.prior_knowledge:
+                intel_raw = search_tool.research_company(self.empresa, self.sector, self.pitch)
+                context_investigacion = str(intel_raw.get('contexto_estrategico', 'Sin datos adicionales.'))
+            else:
+                context_investigacion = self.prior_knowledge
+
+            investigador = NervAgent(
+                role='Investigador',
+                goal='Extraer 3 puntos de dolor financieros.',
+                backstory='Analista OSINT de alta velocidad.'
+            )
+            res_investigacion = investigador.execute(
+                f"Analiza a {self.empresa}. Sé breve.",
+                context=context_investigacion
+            )
+            
+            # Fase 2: Estrategia (Consolidada para ahorrar tiempo)
+            estratega = NervAgent(
+                role='Director GTM',
+                goal='Crear plan de ataque.',
+                backstory='Experto en cierres B2B.'
+            )
+            dossier_final = estratega.execute(
+                f"Crea el dossier para {self.empresa} vendiendo {self.pitch}.",
+                context=res_investigacion
+            )
+
+            # Sincronizar
             db.upsert_empresa({
                 "nombre": self.empresa,
                 "sector": self.sector,
@@ -110,7 +99,7 @@ class TokuCrew:
                 "pitch_usado": self.pitch
             })
             db.log_search(self.empresa, "COMPLETED")
-        except:
-            pass
-
-        return dossier_final
+            
+            return dossier_final
+        except Exception as e:
+            return f"### ERROR DE SISTEMA\nDetalles: {str(e)}"

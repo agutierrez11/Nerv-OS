@@ -88,8 +88,20 @@ const App = () => {
     type: 'objection' // objection or value_prop
   });
 
+  const [systemStatus, setSystemStatus] = useState<any>(null);
+
+  const checkHealth = async () => {
+    try {
+      const res = await axios.get('/api/health');
+      setSystemStatus(res.data.keys_detected);
+    } catch (e) {
+      console.error("Health check failed");
+    }
+  };
+
   useEffect(() => {
     fetchCompanies();
+    checkHealth();
   }, []);
 
   const fetchCompanies = async () => {
@@ -270,6 +282,21 @@ const App = () => {
                     <button onClick={runLabAnalysis} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all shadow-xl shadow-blue-900/20">
                       {loading ? 'Initializing Neural Swarm...' : 'Generate Competitive Analysis'}
                     </button>
+                  </div>
+                </div>
+
+                {/* System Health Card */}
+                <div className="p-6 bg-blue-950/10 border border-blue-500/20 rounded-2xl">
+                  <h3 className="text-[8px] font-black uppercase tracking-[0.2em] text-blue-400 mb-4">Neural Link Status</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    {systemStatus ? Object.entries(systemStatus).map(([key, ok]) => (
+                      <div key={key} className="flex items-center gap-2 bg-black/40 p-2 rounded-lg border border-white/5">
+                        <div className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]' : 'bg-red-500 animate-pulse'}`} />
+                        <span className="text-[9px] font-mono text-gray-400">{key}</span>
+                      </div>
+                    )) : (
+                      <div className="col-span-2 text-[9px] text-gray-500 italic">Diagnosing system...</div>
+                    )}
                   </div>
                 </div>
               </div>

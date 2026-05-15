@@ -36,6 +36,18 @@ class IntelRequest(BaseModel):
 def read_root():
     return {"status": "NERV OS API Online", "version": "2.0"}
 
+@app.get("/api/health")
+def health_check():
+    return {
+        "status": "online",
+        "keys_detected": {
+            "GROQ": bool(os.getenv("GROQ_API_KEY")),
+            "SERPER": bool(os.getenv("SERPER_API_KEY")),
+            "SUPABASE": bool(os.getenv("SUPABASE_URL")),
+            "FIRE": bool(os.getenv("FIRECRAWL_API_KEY"))
+        }
+    }
+
 # BASE DE DATOS ESTRATÉGICA (HARDCODED PARA VERCEL)
 COMPANIES_DATABASE = [
     {"sector": "Ecommerce", "empresa": "Under Armour", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
