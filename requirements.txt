@@ -1,4 +1,4 @@
-crewai==0.28.8
+crewai
 groq
 httpx
 python-dotenv
