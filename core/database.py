@@ -94,5 +94,27 @@ class SupabaseManager:
         """
         return self._execute_request("POST", "brief_feedback", feedback_data)
 
+    def get_recent_feedback(self, limit: int = 3) -> str:
+        """
+        Recupera los ultimos dossiers calificados como 'Elite' o 'Excelente'
+        para usarlos como referencia (Few-shot learning).
+        """
+        # Intentamos traer los de mejor rating
+        try:
+            url = f"{self.url}/rest/v1/brief_feedback?rating=in.(Elite,Excelente)&order=created_at.desc&limit={limit}"
+            with httpx.Client() as client:
+                response = client.get(url, headers=self.headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    if not data: return ""
+                    
+                    context = "\n--- EJEMPLOS DE DOSSIERS APROBADOS POR EL USUARIO (GOLD STANDARD) ---\n"
+                    for entry in data:
+                        context += f"\nEMPRESA: {entry.get('empresa')}\nCONTENIDO:\n{entry.get('content_corrected')[:1000]}...\n"
+                    return context
+                return ""
+        except Exception:
+            return ""
+
 # Instancia global
 db = SupabaseManager()

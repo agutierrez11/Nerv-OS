@@ -38,12 +38,12 @@ def render_lab_tab():
                 log_container.markdown(f"`{msg}`")
 
             # Instanciamos el Crew con el modo especial de Lab
-            full_pitch = f"Vendedor: {url_vendedor} | Producto: {producto}"
             crew = TokuCrew(
                 empresa=empresa_nombre,
                 sector="General", 
-                pitch=full_pitch,
-                url_cliente=url_cliente, # PASAR LA URL
+                pitch=producto, # Este es el producto del usuario
+                vendedor=url_vendedor, # Esta es la empresa del usuario
+                url_cliente=url_cliente,
                 prior_knowledge=objeciones,
                 log_callback=lab_logger
             )
@@ -51,10 +51,43 @@ def render_lab_tab():
             st.write("🔍 Investigando ambas puntas del negocio...")
             resultado = crew.kickoff()
             
+            st.session_state[f"lab_{empresa_nombre}"] = resultado
             status.update(label="✅ Inteligencia Generada con Éxito", state="complete")
 
+    # Mostrar y Editar Resultado Lab
+    if f"lab_{empresa_nombre}" in st.session_state:
         st.divider()
-        st.markdown(resultado)
+        st.subheader("📝 Inteligencia de Match")
+        
+        # Modo Edicion y Feedback
+        with st.expander("🛠️ Editar o Calificar Inteligencia", expanded=True):
+            col_ed1, col_ed2 = st.columns([3, 1])
+            with col_ed1:
+                final_output = st.text_area("Modifica el reporte final:", 
+                                           value=st.session_state[f"lab_{empresa_nombre}"], 
+                                           height=400)
+            with col_ed2:
+                st.markdown("⭐ **Calidad del Match**")
+                rating = st.select_slider("Rating Lab", options=["Inútil", "Pobre", "Útil", "Genial", "🎯 Perfecto"], value="Útil")
+                if st.button("Guardar Calificación"):
+                    feedback_payload = {
+                        "empresa": empresa_nombre,
+                        "rating": rating,
+                        "content_corrected": final_output,
+                        "vendedor": url_vendedor
+                    }
+                    res = db.save_feedback(feedback_payload)
+                    if res:
+                        st.toast(f"✅ Calificación '{rating}' guardada. El enjambre aprenderá de este match.")
+                    else:
+                        st.error("Error al guardar en Supabase. Se guardó solo en local.")
+
+        st.markdown(final_output)
         
         # Botón para descargar reporte
-        st.download_button("📩 Descargar Dossier Lab", resultado, file_name=f"NERV_Lab_{empresa_nombre}.md")
+        st.download_button(
+            "📩 Descargar Dossier Lab Final", 
+            final_output, 
+            file_name=f"NERV_Lab_{empresa_nombre}.md",
+            use_container_width=True
+        )

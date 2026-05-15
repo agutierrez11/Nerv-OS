@@ -139,11 +139,11 @@ class Agent:
         return final_resp.choices[0].message.content
 
 class TokuCrew:
-    def __init__(self, empresa, sector, vendedor="Toku", producto="Solución de Pagos", url_cliente="", prior_knowledge="", log_callback=None):
+    def __init__(self, empresa, sector, pitch="Solución de Pagos", vendedor="Toku", url_cliente="", prior_knowledge="", log_callback=None):
         self.empresa = empresa
         self.sector = sector
         self.vendedor = vendedor
-        self.producto = producto
+        self.producto = pitch # Usamos pitch como el producto/solución
         self.url_cliente = url_cliente
         self.prior_knowledge = prior_knowledge
         self.log_callback = log_callback
@@ -169,11 +169,17 @@ class TokuCrew:
         else:
             searcher = SerperSearch()
             # Pasamos la URL para una búsqueda más precisa
-            raw_intel = searcher.research_company(self.empresa, self.sector, self.pitch, url=self.url_cliente)
+            raw_intel = searcher.research_company(self.empresa, self.sector, self.producto, url=self.url_cliente)
             cache.set(cache_key, raw_intel)
         
         initial_context = f"CONTEXTO ESTRATÉGICO:\n{raw_intel['contexto_estrategico']}\n\nDOLOR OPERATIVO:\n{raw_intel['dolor_operativo']}\n\nPEOPLE:\n{raw_intel['linkedin_discovery']}"
         
+        # --- BLOQUE RLHF: CARGAR EXPERIENCIA PREVIA ---
+        experience_context = db.get_recent_feedback(limit=2)
+        if experience_context:
+            logger.info("🧠 RLHF: Inyectando ejemplos de dossiers aprobados por el usuario.")
+            initial_context = f"{experience_context}\n\n{initial_context}"
+
         if self.prior_knowledge:
             initial_context = f"{initial_context}\n\nCONTEXTO PREVIO/OBJECIONES:\n{self.prior_knowledge}"
             

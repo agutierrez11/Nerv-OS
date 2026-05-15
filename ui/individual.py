@@ -15,17 +15,17 @@ def render_individual_tab(companies_data, output_dir):
         if empresa_sel == "[ Escribir manualmente ]":
             empresa = st.text_input("Nombre de la empresa", placeholder="ej: Walmart México")
             sector = st.text_input("Sector", placeholder="ej: Retail")
-            pitch = st.text_input("Propuesta de Toku", placeholder="ej: Orquestacion de Pagos")
+            pitch = st.text_area("Propuesta de Valor (Vendedor)", placeholder="ej: Orquestacion de Pagos")
         else:
             row = next(r for r in companies_data if r["empresa"] == empresa_sel)
             empresa = row["empresa"]
             sector = row["sector"]
-            pitch = row["pitch_principal"]
-            st.success(f"**Empresa:** {empresa}")
-            st.info(f"**Sector:** {sector}\n\n**Propuesta:** {pitch}")
+            # Permitir editar la propuesta aunque venga del CSV
+            pitch = st.text_area("Propuesta de Valor (Personalizable)", value=row["pitch_principal"])
+            st.success(f"**Empresa:** {empresa} | **Sector:** {sector}")
 
     with col2:
-        st.markdown("**Inteligencia de Venta:**")
+        st.markdown("**Inteligencia de Venta / Objeciones:**")
         prior_knowledge = st.text_area(
             "Contexto Previo (RLHF)", 
             placeholder="Ej: 'A este CFO le preocupa la regulacion de la CNBV'...",
@@ -35,39 +35,65 @@ def render_individual_tab(companies_data, output_dir):
         st.divider()
         engine_type = st.radio("Cerebro del Radar", ["NERV 2.0 (Hibrido + Supabase)", "Motor Rapido (Legacy)"], index=0)
 
-    generar = st.button("GENERAR DOSSIER E INYECTAR EN SUPABASE", use_container_width=True)
+    if st.button("GENERAR DOSSIER E INYECTAR EN SUPABASE", use_container_width=True):
+        if not empresa:
+            st.error("Por favor selecciona o escribe una empresa.")
+            return
 
-    if generar and empresa:
-        with st.spinner(f"Analizando {empresa} con {engine_type}..."):
+        with st.status(f"🧠 Analizando {empresa}...", expanded=True) as status:
             try:
-                # Log UI Setup
-                log_container = st.expander("🕵️ Enjambre en Operacion (Live)", expanded=True)
                 log_placeholder = st.empty()
-                
-                # Buffer para logs en vivo
                 st.session_state.full_log = ""
                 def update_ui_log(msg):
                     st.session_state.full_log += msg + "\n\n"
                     log_placeholder.markdown(f"```text\n{st.session_state.full_log}\n```")
 
-                crew = TokuCrew(empresa, sector, pitch, prior_knowledge=prior_knowledge, log_callback=update_ui_log)
+                crew = TokuCrew(empresa, sector, pitch=pitch, prior_knowledge=prior_knowledge, log_callback=update_ui_log)
                 dossier = crew.kickoff()
-
-                st.success("Analisis completado y sincronizado con Supabase.")
-                st.divider()
-                st.markdown(dossier)
                 
-                # Guardar localmente
-                safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
-                filepath = output_dir / f"{safe_name}.md"
-                filepath.write_text(dossier, encoding="utf-8")
-
-                st.download_button(
-                    "Descargar Dossier (.md)",
-                    dossier,
-                    file_name=f"NERV_{safe_name}.md",
-                    mime="text/markdown",
-                )
+                st.session_state[f"dossier_{empresa}"] = dossier
+                status.update(label="✅ Analisis Completado", state="complete")
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
                 st.error(f"Error critico: {e}")
+                return
+
+    # Mostrar y Editar Resultado
+    if f"dossier_{empresa}" in st.session_state:
+        st.divider()
+        st.subheader("📝 Dossier Generado")
+        
+        # Modo Edicion
+        with st.expander("🛠️ Editar o Calificar Dossier", expanded=True):
+            col_ed1, col_ed2 = st.columns([3, 1])
+            with col_ed1:
+                final_dossier = st.text_area("Modifica el contenido si es necesario:", 
+                                            value=st.session_state[f"dossier_{empresa}"], 
+                                            height=400)
+            with col_ed2:
+                st.markdown("⭐ **Califica la Calidad**")
+                rating = st.select_slider("Feedback RLHF", options=["Pobre", "Regular", "Bueno", "Excelente", "Elite"], value="Bueno")
+                if st.button("Guardar Feedback"):
+                    feedback_payload = {
+                        "empresa": empresa,
+                        "rating": rating,
+                        "content_corrected": final_dossier,
+                        "vendedor": "Toku"
+                    }
+                    res = db.save_feedback(feedback_payload)
+                    if res:
+                        st.toast(f"✅ Feedback '{rating}' guardado en Supabase. El sistema usará esto para mejorar futuros reportes.")
+                    else:
+                        st.error("Error al conectar con Supabase. Feedback guardado solo en memoria local.")
+        
+        st.markdown(final_dossier)
+        
+        # Guardar localmente
+        safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
+        st.download_button(
+            "📩 Descargar Dossier Final",
+            final_dossier,
+            file_name=f"NERV_{safe_name}.md",
+            mime="text/markdown",
+            use_container_width=True
+        )
