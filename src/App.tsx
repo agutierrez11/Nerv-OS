@@ -309,8 +309,34 @@ const App = () => {
                     <p className="text-[10px] font-mono tracking-[0.5em] animate-pulse">SYNCHRONIZING MAGI NODES...</p>
                   </div>
                 ) : result ? (
-                  <div className="prose prose-invert max-w-none">
-                    <pre className="whitespace-pre-wrap text-[12px] font-mono text-blue-50 leading-relaxed bg-blue-950/10 p-6 rounded-xl border border-blue-900/20">{result}</pre>
+                  <div className="space-y-6">
+                    <div className="prose prose-invert max-w-none">
+                      <pre className="whitespace-pre-wrap text-[12px] font-mono text-blue-50 leading-relaxed bg-blue-950/10 p-6 rounded-xl border border-blue-900/20">{result}</pre>
+                    </div>
+                    
+                    {/* Feedback Loop UI */}
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-6 border border-blue-500/20 bg-blue-500/5 rounded-2xl">
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-400">Quality Assurance Loop</h4>
+                        <div className="flex gap-2">
+                          {[1, 2, 3, 4, 5].map(s => (
+                            <button key={s} onClick={() => {
+                              axios.post('/api/feedback', {
+                                company_name: activeTab === 'target' ? targetData.empresa : labData.empresa,
+                                campo: 'full_dossier',
+                                valor_original: result,
+                                valor_editado: null,
+                                rating: s
+                              });
+                              alert(`Rating ${s} synced to Neural Core.`);
+                            }} className="w-8 h-8 rounded border border-blue-500/30 hover:bg-blue-600 transition-all text-[10px] font-bold">
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-[9px] text-gray-500 uppercase tracking-tighter">Your feedback retrains the digital twins for higher factuality.</p>
+                    </motion.div>
                   </div>
                 ) : (
                   <div className="h-full flex flex-col items-center justify-center text-blue-900/30">
@@ -339,7 +365,36 @@ const App = () => {
                 </div>
               </div>
               <div className="lg:col-span-2 bg-black/40 border border-blue-900/20 rounded-3xl p-8 overflow-y-auto custom-scrollbar">
-                <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300 leading-relaxed">{result || 'READY FOR TARGET ACQUISITION...'}</pre>
+                {result ? (
+                  <div className="space-y-6">
+                    <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300 leading-relaxed">{result}</pre>
+                    
+                    {/* Feedback Loop UI for Target */}
+                    <div className="p-6 border border-blue-500/20 bg-blue-500/5 rounded-2xl">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-400">Target Accuracy Rating</h4>
+                        <div className="flex gap-2">
+                          {[1, 2, 3, 4, 5].map(s => (
+                            <button key={s} onClick={() => {
+                              axios.post('/api/feedback', {
+                                company_name: targetData.empresa,
+                                campo: 'target_scan',
+                                valor_original: result,
+                                valor_editado: null,
+                                rating: s
+                              });
+                              alert(`Target Feedback ${s} registered.`);
+                            }} className="w-8 h-8 rounded border border-blue-500/30 hover:bg-blue-600 transition-all text-[10px] font-bold">
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-full flex items-center justify-center text-gray-600 italic text-xs">READY FOR TARGET ACQUISITION...</div>
+                )}
               </div>
             </motion.div>
           ) : (

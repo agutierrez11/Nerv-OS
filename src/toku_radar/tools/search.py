@@ -10,12 +10,12 @@ import time
 
 class SerperSearch:
     def __init__(self):
-        self.api_key = os.getenv("SERPER_API_KEY_VM")
+        self.api_key = os.getenv("SERPER_API_KEY")
         self.url = "https://google.serper.dev/search"
 
     def _query(self, q: str) -> str:
         if not self.api_key:
-            return "[ERROR: SERPER_API_KEY_VM no encontrada en .env]"
+            return "[ERROR: SERPER_API_KEY no encontrada en .env]"
         try:
             resp = requests.post(
                 self.url,

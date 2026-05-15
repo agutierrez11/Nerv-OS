@@ -15,7 +15,7 @@ from core.database import db
 # --- MODEL CONFIGURATION ---
 llm = ChatGroq(
     temperature=0.2,
-    model_name="llama3-70b-8192",
+    model_name="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY")
 )
 
@@ -91,15 +91,26 @@ class TokuCrew:
                 context=res_investigacion
             )
 
+            # Fase 3: Auditoría de Veracidad (Metacognición)
+            auditor = NervAgent(
+                role='Auditor de Veracidad',
+                goal='Eliminar alucinaciones y verificar datos financieros.',
+                backstory='Filtro de calidad implacable. Tu misión es asegurar que nada en el dossier sea inventado. Si no hay fuentes, eliminas la afirmación.'
+            )
+            dossier_auditado = auditor.execute(
+                f"AUDITA EL DOSSIER DE {self.empresa}. Reglas: 1. No inventar métricas. 2. Verificar competidores. 3. Limpiar lenguaje genérico.",
+                context=dossier_final
+            )
+
             # Sincronizar
             db.upsert_empresa({
                 "nombre": self.empresa,
                 "sector": self.sector,
-                "dossier": dossier_final,
+                "dossier": dossier_auditado,
                 "pitch_usado": self.pitch
             })
             db.log_search(self.empresa, "COMPLETED")
             
-            return dossier_final
+            return dossier_auditado
         except Exception as e:
             return f"### ERROR DE SISTEMA\nDetalles: {str(e)}"

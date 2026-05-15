@@ -1,14 +1,11 @@
 tarea_investigacion:
   description: >
     Investiga {empresa} en el mercado de México y LATAM. 
-    1. Usa Google Maps para buscar la sede y LEER RESEÑAS de clientes. Busca quejas sobre pagos, 
-    reembolsos o fallas en la app/plataforma.
-    2. Usa Google News para encontrar noticias de 2024-2025 sobre rondas de inversion, 
+    1. Usa herramientas de búsqueda para encontrar noticias de 2024-2025 sobre rondas de inversion, 
     multas regulatorias o expansión regional.
-    3. Identifica fricciones locales ESPECÍFICAS que Toku pueda resolver.
+    2. Identifica fricciones locales ESPECÍFICAS que Toku pueda resolver (ej. problemas de cobranza, pagos fallidos, etc.).
   expected_output: >
-    Reporte forense detallado. REGLA DE ORO: Incluye citas de reseñas de Google Maps (si existen) 
-    y links directos a noticias de 2024-2025.
+    Reporte forense detallado con links directos a noticias de 2024-2025.
   agent: investigador
 
 tarea_psicologia:

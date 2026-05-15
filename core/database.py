@@ -15,12 +15,12 @@ elif os.path.exists("../.env"):
     load_dotenv("../.env")
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_KEY") or os.getenv("SUPABASE_ANON_KEY")
 
 class SupabaseManager:
     def __init__(self):
-        self.url = SUPABASE_URL
-        self.key = SUPABASE_KEY
+        self.url = SUPABASE_URL or ""
+        self.key = SUPABASE_KEY or ""
         self.headers = {
             "apikey": self.key,
             "Authorization": f"Bearer {self.key}",
@@ -87,6 +87,12 @@ class SupabaseManager:
         # Nota: Asumimos que logs_busquedas tiene estas columnas. 
         # Si falla por esquema, se logueara el error.
         return self._execute_request("POST", "logs_busquedas", data)
+
+    def save_feedback(self, feedback_data: Dict[str, Any]):
+        """
+        Guarda el feedback humano en brief_feedback.
+        """
+        return self._execute_request("POST", "brief_feedback", feedback_data)
 
 # Instancia global
 db = SupabaseManager()

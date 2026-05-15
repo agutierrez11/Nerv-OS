@@ -147,16 +147,35 @@ async def save_intelligence(request: IntelRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class FeedbackRequest(BaseModel):
+    company_name: str
+    campo: str
+    valor_original: Any
+    valor_editado: Any
+    rating: int
+    feedback_text: str = ""
+    model_info: dict = {}
+
+@app.post("/api/feedback")
+async def save_feedback(request: FeedbackRequest):
+    try:
+        from core.database import db
+        db.save_feedback(request.dict())
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/analyze")
 async def run_analysis(request: AnalysisRequest):
     try:
-        from crew_engine import TokuCrew
+        from src.toku_radar.crew import TokuCrew
         crew = TokuCrew(
             empresa=request.empresa,
             sector=request.sector,
-            pitch=request.pitch
+            pitch=request.pitch,
+            prior_knowledge=request.context
         )
-        result = crew.run()
+        result = crew.kickoff()
         return {"success": True, "data": str(result)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

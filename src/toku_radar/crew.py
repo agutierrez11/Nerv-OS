@@ -14,10 +14,14 @@ from core.database import db
 from core.cache import cache
 
 # --- CONFIGURACION DE RUTAS ---
-ROOT_DIR = Path(__file__).parent.parent.parent.parent.absolute()
-SRC_DIR = ROOT_DIR / "src"
+CURRENT_DIR = Path(__file__).parent.absolute()
+SRC_DIR = CURRENT_DIR.parent # src/
+PROJECT_ROOT = SRC_DIR.parent # temp_nerv_os/
+
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from toku_radar.tools.search import SerperSearch
 from toku_radar.tools.firecrawl_tool import FirecrawlTool
@@ -65,9 +69,12 @@ class Agent:
         msg = ""
         res = ""
 
-        if "maps" in plan_lower or "sentimiento" in plan_lower or "reseñas" in plan_lower:
-            msg = "## Action: Google Maps Local Intelligence"
-            res = str(google_suite.analyze_local_sentiment(task_desc))
+        if "news" in plan_lower or "noticias" in plan_lower:
+            msg = "## Action: Serper Strategic News"
+            res = self.search_tool._query(f"{task_desc} news 2024 2025")
+        elif "maps" in plan_lower or "reseñas" in plan_lower or "sentiment" in plan_lower:
+            msg = "## Action: Standard Search (Maps Disabled)"
+            res = self.search_tool._query(f"{task_desc} news reviews")
         elif "noticias" in plan_lower or "news" in plan_lower:
             msg = "## Action: Google News Deep Scan"
             res = str(google_suite.search_news(task_desc))
@@ -205,10 +212,19 @@ class TokuCrew:
         
         try:
             # Extraer JSON limpio de la respuesta del agente
-            json_str = json_output_raw.split("```json")[-1].split("```")[0].strip() if "```json" in json_output_raw else json_output_raw
-            structured_data = json.loads(json_str)
-            db.upsert_empresa(structured_data)
-            logger.info(f"Empresa {self.empresa} sincronizada exitosamente con Supabase (empresas_v3)")
+            if "```json" in json_output_raw:
+                json_str = json_output_raw.split("```json")[-1].split("```")[0].strip()
+            elif "```" in json_output_raw:
+                json_str = json_output_raw.split("```")[-1].split("```")[0].strip()
+            else:
+                json_str = json_output_raw.strip()
+                
+            if json_str:
+                structured_data = json.loads(json_str)
+                db.upsert_empresa(structured_data)
+                logger.info(f"Empresa {self.empresa} sincronizada exitosamente con Supabase (empresas_v3)")
+            else:
+                logger.warning(f"No se detectó JSON válido en la respuesta del ingeniero de datos.")
         except Exception as e:
             logger.error(f"Error parseando o subiendo JSON a Supabase: {e}")
 
