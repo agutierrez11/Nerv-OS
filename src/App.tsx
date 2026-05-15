@@ -8,6 +8,50 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 
+const COMPANIES_DATA = [
+  {"sector": "Ecommerce", "empresa": "Under Armour", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Nike", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Adidas", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "AutoZone", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "InnovaSport", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Grupo Martí", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Ben&Frank", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Pandora", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Decathlon", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Samsung Electronics", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Justo", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Luuna", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Omnilife", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "Platanomelon", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Ecommerce", "empresa": "HoliHerb", "pitch_principal": "Orquestación de Pagos + Recurrencia"},
+  {"sector": "Goods", "empresa": "Coca Cola Femsa", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Arca Continental", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Bepensa", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Danone", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Alpura", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Grupo Lala", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "La Costeña", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Grupo KUO", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Kimberly Clark de Mexico", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Nestlé", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Grupo El Zorro", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Productos de Consumo Z", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Grupo Scorpion", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "Comex", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Goods", "empresa": "3M México", "pitch_principal": "Digitalización de Cobranza + BNPL"},
+  {"sector": "Health", "empresa": "Salud Digna", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Health", "empresa": "Hospital Angeles", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Health", "empresa": "Hospital ABC", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Health", "empresa": "CHOPO", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Health", "empresa": "Hospital Español", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Health", "empresa": "TecSalud", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Otros", "empresa": "Estafeta", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Otros", "empresa": "DHL Mexico", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Otros", "empresa": "FedEx Mexico", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Otros", "empresa": "UPS Mexico", "pitch_principal": "Discovery de Pagos"},
+  {"sector": "Otros", "empresa": "Paquetexpress", "pitch_principal": "Discovery de Pagos"}
+];
+
 const App = () => {
   const [activeTab, setActiveTab] = useState('lab');
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -18,7 +62,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [intelLoading, setIntelLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
-  const [companies, setCompanies] = useState<any[]>([]);
+  const [companies, setCompanies] = useState<any[]>(COMPANIES_DATA);
   
   // Form State para LAB (Agnóstico)
   const [labData, setLabData] = useState({
