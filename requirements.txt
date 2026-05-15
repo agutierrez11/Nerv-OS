@@ -11,3 +11,5 @@ wikipedia
 requests
 fastapi
 uvicorn
+langchain-groq
+arize-phoenix
