@@ -38,8 +38,19 @@ st.set_page_config(
     layout="wide",
 )
 
-# Aplicar estilos CSS personalizados
-apply_styles()
+# Aplicar estilos CSS personalizados (FORCE LIGHT MODE)
+st.markdown("""
+<style>
+    .main { background-color: #f8fafc !important; }
+    .stApp { background-color: #f8fafc !important; color: #1e293b !important; }
+    h1 { color: #1e3a8a !important; }
+    h2, h3, .stSubheader { color: #1e3a8a !important; border-bottom: 2px solid #e2e8f0 !important; }
+    label, [data-testid="stWidgetLabel"] p { color: #000000 !important; font-weight: 800 !important; }
+    .stTextInput input, .stTextArea textarea { background-color: #ffffff !important; color: #000000 !important; border: 2px solid #94a3b8 !important; }
+    .stButton > button { background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%) !important; color: #ffffff !important; font-weight: 800 !important; }
+    #MainMenu, footer, header { visibility: hidden; }
+</style>
+""", unsafe_allow_html=True)
 
 # Titulo y Header
 st.title("🧠 NERV OS Intelligence")
