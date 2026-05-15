@@ -1,4 +1,3 @@
-crewai
 groq
 httpx
 python-dotenv
@@ -9,3 +8,4 @@ requests
 fastapi
 uvicorn
 langchain-groq
+langchain-core
