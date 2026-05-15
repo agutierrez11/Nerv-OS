@@ -36,6 +36,21 @@ class IntelRequest(BaseModel):
 def read_root():
     return {"status": "NERV OS API Online", "version": "2.0"}
 
+@app.get("/api/companies")
+async def get_companies():
+    try:
+        import csv
+        companies = []
+        csv_path = os.path.join(os.path.dirname(__file__), "..", "companies.csv")
+        if os.path.exists(csv_path):
+            with open(csv_path, mode='r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    companies.append(row)
+        return {"success": True, "data": companies}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/save-intelligence")
 async def save_intelligence(request: IntelRequest):
     try:

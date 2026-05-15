@@ -1,19 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Shield, Search, Activity, Cpu, Database, 
   ChevronRight, AlertTriangle, FileText, 
   Target, Globe, Lock, Unlock, Beaker, Zap, 
-  BrainCircuit, Save, Send
+  BrainCircuit, Save, Send, Layers, Briefcase
 } from 'lucide-react';
 import axios from 'axios';
-
-const PRELOADED_COMPANIES = [
-  { empresa: "Under Armour", sector: "Ecommerce", pitch: "Orquestación de Pagos + Recurrencia" },
-  { empresa: "Nike", sector: "Ecommerce", pitch: "Orquestación de Pagos + Recurrencia" },
-  { empresa: "Coca Cola Femsa", sector: "Goods", pitch: "Digitalización de Cobranza + BNPL" },
-  { empresa: "Salud Digna", sector: "Health", pitch: "Discovery - Exploración de necesidades" }
-];
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('lab');
@@ -25,6 +18,7 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [intelLoading, setIntelLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [companies, setCompanies] = useState<any[]>([]);
   
   // Form State para LAB (Agnóstico)
   const [labData, setLabData] = useState({
@@ -49,6 +43,21 @@ const App = () => {
     content: '',
     type: 'objection' // objection or value_prop
   });
+
+  useEffect(() => {
+    fetchCompanies();
+  }, []);
+
+  const fetchCompanies = async () => {
+    try {
+      const response = await axios.get('/api/companies');
+      if (response.data.success) {
+        setCompanies(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  };
 
   const handleTabChange = (tabId: string) => {
     if (tabId === 'lab') {
@@ -106,7 +115,7 @@ const App = () => {
     setIntelLoading(true);
     try {
       await axios.post('/api/save-intelligence', intelData);
-      alert("INTELIGENCIA REGISTRADA EXITOSAMENTE EN NERV CORE");
+      alert("INTELIGENCIA REGISTRADA EXITOSAMENTE");
       setIntelData({ ...intelData, content: '' });
     } catch (error) {
       alert("ERROR AL GUARDAR INTELIGENCIA");
@@ -115,37 +124,47 @@ const App = () => {
     }
   };
 
+  const selectCompany = (c: any) => {
+    setTargetData({
+      empresa: c.empresa,
+      sector: c.sector,
+      pitch: c.pitch_principal
+    });
+    setActiveTab('target');
+  };
+
   return (
-    <div className="min-h-screen w-full bg-[#0a0a0a] text-white p-4 md:p-6 overflow-hidden relative font-sans">
-      <div className="absolute inset-0 opacity-5 pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#ff0000 1px, transparent 1px), linear-gradient(90deg, #ff0000 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+    <div className="min-h-screen w-full bg-[#050608] text-white p-4 md:p-6 overflow-hidden relative font-sans">
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: 'linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)', backgroundSize: '50px 50px' }}>
       </div>
 
-      <header className="relative z-10 flex flex-col md:flex-row justify-between items-center border-b border-red-900/40 pb-4 mb-6">
+      <header className="relative z-10 flex flex-col md:flex-row justify-between items-center border-b border-blue-900/30 pb-4 mb-6">
         <div className="flex items-center gap-4">
-          <div className="p-2 bg-red-600 rounded-sm shadow-[0_0_15px_rgba(255,0,0,0.5)]">
-            <Shield size={28} className="text-black" />
+          <div className="p-2 bg-blue-600 rounded-lg shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+            <Shield size={28} className="text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tighter nerv-text-glow italic">NERV OS v2.0</h1>
-            <p className="text-[9px] text-red-500 font-bold uppercase tracking-[0.3em]">Advanced Sales Intelligence</p>
+            <h1 className="text-2xl font-black tracking-tight text-white italic">TOKU <span className="text-blue-500">RADAR</span></h1>
+            <p className="text-[9px] text-blue-400 font-bold uppercase tracking-[0.4em]">Next-Gen GTM Intelligence</p>
           </div>
         </div>
 
-        <nav className="flex bg-red-950/20 p-1 border border-red-900/30 rounded mt-4 md:mt-0">
+        <nav className="flex bg-blue-950/20 p-1 border border-blue-900/20 rounded-xl mt-4 md:mt-0">
           {[
-            { id: 'lab', label: 'NERV LAB', icon: <Beaker size={14}/>, protected: false },
+            { id: 'lab', label: 'AGNOSTIC LAB', icon: <Beaker size={14}/>, protected: false },
             { id: 'target', label: 'TARGET SCAN', icon: <Target size={14}/>, protected: true },
             { id: 'intel', label: 'INTEL HUB', icon: <Globe size={14}/>, protected: true }
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => handleTabChange(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all relative
-                ${activeTab === tab.id ? 'bg-red-600 text-black' : 'text-gray-400 hover:text-white'}`}
+              className={`flex items-center gap-2 px-6 py-2.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-lg relative
+                ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-blue-900/20'}`}
             >
               {tab.icon} {tab.label}
-              {tab.protected && !isAuthorized && <Lock size={10} className="absolute top-1 right-1 opacity-50" />}
+              {tab.protected && !isAuthorized && <Lock size={10} className="ml-1 opacity-50" />}
             </button>
           ))}
         </nav>
@@ -155,155 +174,166 @@ const App = () => {
         <AnimatePresence mode="wait">
           {showPrompt ? (
             <motion.div 
-              key="prompt" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
+              key="prompt" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               className="h-full flex items-center justify-center"
             >
-              <div className="max-w-sm w-full p-8 border border-red-900/40 bg-red-950/10 backdrop-blur-md text-center">
-                <Lock size={48} className="text-red-600 mx-auto mb-6 animate-pulse" />
-                <h3 className="text-sm font-black uppercase tracking-[0.3em] mb-6">Security Clearance Required</h3>
+              <div className="max-w-sm w-full p-10 border border-blue-900/30 bg-blue-950/5 backdrop-blur-xl rounded-3xl text-center shadow-2xl">
+                <div className="w-20 h-20 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <Lock size={32} className="text-blue-500 animate-pulse" />
+                </div>
+                <h3 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-blue-400">Restricted Data Access</h3>
                 <input 
-                  type="password" autoFocus placeholder="ENTER ACCESS KEY"
-                  className="w-full bg-black border border-red-900/50 p-4 text-center text-red-500 font-mono focus:outline-none focus:border-red-500 mb-4"
+                  type="password" autoFocus placeholder="AUTHORIZATION KEY"
+                  className="w-full bg-black/50 border border-blue-900/50 p-4 rounded-xl text-center text-blue-400 font-mono focus:outline-none focus:border-blue-500 mb-6"
                   value={password} onChange={(e) => setPassword(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && checkPassword()}
                 />
-                <button onClick={checkPassword} className="w-full py-3 bg-red-600 text-black text-[10px] font-black uppercase tracking-[0.2em]">
-                  Verify Identity
+                <button onClick={checkPassword} className="w-full py-4 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-blue-500 transition-colors">
+                  Authenticate Session
                 </button>
               </div>
             </motion.div>
           ) : activeTab === 'lab' ? (
-            <motion.div key="lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-              <div className="lg:col-span-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
-                <div className="p-5 bg-red-950/5 border border-red-900/30 rounded">
-                  <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-red-500 mb-6 flex items-center gap-2">
-                    <Zap size={14}/> Agnostic Experiment Lab
+            <motion.div key="lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
+              <div className="lg:col-span-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
+                <div className="p-6 bg-blue-950/5 border border-blue-900/20 rounded-2xl">
+                  <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-500 mb-8 flex items-center gap-2">
+                    <Zap size={16} className="text-yellow-500"/> AGNOSTIC INTELLIGENCE
                   </h2>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div>
-                      <label className="block text-[8px] uppercase text-gray-500 mb-1">Seller Identity (Your URL)</label>
-                      <input type="text" className="w-full bg-black border border-red-900/30 p-2 text-xs font-mono" 
+                      <label className="block text-[8px] uppercase text-gray-500 mb-2 font-bold">Seller URL (Competitor/Yourself)</label>
+                      <input type="text" className="w-full bg-black/40 border border-blue-900/20 p-3 rounded-lg text-xs font-mono focus:border-blue-500 outline-none" 
                         value={labData.vendedor_url} onChange={e => setLabData({...labData, vendedor_url: e.target.value})} />
                     </div>
                     <div>
-                      <label className="block text-[8px] uppercase text-gray-500 mb-1">Value Proposition (Product)</label>
-                      <input type="text" className="w-full bg-black border border-red-900/30 p-2 text-xs font-mono"
+                      <label className="block text-[8px] uppercase text-gray-500 mb-2 font-bold">Target Product/Value Prop</label>
+                      <input type="text" className="w-full bg-black/40 border border-blue-900/20 p-3 rounded-lg text-xs font-mono focus:border-blue-500 outline-none"
                         value={labData.producto} onChange={e => setLabData({...labData, producto: e.target.value})} />
                     </div>
-                    <div className="pt-4 border-t border-red-900/20">
-                      <label className="block text-[8px] uppercase text-gray-500 mb-1">Target Entity Name</label>
-                      <input type="text" className="w-full bg-black border border-red-900/30 p-2 text-xs font-mono"
+                    <div className="pt-4 border-t border-blue-900/10">
+                      <label className="block text-[8px] uppercase text-gray-500 mb-2 font-bold">Prospect Name</label>
+                      <input type="text" className="w-full bg-black/40 border border-blue-900/20 p-3 rounded-lg text-xs font-mono focus:border-blue-500 outline-none"
                         value={labData.empresa} onChange={e => setLabData({...labData, empresa: e.target.value})} />
                     </div>
                     <div>
-                      <label className="block text-[8px] uppercase text-gray-500 mb-1">Target URL</label>
-                      <input type="text" className="w-full bg-black border border-red-900/30 p-2 text-xs font-mono"
-                        value={labData.prospecto_url} onChange={e => setLabData({...labData, prospecto_url: e.target.value})} />
-                    </div>
-                    <div>
-                      <label className="block text-[8px] uppercase text-gray-500 mb-1">Objections / Strategic Context</label>
-                      <textarea rows={3} className="w-full bg-black border border-red-900/30 p-2 text-xs font-mono"
+                      <label className="block text-[8px] uppercase text-gray-500 mb-2 font-bold">Objections / Context</label>
+                      <textarea rows={4} className="w-full bg-black/40 border border-blue-900/20 p-3 rounded-lg text-xs font-mono focus:border-blue-500 outline-none"
                         value={labData.objeciones} onChange={e => setLabData({...labData, objeciones: e.target.value})} />
                     </div>
-                    <button onClick={runLabAnalysis} className="w-full py-4 bg-red-600 text-black font-black text-[10px] uppercase tracking-widest hover:bg-red-500 transition-all shadow-[0_0_20px_rgba(255,0,0,0.2)]">
-                      {loading ? 'Initializing Lab...' : 'Generate Competitive Match'}
+                    <button onClick={runLabAnalysis} className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all shadow-xl shadow-blue-900/20">
+                      {loading ? 'Initializing Neural Swarm...' : 'Generate Competitive Analysis'}
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="lg:col-span-2 bg-black border border-red-900/30 rounded p-6 overflow-y-auto custom-scrollbar">
+              <div className="lg:col-span-2 bg-black/40 border border-blue-900/20 rounded-2xl p-8 overflow-y-auto custom-scrollbar backdrop-blur-sm">
                 {loading ? (
-                  <div className="h-full flex flex-col items-center justify-center gap-4 text-red-500">
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="w-12 h-12 border-2 border-red-600 border-t-transparent rounded-full" />
-                    <p className="text-[10px] font-mono animate-pulse">CROSS-REFERENCING NEURAL SIGNALS...</p>
+                  <div className="h-full flex flex-col items-center justify-center gap-6 text-blue-500">
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }} className="w-16 h-16 border-2 border-blue-500 border-t-transparent rounded-full shadow-[0_0_30px_rgba(59,130,246,0.2)]" />
+                    <p className="text-[10px] font-mono tracking-[0.5em] animate-pulse">SYNCHRONIZING MAGI NODES...</p>
                   </div>
                 ) : result ? (
-                  <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300 leading-relaxed bg-red-950/5 p-4 rounded border border-red-900/10">{result}</pre>
+                  <div className="prose prose-invert max-w-none">
+                    <pre className="whitespace-pre-wrap text-[12px] font-mono text-blue-50 leading-relaxed bg-blue-950/10 p-6 rounded-xl border border-blue-900/20">{result}</pre>
+                  </div>
                 ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-gray-700 opacity-20">
-                    <Beaker size={64} />
-                    <p className="text-[10px] font-bold uppercase mt-4">Laboratory Idle</p>
+                  <div className="h-full flex flex-col items-center justify-center text-blue-900/30">
+                    <BrainCircuit size={80} />
+                    <p className="text-[10px] font-black uppercase mt-6 tracking-[0.3em]">System Standby</p>
                   </div>
                 )}
               </div>
             </motion.div>
           ) : activeTab === 'target' ? (
-            <motion.div key="target" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-              <div className="lg:col-span-1 space-y-4">
-                <div className="p-6 bg-red-950/10 border border-red-900/50 rounded">
-                  <h3 className="text-xs font-black text-red-600 uppercase tracking-widest mb-6">Target Identification</h3>
-                  <div className="space-y-4">
-                    <input type="text" placeholder="COMPANY NAME" className="w-full bg-black border border-red-900/30 p-3 text-xs font-mono"
+            <motion.div key="target" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
+              <div className="lg:col-span-1 space-y-6">
+                <div className="p-8 bg-blue-950/10 border border-blue-900/30 rounded-3xl">
+                  <h3 className="text-xs font-black text-blue-400 uppercase tracking-[0.4em] mb-8">Forensic Scan config</h3>
+                  <div className="space-y-5">
+                    <input type="text" placeholder="COMPANY NAME" className="w-full bg-black/50 border border-blue-900/20 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-500"
                       value={targetData.empresa} onChange={e => setTargetData({...targetData, empresa: e.target.value})} />
-                    <input type="text" placeholder="SECTOR" className="w-full bg-black border border-red-900/30 p-3 text-xs font-mono"
+                    <input type="text" placeholder="SECTOR" className="w-full bg-black/50 border border-blue-900/20 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-500"
                       value={targetData.sector} onChange={e => setTargetData({...targetData, sector: e.target.value})} />
-                    <textarea rows={4} placeholder="PITCH STRATEGY" className="w-full bg-black border border-red-900/30 p-3 text-xs font-mono"
+                    <textarea rows={6} placeholder="STRATEGIC PITCH" className="w-full bg-black/50 border border-blue-900/20 p-4 rounded-xl text-xs font-mono outline-none focus:border-blue-500"
                       value={targetData.pitch} onChange={e => setTargetData({...targetData, pitch: e.target.value})} />
-                    <button onClick={runTargetAnalysis} className="w-full py-4 bg-red-600 text-black font-black text-[10px] uppercase">
-                      Execute Forensic Scan
+                    <button onClick={runTargetAnalysis} className="w-full py-5 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-blue-900/20 hover:bg-blue-500 transition-colors">
+                      {loading ? 'Scanning...' : 'Execute Target Analysis'}
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="lg:col-span-2 bg-black border border-red-900/30 rounded p-6 overflow-y-auto">
-                <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300">{result || 'WAITING FOR SCAN COMMAND...'}</pre>
+              <div className="lg:col-span-2 bg-black/40 border border-blue-900/20 rounded-3xl p-8 overflow-y-auto custom-scrollbar">
+                <pre className="whitespace-pre-wrap text-[11px] font-mono text-gray-300 leading-relaxed">{result || 'READY FOR TARGET ACQUISITION...'}</pre>
               </div>
             </motion.div>
           ) : (
-            <motion.div key="intel" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full overflow-hidden">
-              {/* Brain Feed Section */}
+            <motion.div key="intel" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full overflow-hidden">
+              {/* Intelligence Injection */}
               <div className="flex flex-col gap-6">
-                <div className="p-6 border border-red-900/30 bg-red-950/5 rounded relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4 opacity-10">
-                    <BrainCircuit size={40} className="text-red-500" />
+                <div className="p-8 border border-blue-900/20 bg-blue-950/5 rounded-3xl relative overflow-hidden backdrop-blur-md">
+                  <div className="absolute top-0 right-0 p-6 opacity-10">
+                    <Layers size={50} className="text-blue-500" />
                   </div>
-                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-red-600 mb-6 flex items-center gap-2">
-                    <Send size={14}/> Strategic Intelligence Injection
+                  <h3 className="text-xs font-black uppercase tracking-[0.4em] text-blue-400 mb-8 flex items-center gap-3">
+                    <BrainCircuit size={18} className="text-blue-500"/> Intelligence Injection
                   </h3>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div className="grid grid-cols-2 gap-4">
-                      <input type="text" placeholder="COMPANY/SECTOR" className="bg-black border border-red-900/30 p-2 text-[10px] font-mono"
+                      <input type="text" placeholder="COMPANY/SECTOR" className="bg-black/50 border border-blue-900/20 p-3 rounded-xl text-[10px] font-mono outline-none focus:border-blue-500"
                         value={intelData.company} onChange={e => setIntelData({...intelData, company: e.target.value})} />
-                      <select className="bg-black border border-red-900/30 p-2 text-[10px] font-mono text-red-500"
+                      <select className="bg-black/50 border border-blue-900/20 p-3 rounded-xl text-[10px] font-mono text-blue-400 outline-none"
                         value={intelData.type} onChange={e => setIntelData({...intelData, type: e.target.value})}>
-                        <option value="objection">REAL OBJECTION</option>
-                        <option value="value_prop">VALUE PROP / PITCH</option>
+                        <option value="objection">SALES OBJECTION</option>
+                        <option value="value_prop">ATTACK ANGLE</option>
                       </select>
                     </div>
-                    <textarea rows={6} placeholder="ENTER REAL-WORLD DATA, OBJECTIONS OR SUCCESSFUL PITCHES..." 
-                      className="w-full bg-black border border-red-900/30 p-3 text-[10px] font-mono focus:border-red-500"
+                    <textarea rows={8} placeholder="PASTE REAL-WORLD OBJECTIONS OR WINNING SALES ARGUMENTS..." 
+                      className="w-full bg-black/50 border border-blue-900/20 p-4 rounded-xl text-[11px] font-mono focus:border-blue-500 outline-none leading-relaxed"
                       value={intelData.content} onChange={e => setIntelData({...intelData, content: e.target.value})} />
                     <button 
                       onClick={saveIntel}
                       disabled={intelLoading || !intelData.content}
-                      className="w-full py-3 bg-red-600 text-black font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2"
+                      className="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 shadow-lg shadow-blue-900/20 hover:bg-blue-500"
                     >
-                      <Save size={14}/> {intelLoading ? 'SYNCING...' : 'FEED NERV CORE'}
+                      {intelLoading ? <Activity size={16} className="animate-spin"/> : <Save size={16}/>}
+                      {intelLoading ? 'SYNCING CORE...' : 'UPDATE TOKU KNOWLEDGE'}
                     </button>
                   </div>
                 </div>
-                
-                <div className="p-4 border border-red-900/20 rounded text-[9px] text-gray-500 italic">
-                  * All data injected here will be used by MAGI nodes to cross-reference future dossiers in related sectors.
-                </div>
               </div>
 
-              {/* Assets List Section */}
-              <div className="overflow-y-auto pr-2 custom-scrollbar">
+              {/* Assets List (The 41 companies) */}
+              <div className="flex flex-col h-full overflow-hidden">
                 <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xs font-black uppercase tracking-[0.2em] text-red-600">Sync Assets (Toku)</h2>
-                  <Unlock size={14} className="text-green-500" />
+                  <h2 className="text-xs font-black uppercase tracking-[0.3em] text-blue-400 flex items-center gap-2">
+                    <Database size={16}/> Pipeline Assets ({companies.length})
+                  </h2>
+                  <div className="flex items-center gap-2 text-green-500 text-[10px] font-bold">
+                    <Unlock size={12} /> SECURE LINK
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 gap-3">
-                  {PRELOADED_COMPANIES.map((c, i) => (
-                    <div key={i} className="p-4 border border-red-900/20 bg-black/40 hover:border-red-600/50 transition-all cursor-pointer group">
+                <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar space-y-3 pb-10">
+                  {companies.map((c, i) => (
+                    <motion.div 
+                      key={i} 
+                      whileHover={{ x: 5 }}
+                      onClick={() => selectCompany(c)}
+                      className="p-5 border border-blue-900/10 bg-blue-950/5 hover:bg-blue-900/20 hover:border-blue-500/30 transition-all cursor-pointer group rounded-2xl"
+                    >
                       <div className="flex justify-between items-start mb-2">
-                        <span className="text-[7px] font-bold text-red-600 uppercase tracking-tighter">{c.sector}</span>
+                        <span className="px-2 py-0.5 bg-blue-600/10 text-blue-400 text-[7px] font-black rounded border border-blue-600/20 uppercase tracking-tighter">
+                          {c.sector}
+                        </span>
+                        <ChevronRight size={14} className="text-blue-900 group-hover:text-blue-500 transition-colors" />
                       </div>
-                      <h4 className="text-sm font-black tracking-tight group-hover:text-red-500">{c.empresa}</h4>
-                      <p className="text-[9px] text-gray-600 font-mono mt-1">{c.pitch}</p>
-                    </div>
+                      <h4 className="text-sm font-black tracking-tight group-hover:text-blue-400 transition-colors">{c.empresa}</h4>
+                      <p className="text-[10px] text-gray-500 font-mono mt-2 line-clamp-1 italic">{c.pitch_principal}</p>
+                    </motion.div>
                   ))}
+                  {companies.length === 0 && (
+                    <div className="text-center p-20 text-gray-700 italic text-[10px]">No assets found in current sector.</div>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -311,11 +341,15 @@ const App = () => {
         </AnimatePresence>
       </main>
 
-      <footer className="fixed bottom-4 left-6 hidden md:flex items-center gap-4 text-[8px] font-mono text-gray-700 uppercase tracking-widest">
-        <Activity size={10} className={isAuthorized ? "text-green-500" : "text-yellow-500"} />
-        <span>Status: {isAuthorized ? "Privileged Access" : "Restricted Mode"}</span>
-        <span className="w-1 h-1 bg-gray-800 rounded-full"></span>
-        <span>Magi-1 Online</span>
+      <footer className="fixed bottom-6 left-8 hidden md:flex items-center gap-6 text-[9px] font-mono text-gray-600 uppercase tracking-[0.4em]">
+        <div className="flex items-center gap-2">
+          <div className={`w-2 h-2 rounded-full ${isAuthorized ? 'bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]' : 'bg-blue-900'}`}></div>
+          <span>SESSION: {isAuthorized ? "AUTHORIZED" : "GUEST"}</span>
+        </div>
+        <span className="opacity-20 text-blue-500 font-bold">|</span>
+        <span>TOKU MAGI SYSTEM v2.5</span>
+        <span className="opacity-20 text-blue-500 font-bold">|</span>
+        <Activity size={12} className="text-blue-500" />
       </footer>
     </div>
   );
