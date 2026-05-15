@@ -145,11 +145,11 @@ const App = () => {
       <header className="relative z-10 flex flex-col md:flex-row justify-between items-center border-b border-blue-900/30 pb-4 mb-6">
         <div className="flex items-center gap-4">
           <div className="p-2 bg-blue-600 rounded-lg shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-            <Shield size={28} className="text-white" />
+            <Cpu size={28} className="text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-white italic">TOKU <span className="text-blue-500">RADAR</span></h1>
-            <p className="text-[9px] text-blue-400 font-bold uppercase tracking-[0.4em]">Next-Gen GTM Intelligence</p>
+            <h1 className="text-2xl font-black tracking-tight text-white italic uppercase">NERV.<span className="text-blue-500">IOS</span></h1>
+            <p className="text-[9px] text-blue-400 font-bold uppercase tracking-[0.4em]">Intelligent Operating System</p>
           </div>
         </div>
 
