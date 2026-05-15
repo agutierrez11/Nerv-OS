@@ -11,9 +11,9 @@ from tools.wiki import get_company_profile
 from tools.firecrawl_tool import FirecrawlTool
 from core.database import db
 
-# --- CONFIGURACIÓN DE OBSERVABILIDAD (GALILEO) ---
-from phoenix.trace.langchain import LangChainInstrumentor
-LangChainInstrumentor().instrument()
+# --- CONFIGURACIÓN DE OBSERVABILIDAD (LIGERA) ---
+# Hemos desactivado Phoenix local para cumplir con los límites de Vercel (500MB).
+# Las trazas se enviarán vía logs a Supabase.
 
 # --- DEFINICIÓN DE MODELOS ---
 # Groq para velocidad (Agentes de investigación y psicología)

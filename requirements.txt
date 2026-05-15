@@ -1,15 +1,12 @@
-crewai
+crewai==0.28.8
 groq
 httpx
 python-dotenv
 pyyaml
-streamlit
 supabase
-langchain-community
 pydantic
-wikipedia
 requests
 fastapi
 uvicorn
 langchain-groq
-arize-phoenix
+langchain-openai
