@@ -41,7 +41,8 @@ async def get_companies():
     try:
         import csv
         companies = []
-        csv_path = os.path.join(os.path.dirname(__file__), "..", "companies.csv")
+        # Ahora el archivo vive dentro de api/ para asegurar el despliegue en Vercel
+        csv_path = os.path.join(os.path.dirname(__file__), "companies.csv")
         if os.path.exists(csv_path):
             with open(csv_path, mode='r', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
