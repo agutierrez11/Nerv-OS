@@ -10,3 +10,4 @@ uvicorn
 langchain-groq
 langchain-core
 streamlit
+wikipedia
