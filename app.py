@@ -72,16 +72,29 @@ else:
     logger.error("No se encontro companies.csv")
     st.error("Archivo companies.csv no encontrado.")
 
-# Tabs principales
-tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
+# --- PUERTA DE ACCESO ADMINISTRATIVO (BLOQUEO) ---
+st.sidebar.title("🔒 Control de Acceso")
+admin_password = os.getenv("NERV_PASSWORD", "nerv2026")
+entered_password = st.sidebar.text_input("Contraseña Administrador", type="password", help="Ingresa la contraseña para desbloquear los módulos avanzados.")
 
-with tab_ind:
-    render_individual_tab(companies_data, OUTPUT_DIR)
+is_admin = (entered_password == admin_password)
 
-with tab_batch:
-    render_batch_tab(companies_data, OUTPUT_DIR)
-
-with tab_lab:
+if is_admin:
+    st.sidebar.success("🔓 Acceso Administrador Autorizado")
+    # Mostrar todas las pestañas para el administrador
+    tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
+    
+    with tab_ind:
+        render_individual_tab(companies_data, OUTPUT_DIR)
+        
+    with tab_batch:
+        render_batch_tab(companies_data, OUTPUT_DIR)
+        
+    with tab_lab:
+        render_lab_tab()
+else:
+    st.sidebar.info("💡 Modo Demostración Activado. Solo visible: NERV Lab.")
+    # Si no es admin, se renderiza DIRECTAMENTE NERV Lab sin pestañas visibles
     render_lab_tab()
 
 # Footer con observabilidad
