@@ -39,3 +39,26 @@ def send_telegram_alert(error_context: str, exception: Exception = None):
     except Exception as e:
         logger.error(f"Fallo al enviar alerta de Telegram: {e}")
         return False
+
+def send_telegram_notification(message: str):
+    """
+    Envia una notificacion de auditoria/exito a Telegram.
+    """
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    
+    if not token or not chat_id:
+        return False
+        
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "Markdown"
+    }
+    
+    try:
+        requests.post(url, json=payload, timeout=5)
+        return True
+    except:
+        return False

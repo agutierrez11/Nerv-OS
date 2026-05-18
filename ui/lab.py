@@ -63,6 +63,9 @@ def render_lab_tab():
                 
                 st.session_state[f"lab_{empresa_nombre}"] = resultado_limpio
                 status.update(label="✅ Inteligencia Generada con Éxito", state="complete")
+                
+                from core.telegram_logger import send_telegram_notification
+                send_telegram_notification(f"🧪 *NERV Lab Audit*\nSe ha generado un dossier exitosamente.\n\n🎯 *Objetivo:* {empresa_nombre}\n💼 *Vendedor:* {url_vendedor}\n🛠️ *Producto:* {producto}")
             except Exception as e:
                 from core.telegram_logger import send_telegram_alert
                 send_telegram_alert(f"Experimentation Lab Kickoff ({empresa_nombre})", e)

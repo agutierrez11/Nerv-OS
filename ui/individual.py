@@ -56,6 +56,9 @@ def render_individual_tab(companies_data, output_dir):
                 
                 st.session_state[f"dossier_{empresa}"] = dossier_limpio
                 status.update(label="✅ Analisis Completado", state="complete")
+                
+                from core.telegram_logger import send_telegram_notification
+                send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}")
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
                 from core.telegram_logger import send_telegram_alert
