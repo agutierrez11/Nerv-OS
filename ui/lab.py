@@ -27,6 +27,11 @@ def render_lab_tab():
                              placeholder="¿Qué te han dicho antes? ¿Qué barreras quieres romper?",
                              help="Esto entrena al sistema para ser más agresivo o persuasivo en puntos específicos.")
 
+    with st.expander("🛠️ Configuración Avanzada de Estrategia (Opcional)", expanded=False):
+        uvp_especifica = st.text_area("Propuesta de Valor Específica", placeholder="Ej: Ofrecemos comisiones del 2% vs el 4% de la competencia...")
+        sector_nicho = st.text_input("Sector / Nicho del Cliente", placeholder="Ej: Hospitales Privados, Gimnasios de Lujo...")
+
+
     if st.button("🧬 Generar Inteligencia de Match", use_container_width=True):
         if not (url_vendedor and url_cliente and producto):
             st.warning("⚠️ Por favor completa los campos básicos para iniciar el experimento.")
@@ -40,9 +45,9 @@ def render_lab_tab():
             # Instanciamos el Crew con el modo especial de Lab
             crew = TokuCrew(
                 empresa=empresa_nombre,
-                sector="General", 
-                pitch=producto, # Este es el producto del usuario
-                vendedor=url_vendedor, # Esta es la empresa del usuario
+                sector=sector_nicho if sector_nicho else "General", 
+                pitch=uvp_especifica if uvp_especifica else producto,
+                vendedor=url_vendedor,
                 url_cliente=url_cliente,
                 prior_knowledge=objeciones,
                 log_callback=lab_logger
