@@ -87,6 +87,16 @@ class Agent:
         elif "wiki" in plan_lower:
             msg = "## Action: Wikipedia lookup"
             res = get_company_profile(task_desc[:30])
+        elif "prospeo" in plan_lower or "correo" in plan_lower or "email" in plan_lower:
+            msg = "## Action: Prospeo Email Enrichment"
+            import re
+            urls = re.findall(r'https?://[^\s<>"]+|www\.[^\s<>"]+', plan_text)
+            linkedin_url = next((url for url in urls if 'linkedin.com/in/' in url), "")
+            if linkedin_url:
+                from toku_radar.tools.prospeo_client import prospeo_enrich_person
+                res = prospeo_enrich_person.run(linkedin_url)
+            else:
+                res = "Error: No se detectó una URL de LinkedIn válida en tu petición para usar Prospeo. Asegúrate de incluir la URL completa (ej. https://www.linkedin.com/in/...) al mencionar Prospeo."
         else:
             msg = "## Action: Standard Search (Serper)"
             res = self.search_tool._query(task_desc)
@@ -106,8 +116,9 @@ class Agent:
             {"role": "system", "content": f"""Eres {self.role}. {self.backstory}
             REGLAS DE OPERACION:
             1. Empieza con <thought> para planificar tus pasos.
-            2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search).
+            2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search/Prospeo).
             3. Analiza la observacion y genera el entregable final.
+            EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
             """},
             {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
         ]
