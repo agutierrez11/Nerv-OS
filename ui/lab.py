@@ -33,8 +33,8 @@ def render_lab_tab():
 
 
     if st.button("🧬 Generar Inteligencia de Match", use_container_width=True):
-        if not (url_vendedor and url_cliente and producto):
-            st.warning("⚠️ Por favor completa los campos básicos para iniciar el experimento.")
+        if not (url_vendedor and url_cliente and producto and empresa_nombre):
+            st.warning("⚠️ Por favor completa los campos básicos (incluyendo el Nombre de la Empresa Cliente) para iniciar el experimento.")
             return
 
         with st.status("📡 Iniciando Protocolos de Cruce...", expanded=True) as status:
@@ -53,10 +53,14 @@ def render_lab_tab():
                 log_callback=lab_logger
             )
             
+            import re
             st.write("🔍 Investigando ambas puntas del negocio...")
             resultado = crew.kickoff()
             
-            st.session_state[f"lab_{empresa_nombre}"] = resultado
+            # Limpiar bloques <thought> de modelos de razonamiento
+            resultado_limpio = re.sub(r'<thought>.*?</thought>', '', resultado, flags=re.DOTALL).strip()
+            
+            st.session_state[f"lab_{empresa_nombre}"] = resultado_limpio
             status.update(label="✅ Inteligencia Generada con Éxito", state="complete")
 
     # Mostrar y Editar Resultado Lab
@@ -89,10 +93,20 @@ def render_lab_tab():
 
         st.markdown(final_output)
         
-        # Botón para descargar reporte
-        st.download_button(
-            "📩 Descargar Dossier Lab Final", 
-            final_output, 
-            file_name=f"NERV_Lab_{empresa_nombre}.md",
-            use_container_width=True
-        )
+        # Guardar y Compartir
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            st.download_button(
+                "📩 Descargar Dossier Lab Final", 
+                final_output, 
+                file_name=f"NERV_Lab_{empresa_nombre}.md",
+                use_container_width=True
+            )
+        with col_btn2:
+            import urllib.parse
+            # El texto es muy grande, mandamos una alerta
+            short_msg = f"🧪 *Experimento NERV Lab: {empresa_nombre}* 🧪\nAcabo de generar el reporte de inteligencia. Revisa el documento adjunto."
+            encoded_text = urllib.parse.quote(short_msg)
+            wa_url = f"https://wa.me/?text={encoded_text}"
+            st.link_button("🟢 Enviar Alerta por WhatsApp", wa_url, use_container_width=True)
+

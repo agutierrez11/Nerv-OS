@@ -51,7 +51,10 @@ def render_individual_tab(companies_data, output_dir):
                 crew = TokuCrew(empresa, sector, pitch=pitch, prior_knowledge=prior_knowledge, log_callback=update_ui_log)
                 dossier = crew.kickoff()
                 
-                st.session_state[f"dossier_{empresa}"] = dossier
+                # Limpiar bloques <thought> generados por modelos de razonamiento (como DeepSeek R1)
+                dossier_limpio = re.sub(r'<thought>.*?</thought>', '', dossier, flags=re.DOTALL).strip()
+                
+                st.session_state[f"dossier_{empresa}"] = dossier_limpio
                 status.update(label="✅ Analisis Completado", state="complete")
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
@@ -88,12 +91,23 @@ def render_individual_tab(companies_data, output_dir):
         
         st.markdown(final_dossier)
         
-        # Guardar localmente
+        # Guardar y Compartir
         safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
-        st.download_button(
-            "📩 Descargar Dossier Final",
-            final_dossier,
-            file_name=f"NERV_{safe_name}.md",
-            mime="text/markdown",
-            use_container_width=True
-        )
+        
+        col_btn1, col_btn2 = st.columns(2)
+        with col_btn1:
+            st.download_button(
+                "📩 Descargar Dossier Final",
+                final_dossier,
+                file_name=f"NERV_{safe_name}.md",
+                mime="text/markdown",
+                use_container_width=True
+            )
+        with col_btn2:
+            import urllib.parse
+            # El dossier completo es muy grande para un enlace web, mandamos una alerta corta
+            short_msg = f"🚨 *Inteligencia NERV: {empresa}* 🚨\nAcabo de generar el perfil forense y la estrategia de ataque. Revisa el documento adjunto."
+            encoded_text = urllib.parse.quote(short_msg)
+            wa_url = f"https://wa.me/?text={encoded_text}"
+            st.link_button("🟢 Enviar Alerta por WhatsApp", wa_url, use_container_width=True)
+
