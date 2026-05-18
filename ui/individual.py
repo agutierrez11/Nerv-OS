@@ -58,6 +58,8 @@ def render_individual_tab(companies_data, output_dir):
                 status.update(label="✅ Analisis Completado", state="complete")
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
+                from core.telegram_logger import send_telegram_alert
+                send_telegram_alert(f"Individual Analysis Kickoff ({empresa})", e)
                 st.error(f"Error critico: {e}")
                 return
 

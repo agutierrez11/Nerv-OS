@@ -53,15 +53,21 @@ def render_lab_tab():
                 log_callback=lab_logger
             )
             
-            import re
-            st.write("🔍 Investigando ambas puntas del negocio...")
-            resultado = crew.kickoff()
-            
-            # Limpiar bloques <thought> de modelos de razonamiento
-            resultado_limpio = re.sub(r'<thought>.*?</thought>', '', resultado, flags=re.DOTALL).strip()
-            
-            st.session_state[f"lab_{empresa_nombre}"] = resultado_limpio
-            status.update(label="✅ Inteligencia Generada con Éxito", state="complete")
+            try:
+                import re
+                st.write("🔍 Investigando ambas puntas del negocio...")
+                resultado = crew.kickoff()
+                
+                # Limpiar bloques <thought> de modelos de razonamiento
+                resultado_limpio = re.sub(r'<thought>.*?</thought>', '', resultado, flags=re.DOTALL).strip()
+                
+                st.session_state[f"lab_{empresa_nombre}"] = resultado_limpio
+                status.update(label="✅ Inteligencia Generada con Éxito", state="complete")
+            except Exception as e:
+                from core.telegram_logger import send_telegram_alert
+                send_telegram_alert(f"Experimentation Lab Kickoff ({empresa_nombre})", e)
+                st.error(f"Error Crítico durante el cruce de inteligencia: {e}")
+                status.update(label="❌ Error Crítico en el Enjambre", state="error")
 
     # Mostrar y Editar Resultado Lab
     if f"lab_{empresa_nombre}" in st.session_state:
