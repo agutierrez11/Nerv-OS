@@ -15,8 +15,8 @@ def render_lab_tab():
     
     with col1:
         st.subheader("🚀 Datos del Vendedor")
-        url_vendedor = st.text_input("URL de tu Empresa (Vendedor)", placeholder="https://tu-empresa.com")
-        producto = st.text_input("¿Qué producto/servicio vendes?", placeholder="Ej: Pasarela de pagos, Software de Cobranza...")
+        url_vendedor = st.text_input("URL de tu Empresa (Vendedor)", value="https://toku.com")
+        producto = st.text_input("¿Qué producto/servicio vendes?", value="Software de orquestación de cobranza y pagos")
     
     with col2:
         st.subheader("🎯 Datos del Prospecto")
@@ -33,8 +33,14 @@ def render_lab_tab():
 
 
     if st.button("🧬 Generar Inteligencia de Match", use_container_width=True):
-        if not (url_vendedor and url_cliente and producto and empresa_nombre):
-            st.warning("⚠️ Por favor completa los campos básicos (incluyendo el Nombre de la Empresa Cliente) para iniciar el experimento.")
+        faltantes = []
+        if not url_vendedor: faltantes.append("URL del Vendedor")
+        if not producto: faltantes.append("Producto")
+        if not url_cliente: faltantes.append("URL del Cliente")
+        if not empresa_nombre: faltantes.append("Nombre de la Empresa Cliente")
+        
+        if faltantes:
+            st.warning(f"⚠️ Por favor completa los campos: {', '.join(faltantes)}")
             return
 
         with st.status("📡 Iniciando Protocolos de Cruce...", expanded=True) as status:
