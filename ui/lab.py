@@ -37,11 +37,17 @@ def render_lab_tab():
         if not url_vendedor: faltantes.append("URL del Vendedor")
         if not producto: faltantes.append("Producto")
         if not url_cliente: faltantes.append("URL del Cliente")
-        if not empresa_nombre: faltantes.append("Nombre de la Empresa Cliente")
         
         if faltantes:
             st.warning(f"⚠️ Por favor completa los campos: {', '.join(faltantes)}")
             return
+            
+        # Si el usuario no puso nombre, lo inferimos de la URL para mejor UX
+        if not empresa_nombre:
+            import urllib.parse
+            domain = urllib.parse.urlparse(url_cliente if "//" in url_cliente else f"http://{url_cliente}").netloc
+            parts = domain.replace("www.", "").split(".")
+            empresa_nombre = parts[0].capitalize() if parts else "Empresa"
 
         with st.status("📡 Iniciando Protocolos de Cruce...", expanded=True) as status:
             log_container = st.empty()
