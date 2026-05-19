@@ -1,7 +1,7 @@
 import os
 import requests
 import json
-from langchain.tools import tool
+from langchain_core.tools import tool
 
 @tool("Buscar Correo con Prospeo")
 def prospeo_enrich_person(linkedin_url: str) -> str:
