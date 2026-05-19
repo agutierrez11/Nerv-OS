@@ -15,8 +15,8 @@ def render_lab_tab():
     
     with col1:
         st.subheader("🚀 Datos del Vendedor")
-        url_vendedor = st.text_input("URL de tu Empresa (Vendedor)", value="https://toku.com")
-        producto = st.text_input("¿Qué producto/servicio vendes?", value="Software de orquestación de cobranza y pagos")
+        url_vendedor = st.text_input("URL de tu Empresa (Vendedor)", placeholder="Ej: https://stripe.com")
+        producto = st.text_input("¿Qué producto/servicio vendes?", placeholder="Ej: Infraestructura de pagos por internet")
     
     with col2:
         st.subheader("🎯 Datos del Prospecto")
