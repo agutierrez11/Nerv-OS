@@ -42,10 +42,9 @@ def prospeo_enrich_person(linkedin_url: str) -> str:
         if not data.get("error") and data.get("person") and data["person"].get("email"):
             email_info = data["person"]["email"]
             if email_info.get("status") == "VERIFIED":
-                email = email_info.get("email")
-                return f"¡Éxito! Correo verificado encontrado: {email}"
+                return email_info.get("email")
                 
-        return "No se encontró un correo electrónico verificado para este perfil en la base de datos."
+        return "No encontrado"
         
     except Exception as e:
         return f"Error al consultar la API de Prospeo: {str(e)}"

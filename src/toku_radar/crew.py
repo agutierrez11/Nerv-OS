@@ -119,6 +119,7 @@ class Agent:
             2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search/Prospeo).
             3. Analiza la observacion y genera el entregable final.
             EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
+            IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente.
             """},
             {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
         ]
@@ -133,7 +134,8 @@ class Agent:
         if self.log_callback: self.log_callback(f"  ## Pensamiento: {thought_process[:200]}...")
 
         # 2. Fase de Accion (Si el pensamiento lo requiere)
-        if any(kw in thought_process.lower() for kw in ["usar herramienta", "buscar", "investigar", "maps", "news"]):
+        plan_lower = thought_process.lower()
+        if any(kw in plan_lower for kw in ["usar", "herramienta", "buscar", "investigar", "maps", "news", "prospeo", "correo", "email"]):
             observation = self._execute_tool(thought_process, task_desc)
         else:
             observation = "La informacion actual es suficiente para el entregable."
