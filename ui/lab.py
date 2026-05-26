@@ -42,11 +42,11 @@ def log_objections_vault(
         ]
     }
     try:
-        with open(vault_file, "a", encoding="utf-8") as f:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        from core.supabase_logger import log_dpo_to_supabase
+        log_dpo_to_supabase({**record, "type": "dpo_feedback_vault"})
     except Exception as e:
         from core.logger import logger
-        logger.error(f"Error escribiendo en objections_vault.jsonl: {e}")
+        logger.error(f"Error escribiendo en supabase: {e}")
 
 def render_lab_tab(companies_data=None, user_active=None):
     st.markdown("""
@@ -394,7 +394,6 @@ def render_lab_tab(companies_data=None, user_active=None):
         if st.button("💾 Guardar Edición", type="secondary"):
             try:
                 # Guardar la versión editada para DPO
-                vault_file = Path("objections_vault.jsonl")
                 edit_record = {
                     "ts": datetime.datetime.utcnow().isoformat() + "Z",
                     "empresa": empresa_nombre,
@@ -403,8 +402,8 @@ def render_lab_tab(companies_data=None, user_active=None):
                     "original_text": bp_content,
                     "edited_text": edited_bp
                 }
-                with open(vault_file, "a", encoding="utf-8") as f:
-                    f.write(json.dumps(edit_record, ensure_ascii=False) + "\n")
+                from core.supabase_logger import log_dpo_to_supabase
+                log_dpo_to_supabase(edit_record)
                 
                 st.success("¡Edición guardada exitosamente! Hemos registrado tus ajustes para mejorar futuros análisis.")
                 send_telegram_notification(f"📝 *Edición Guardada* por {edit_record['user_role']} para la empresa {empresa_nombre}. (Revisar logs DPO para ver el cambio de copy).")
@@ -487,13 +486,10 @@ def render_lab_tab(companies_data=None, user_active=None):
                     "user_industry": st.session_state.get("user_active", {}).get("industry", "General"),
                     "type": "dpo_feedback"
                 }
-                with open(ROLEPLAY_LOG, "a", encoding="utf-8") as f:
-                    f.write(json.dumps(dpo_record, ensure_ascii=False) + "\n")
-                # También actualizar vault
-                vault_file = Path("objections_vault.jsonl")
-                with open(vault_file, "a", encoding="utf-8") as f:
-                    f.write(json.dumps({**dpo_record, "type": "dpo_feedback_vault"}, ensure_ascii=False) + "\n")
-                st.toast(f"✅ Feedback DPO guardado. Rating: '{sim_rating}'")
+                from core.supabase_logger import log_dpo_to_supabase
+                log_dpo_to_supabase(dpo_record)
+                
+                st.toast(f"✅ Feedback DPO guardado en la nube. Rating: '{sim_rating}'")
                 if predicciones_correctas:
                     st.success(f"📌 {len(predicciones_correctas)} objeción(es) confirmadas como correctas.")
                 if objecion_nueva.strip():
