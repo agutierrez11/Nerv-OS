@@ -6,3 +6,7 @@ __pycache__/
 *.log
 output/cosmoscope/
 package-lock.json
+
+objections_vault.jsonl
+nerv_cache.db
+user_registry.json

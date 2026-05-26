@@ -57,9 +57,9 @@ def _log_interaction(empresa: str, sector: str, mode: str, result: dict, rating:
         f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
-class MiroSwarmSimulation:
+class ComiteSimulation:
     """
-    Motor de Simulación de Comité de Compras (MiroFish Swarm) integrado en NERV OS.
+    Motor de Simulación de Comité de Compras integrado en NERV OS.
     Utiliza inteligencia multi-agente para simular la mesa de decisión del cliente.
     """
     def __init__(self, log_callback=None):
@@ -102,16 +102,33 @@ class MiroSwarmSimulation:
         return stat_pattern.sub(_check_match, text)
 
     # ── GENERACIÓN DE PERSONAS ─────────────────────────────────────────────────
-    def generate_personas(self, product: str, sector: str, dossier: str, company_url: str = None) -> list:
+    def generate_personas(self, product: str, sector: str, dossier: str, company_url: str = None, icp_linkedin: str = None) -> list:
         """
         Genera los perfiles del comité.
-        Prioridad: 1) Personas reales (scraping si hay URL) → 2) Lookalike DB → 3) LLM inferido.
+        Prioridad: 1) ICP explícito → 2) Personas reales (scraping si hay URL) → 3) Lookalike DB → 4) LLM inferido.
         """
         self._log("👥 Identificando tomadores de decisiones reales...")
 
+        icp_context = ""
+        icp_email = ""
+        if icp_linkedin:
+            self._log(f"🔍 ICP Especificado: {icp_linkedin}. Buscando correo verificado en Prospeo...")
+            try:
+                from toku_radar.tools.prospeo_client import prospeo_enrich_person
+                email_res = prospeo_enrich_person(icp_linkedin)
+                if "@" in email_res:
+                    icp_email = email_res
+                    self._log(f"✅ Correo encontrado para ICP: {icp_email}")
+                else:
+                    self._log(f"⚠️ No se encontró correo público para el ICP: {email_res}")
+                
+                icp_context = f"\n\nATENCIÓN: El usuario ha especificado que ESTE PERFIL DE LINKEDIN {icp_linkedin} es su ICP principal. DEBES crear el 'Persona 1' basándote en que es esta persona. (Asume un rol afín al producto si no tienes su título exacto). Añade su campo 'linkedin_url': '{icp_linkedin}' y 'email': '{icp_email}' al JSON."
+            except Exception as e:
+                self._log(f"⚠️ Error al consultar Prospeo para el ICP: {e}")
+
         # ── Paso 1: Buscar personas reales si hay URL ──────────────────────────
         real_profiles_context = ""
-        if company_url:
+        if company_url and not icp_linkedin:
             try:
                 from toku_radar.tools.search import SerperSearch
                 searcher = SerperSearch()
@@ -125,7 +142,7 @@ class MiroSwarmSimulation:
 
         # ── Paso 2: Lookalike fallback si no hay perfiles reales ───────────────
         lookalike_ctx = ""
-        if not real_profiles_context:
+        if not real_profiles_context and not icp_context:
             lookalikes = _get_lookalike_personas(sector)
             if lookalikes:
                 self._log(f"📚 Usando {len(lookalikes)} perfiles Lookalike de la base de datos ({sector})...")
@@ -134,7 +151,7 @@ class MiroSwarmSimulation:
                     lookalike_ctx += f"- {lk['name']} ({lk['role']}): DISC={lk.get('disc','N/A')}, Preocupaciones: {lk.get('core_concerns',[])}\n"
 
         system_prompt = """
-Eres el perfilador de comportamiento de MiroFish.
+Eres el perfilador de comportamiento del Comité.
 Tu misión: identificar los 3 roles que REALMENTE evalúan esta solución.
 
 REGLAS CRÍTICAS:
@@ -153,7 +170,9 @@ FORMATO JSON REQUERIDO (lista de 3 objetos):
     "disc": "D | I | S | C",
     "disc_description": "Descripción breve del estilo de comunicación y toma de decisiones",
     "stance": "Postura real basada en el dossier y su rol funcional",
-    "core_concerns": ["Concern 1 derivado del dossier", "Concern 2"]
+    "core_concerns": ["Concern 1 derivado del dossier", "Concern 2"],
+    "linkedin_url": "URL provista si existe",
+    "email": "Email provisto si existe"
   }
 ]
 Devuelve SOLO el bloque JSON, sin markdown ni explicaciones.
@@ -164,6 +183,7 @@ PRODUCTO A VENDER: {product}
 SECTOR: {sector}
 DOSSIER DEL CLIENTE:
 {dossier}
+{icp_context}
 {real_profiles_context}
 {lookalike_ctx}
 
@@ -217,13 +237,14 @@ Genera los 3 perfiles del comité de compras real y devuelve el JSON.
         vendor_notes: str = None,
         company_url: str = None,
         empresa: str = "",
+        icp_linkedin: str = None,
     ) -> dict:
         """
         Ejecuta la simulación del comité con separación Pre/Post reunión.
         - vendor_notes=None  → Fase 1: Pre-Reunión (alineación interna previa al pitch)
         - vendor_notes=str   → Fase 2: Post-Reunión (debriefing tras el pitch del vendedor)
         """
-        personas = self.generate_personas(product, sector, dossier, company_url)
+        personas = self.generate_personas(product, sector, dossier, company_url, icp_linkedin)
         personas_desc = "\n".join(
             [f"- **{p['name']} ({p['role']})** [DISC: {p.get('disc','?')} – {p.get('disc_description','')}]. Postura: {p['stance']}" for p in personas]
         )
@@ -378,7 +399,7 @@ COMITÉ:
 class MiroPredictor:
     """Retrocompatibilidad con código legacy que use MiroPredictor directamente."""
     def __init__(self, log_callback=None):
-        self.swarm = MiroSwarmSimulation(log_callback=log_callback)
+        self.swarm = ComiteSimulation(log_callback=log_callback)
 
     def predict_success(self, dossier_context):
         res = self.swarm.run_simulation(
@@ -387,4 +408,4 @@ class MiroPredictor:
             dossier=dossier_context,
             objeciones="Ninguna"
         )
-        return f"### Swarm Simulation Result\n\n{res['battle_plan']}"
+        return f"### Resultado de Simulación\n\n{res['battle_plan']}"

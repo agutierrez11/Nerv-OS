@@ -5,7 +5,7 @@ from core.batch_processor import run_parallel_tasks
 from src.toku_radar.crew import TokuCrew
 from core.logger import logger
 
-def render_batch_tab(companies_data, output_dir):
+def render_batch_tab(companies_data, output_dir, user_active=None):
     st.subheader("// Procesamiento Masivo Paralelizado")
 
     total = len(companies_data)
@@ -33,6 +33,10 @@ def render_batch_tab(companies_data, output_dir):
         workers = st.slider("Numero de hilos paralelos (Workers)", 1, 10, 3)
         
         if st.button("LANZAR ENJAMBRE PARALELO (NERV 2.0)", use_container_width=True):
+            if not user_active:
+                st.error("⚠️ Identificación requerida: Por favor, selecciona tu perfil o regístrate en el panel lateral antes de lanzar el proceso masivo.")
+                return
+
             progress_bar = st.progress(0)
             status_text = st.empty()
             
@@ -40,7 +44,12 @@ def render_batch_tab(companies_data, output_dir):
             def create_task(row):
                 def task():
                     try:
-                        crew = TokuCrew(row["empresa"], row["sector"], row["pitch_principal"])
+                        crew = TokuCrew(
+                            empresa=row["empresa"], 
+                            sector=row["sector"], 
+                            pitch=row["pitch_principal"],
+                            vendedor="https://toku.com"
+                        )
                         res = crew.kickoff()
                         # Guardar resultado
                         safe = re.sub(r'[^\w\-]', '_', row['empresa']).strip('_')
@@ -60,13 +69,23 @@ def render_batch_tab(companies_data, output_dir):
             st.rerun()
 
     st.divider()
-    # Listado de empresas con descarga
+    # Listado de empresas con visualización inline y descarga
     for row in companies_data:
         safe = re.sub(r'[^\w\-]', '_', row['empresa']).strip('_')
         exists = (output_dir / f"{safe}.md").exists()
         status = "✅" if exists else "⏳"
-        col_a, col_b = st.columns([0.9, 0.1])
-        col_a.write(f"{status} **{row['empresa']}** ({row['sector']})")
+        
         if exists:
             content = (output_dir / f"{safe}.md").read_text(encoding="utf-8")
-            col_b.download_button("⬇️", content, file_name=f"{safe}.md", key=f"batch_dl_{safe}")
+            with st.expander(f"{status} **{row['empresa']}** ({row['sector']})"):
+                st.markdown(content)
+                st.download_button(
+                    "📩 Descargar Dossier",
+                    content,
+                    file_name=f"{safe}.md",
+                    mime="text/markdown",
+                    key=f"batch_dl_{safe}",
+                    use_container_width=True
+                )
+        else:
+            st.write(f"{status} **{row['empresa']}** ({row['sector']}) — *Pendiente de generar*")

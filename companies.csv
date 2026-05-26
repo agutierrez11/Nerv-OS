@@ -1,42 +1,42 @@
-sector,empresa,pitch_principal,contexto
-Ecommerce,Under Armour,Orquestación de Pagos + Recurrencia y Suscripciones,EJ. NO ESTAN INTERESADOS POR XXXX
-Ecommerce,Nike,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Adidas,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,AutoZone,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,InnovaSport,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Grupo Martí,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Ben&Frank,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Pandora,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Decathlon,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Samsung Electronics,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Justo,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Luuna,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Omnilife,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,Platanomelon,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Ecommerce,HoliHerb,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
-Goods,Coca Cola Femsa,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Arca Continental,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Bepensa,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Danone,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Alpura,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Grupo Lala,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,La Costeña,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Grupo KUO,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Kimberly Clark de Mexico,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Nestlé,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Grupo El Zorro,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Productos de Consumo Z,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Grupo Scorpion,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,Comex,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Goods,3M México,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
-Health,Salud Digna,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Health,Hospital Angeles,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Health,Hospital ABC,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Health,CHOPO,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Health,Hospital Español,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Health,TecSalud,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Otros,Estafeta,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Otros,DHL Mexico,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Otros,FedEx Mexico,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Otros,UPS Mexico,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
-Otros,Paquetexpress,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+sector,empresa,url,pitch_principal,contexto
+Ecommerce,Under Armour,https://www.underarmour.com.mx,Orquestación de Pagos + Recurrencia y Suscripciones,EJ. NO ESTAN INTERESADOS POR XXXX
+Ecommerce,Nike,https://www.nike.com/mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Adidas,https://www.adidas.com.mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,AutoZone,https://www.autozone.com.mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,InnovaSport,https://www.innovasport.com,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Grupo Martí,https://www.marti.com.mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Ben&Frank,https://www.benandfrank.com,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Pandora,https://www.pandora.net/es-mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Decathlon,https://www.decathlon.com.mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Samsung Electronics,https://www.samsung.com/mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Justo,https://www.justo.mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Luuna,https://www.luuna.mx,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Omnilife,https://www.omnilife.com,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,Platanomelon,https://www.platanomelon.com,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Ecommerce,HoliHerb,https://www.holiherb.com,Orquestación de Pagos + Recurrencia y Suscripciones,No hemos tocado base
+Goods,Coca Cola Femsa,https://www.coca-colafemsa.com,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Arca Continental,https://www.arcacontal.com,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Bepensa,https://www.bepensa.com,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Danone,https://www.danone.com/mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Alpura,https://www.alpura.com,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Grupo Lala,https://www.lala.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,La Costeña,https://www.lacostena.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Grupo KUO,https://www.kuo.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Kimberly Clark de Mexico,https://www.kimberly-clark.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Nestlé,https://www.nestle.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Grupo El Zorro,https://www.grupelzorro.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Productos de Consumo Z,https://www.productosz.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Grupo Scorpion,https://www.gruposcopion.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,Comex,https://www.comex.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Goods,3M México,https://www.3m.com.mx,Digitalización de Cobranza en Canal Tradicional + BNPL,Modelo Bees propio posible
+Health,Salud Digna,https://www.saluddigna.com.mx,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Health,Hospital Angeles,https://www.hospitalesangeles.com,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Health,Hospital ABC,https://www.abchospital.com,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Health,CHOPO,https://www.chopo.com.mx,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Health,Hospital Español,https://www.hespanol.com,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Health,TecSalud,https://www.tecsalud.mx,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Otros,Estafeta,https://www.estafeta.com,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Otros,DHL Mexico,https://www.dhl.com/mx-es/home.html,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Otros,FedEx Mexico,https://www.fedex.com/es-mx,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Otros,UPS Mexico,https://www.ups.com/mx/es,Discovery - Exploración de necesidades de pagos,Construyendo Discovery
+Otros,Paquetexpress,https://www.paquetexpress.com.mx,Discovery - Exploración de necesidades de pagos,Construyendo Discovery

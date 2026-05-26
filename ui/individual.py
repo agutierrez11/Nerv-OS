@@ -3,8 +3,9 @@ import re
 from pathlib import Path
 from src.toku_radar.crew import TokuCrew
 from core.logger import logger
+from core.database import db
 
-def render_individual_tab(companies_data, output_dir):
+def render_individual_tab(companies_data, output_dir, user_active=None):
     st.subheader("// Configurar Analisis Forense")
 
     col1, col2 = st.columns(2)
@@ -31,11 +32,12 @@ def render_individual_tab(companies_data, output_dir):
             placeholder="Ej: 'A este CFO le preocupa la regulacion de la CNBV'...",
             help="Cualquier objecion conocida. El enjambre lo usara para calibrar el ataque."
         )
-        
-        st.divider()
-        engine_type = st.radio("Cerebro del Radar", ["NERV 2.0 (Hibrido + Supabase)", "Motor Rapido (Legacy)"], index=0)
 
     if st.button("GENERAR DOSSIER E INYECTAR EN SUPABASE", use_container_width=True):
+        if not user_active:
+            st.error("⚠️ Identificación requerida: Por favor, selecciona tu perfil o regístrate en el panel lateral antes de activar el análisis forense.")
+            return
+            
         if not empresa:
             st.error("Por favor selecciona o escribe una empresa.")
             return
@@ -48,7 +50,14 @@ def render_individual_tab(companies_data, output_dir):
                     st.session_state.full_log += msg + "\n\n"
                     log_placeholder.markdown(f"```text\n{st.session_state.full_log}\n```")
 
-                crew = TokuCrew(empresa, sector, pitch=pitch, prior_knowledge=prior_knowledge, log_callback=update_ui_log)
+                crew = TokuCrew(
+                    empresa=empresa, 
+                    sector=sector, 
+                    pitch=pitch, 
+                    vendedor="https://toku.com", 
+                    prior_knowledge=prior_knowledge, 
+                    log_callback=update_ui_log
+                )
                 dossier = crew.kickoff()
                 
                 # Limpiar bloques <thought> generados por modelos de razonamiento (como DeepSeek R1)
@@ -58,7 +67,7 @@ def render_individual_tab(companies_data, output_dir):
                 status.update(label="✅ Analisis Completado", state="complete")
                 
                 from core.telegram_logger import send_telegram_notification
-                send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}")
+                send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}\n👤 *Vendedor:* Toku")
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
                 from core.telegram_logger import send_telegram_alert
@@ -86,7 +95,9 @@ def render_individual_tab(companies_data, output_dir):
                         "empresa": empresa,
                         "rating": rating,
                         "content_corrected": final_dossier,
-                        "vendedor": "Toku"
+                        "vendedor": "Toku",
+                        "user_role": user_active.get("role", "Otro") if user_active else "Otro",
+                        "user_industry": user_active.get("industry", "General") if user_active else "General"
                     }
                     res = db.save_feedback(feedback_payload)
                     if res:
