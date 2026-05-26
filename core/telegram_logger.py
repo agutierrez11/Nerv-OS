@@ -1,18 +1,32 @@
 import os
 import requests
 import logging
+import streamlit as st
 
 logger = logging.getLogger(__name__)
+
+def _get_token_chat():
+    token = None
+    chat_id = None
+    try:
+        token = st.secrets.get("TELEGRAM_BOT_TOKEN")
+        chat_id = st.secrets.get("TELEGRAM_CHAT_ID")
+    except Exception:
+        pass
+    if not token:
+        token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    if not chat_id:
+        chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    return token, chat_id
 
 def send_telegram_alert(error_context: str, exception: Exception = None):
     """
     Envia una alerta de error critica a Telegram.
     """
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    token, chat_id = _get_token_chat()
     
     if not token or not chat_id:
-        logger.warning("TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID no configurados. No se envio alerta a Telegram.")
+        logger.warning("TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID no configurados.")
         return False
         
     error_msg = str(exception) if exception else "Error Desconocido"
@@ -37,15 +51,19 @@ def send_telegram_alert(error_context: str, exception: Exception = None):
         logger.info("Alerta de error enviada exitosamente a Telegram.")
         return True
     except Exception as e:
-        logger.error(f"Fallo al enviar alerta de Telegram: {e}")
-        return False
+        # Fallback sin markdown
+        payload.pop("parse_mode", None)
+        try:
+            requests.post(url, json=payload, timeout=5)
+            return True
+        except:
+            return False
 
 def send_telegram_notification(message: str):
     """
     Envia una notificacion de auditoria/exito a Telegram.
     """
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    token, chat_id = _get_token_chat()
     
     if not token or not chat_id:
         return False
@@ -58,7 +76,13 @@ def send_telegram_notification(message: str):
     }
     
     try:
-        requests.post(url, json=payload, timeout=5)
+        response = requests.post(url, json=payload, timeout=5)
+        response.raise_for_status()
         return True
     except:
-        return False
+        payload.pop("parse_mode", None)
+        try:
+            requests.post(url, json=payload, timeout=5)
+            return True
+        except:
+            return False

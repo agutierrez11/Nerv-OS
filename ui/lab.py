@@ -132,7 +132,7 @@ def render_lab_tab(companies_data=None, user_active=None):
         )
         st.markdown(
             "**🚧 ¿Qué objeciones anticipas?** "
-            "<span style='color:#94a3b8;font-size:0.85em;'>Una por línea — esto alimenta el DPO</span>",
+            "<span style='color:#94a3b8;font-size:0.85em;'>Una por línea</span>",
             unsafe_allow_html=True
         )
         objeciones_raw = st.text_area(
@@ -159,7 +159,7 @@ def render_lab_tab(companies_data=None, user_active=None):
         )
         st.markdown(
             "**⚠️ ¿Qué objeciones te pusieron?** "
-            "<span style='color:#94a3b8;font-size:0.85em;'>Una por línea — señal directa para DPO</span>",
+            "<span style='color:#94a3b8;font-size:0.85em;'>Una por línea</span>",
             unsafe_allow_html=True
         )
         objeciones_raw = st.text_area(
@@ -252,13 +252,14 @@ def render_lab_tab(companies_data=None, user_active=None):
         except:
             pass
 
-        with st.status(f"🧬 Iniciando Protocolos NERV para {empresa_nombre}...", expanded=True) as sim_status:
+        with st.status(f"🧬 Iniciando Protocolos NERV para {empresa_nombre}...", expanded=is_admin_user) as sim_status:
             log_container = st.empty()
 
             def sim_logger(msg):
                 from core.logger import logger
                 logger.info(msg)
-                log_container.markdown(f"`{msg}`")
+                if is_admin_user:
+                    log_container.markdown(f"`{msg}`")
 
             # 1. Extraer Inteligencia Automáticamente
             try:
@@ -387,7 +388,23 @@ def render_lab_tab(companies_data=None, user_active=None):
     with tab1:
         st.markdown(sim_result.get("phase_2", sim_result.get("round_2", "")))
     with tab2:
-        st.markdown(sim_result.get("battle_plan", ""))
+        bp_content = sim_result.get("battle_plan", "")
+        st.text_area("Puedes editar el mensaje o plan aquí antes de copiarlo:", value=bp_content, height=400, key="editable_battle_plan")
+
+    # ── Feedback Simple (Para usuarios regulares) ────────────────────────────
+    if not st.session_state.get("user_active", {}).get("is_admin", False):
+        st.divider()
+        st.markdown("#### ¿Qué te pareció el análisis de NERV?")
+        fb_col1, fb_col2 = st.columns([0.6, 0.4])
+        with fb_col1:
+            simple_rating = st.radio("Califica la calidad de la información:", ["Excelente 🎯", "Útil 👍", "Puede mejorar 🛠️", "No me sirvió 👎"], horizontal=True)
+        with fb_col2:
+            if st.button("Enviar Calificación", use_container_width=True):
+                st.success("¡Gracias por tu feedback!")
+                try:
+                    send_telegram_notification(f"⭐ *Calificación Recibida*: {simple_rating} - Empresa: {empresa_nombre}")
+                except:
+                    pass
 
     # ── DPO Feedback: Validación humana de predicciones ──────────────────────
     if st.session_state.get("user_active", {}).get("is_admin", False):
