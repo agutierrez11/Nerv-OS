@@ -50,6 +50,7 @@ st.markdown("""
     .stTextInput input, .stTextArea textarea { background-color: #ffffff !important; color: #000000 !important; border: 2px solid #94a3b8 !important; }
     .stButton > button { background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%) !important; color: #ffffff !important; font-weight: 800 !important; }
     #MainMenu, footer { visibility: hidden; }
+    [data-testid="stHeader"] { visibility: hidden; display: none; }
 </style>
 """, unsafe_allow_html=True)
 
