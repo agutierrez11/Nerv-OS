@@ -390,78 +390,79 @@ def render_lab_tab(companies_data=None, user_active=None):
         st.markdown(sim_result.get("battle_plan", ""))
 
     # ── DPO Feedback: Validación humana de predicciones ──────────────────────
-    st.divider()
-    st.markdown("### 🧠 Human-in-the-Loop · Señal DPO")
-    st.caption("Valida qué tan bien predijo NERV. Esta información entrena el modelo.")
+    if st.session_state.get("user_active", {}).get("is_admin", False):
+        st.divider()
+        st.markdown("### 🧠 Human-in-the-Loop · Señal DPO")
+        st.caption("Valida qué tan bien predijo NERV. Esta información entrena el modelo.")
 
-    objeciones_lista = st.session_state.get("nerv_objeciones_lista", [])
-    modo_guardado = st.session_state.get("nerv_modo", mode)
+        objeciones_lista = st.session_state.get("nerv_objeciones_lista", [])
+        modo_guardado = st.session_state.get("nerv_modo", mode)
 
-    dpo_col1, dpo_col2 = st.columns(2)
+        dpo_col1, dpo_col2 = st.columns(2)
 
-    with dpo_col1:
-        label_obj = "🚧 Objeciones anticipadas" if modo_guardado == "pre" else "⚠️ Objeciones reportadas"
-        st.markdown(f"**{label_obj}**")
-        if objeciones_lista:
-            for obj in objeciones_lista:
-                st.markdown(f"- {obj}")
-        else:
-            st.caption("No ingresaste objeciones estructuradas en este análisis.")
+        with dpo_col1:
+            label_obj = "🚧 Objeciones anticipadas" if modo_guardado == "pre" else "⚠️ Objeciones reportadas"
+            st.markdown(f"**{label_obj}**")
+            if objeciones_lista:
+                for obj in objeciones_lista:
+                    st.markdown(f"- {obj}")
+            else:
+                st.caption("No ingresaste objeciones estructuradas en este análisis.")
 
-        # Para modo post: marcar cuáles predijo bien NERV
-        if modo_guardado == "post" and objeciones_lista:
-            st.markdown("**¿Cuáles predijo NERV correctamente?**")
-            predicciones_correctas = st.multiselect(
-                "predicciones_ok",
-                options=objeciones_lista,
-                label_visibility="collapsed",
-                key="dpo_pred_ok"
+            # Para modo post: marcar cuáles predijo bien NERV
+            if modo_guardado == "post" and objeciones_lista:
+                st.markdown("**¿Cuáles predijo NERV correctamente?**")
+                predicciones_correctas = st.multiselect(
+                    "predicciones_ok",
+                    options=objeciones_lista,
+                    label_visibility="collapsed",
+                    key="dpo_pred_ok"
+                )
+            else:
+                predicciones_correctas = []
+
+        with dpo_col2:
+            st.markdown("**⭐ Calidad general de la simulación**")
+            sim_rating = st.select_slider(
+                "Rating",
+                options=["Inútil", "Pobre", "Útil", "Genial", "🎯 Perfecto"],
+                value="Útil",
+                key="sim_rating"
             )
-        else:
-            predicciones_correctas = []
+            objecion_nueva = st.text_input(
+                "➕ Objeción real no anticipada (opcional)",
+                placeholder="Ej: Nos pidieron referencias de clientes similares",
+                key="dpo_nueva_objecion"
+            )
 
-    with dpo_col2:
-        st.markdown("**⭐ Calidad general de la simulación**")
-        sim_rating = st.select_slider(
-            "Rating",
-            options=["Inútil", "Pobre", "Útil", "Genial", "🎯 Perfecto"],
-            value="Útil",
-            key="sim_rating"
-        )
-        objecion_nueva = st.text_input(
-            "➕ Objeción real no anticipada (opcional)",
-            placeholder="Ej: Nos pidieron referencias de clientes similares",
-            key="dpo_nueva_objecion"
-        )
-
-    if st.button("💾 Guardar Feedback DPO", key="save_dpo_feedback", use_container_width=True, type="secondary"):
-        try:
-            from src.toku_radar.tools.miro_predictor import ROLEPLAY_LOG
-            dpo_record = {
-                "ts": datetime.datetime.utcnow().isoformat() + "Z",
-                "empresa": empresa_nombre,
-                "mode": mode,
-                "rating": sim_rating,
-                "objeciones_ingresadas": objeciones_lista,
-                "predicciones_correctas": predicciones_correctas,
-                "objecion_nueva": objecion_nueva.strip() if objecion_nueva else "",
-                "user_role": st.session_state.get("user_active", {}).get("role", "Otro"),
-                "user_industry": st.session_state.get("user_active", {}).get("industry", "General"),
-                "type": "dpo_feedback"
-            }
-            with open(ROLEPLAY_LOG, "a", encoding="utf-8") as f:
-                f.write(json.dumps(dpo_record, ensure_ascii=False) + "\n")
-            # También actualizar vault
-            vault_file = Path("objections_vault.jsonl")
-            with open(vault_file, "a", encoding="utf-8") as f:
-                f.write(json.dumps({**dpo_record, "type": "dpo_feedback_vault"}, ensure_ascii=False) + "\n")
-            st.toast(f"✅ Feedback DPO guardado. Rating: '{sim_rating}'")
-            if predicciones_correctas:
-                st.success(f"📌 {len(predicciones_correctas)} objeción(es) confirmadas como correctas.")
-            if objecion_nueva.strip():
-                st.info(f"➕ Objeción nueva registrada: *{objecion_nueva.strip()}*")
-        except Exception as e:
-            st.error(f"Error guardando feedback DPO: {e}")
+        if st.button("💾 Guardar Feedback DPO", key="save_dpo_feedback", use_container_width=True, type="secondary"):
+            try:
+                from src.toku_radar.tools.miro_predictor import ROLEPLAY_LOG
+                dpo_record = {
+                    "ts": datetime.datetime.utcnow().isoformat() + "Z",
+                    "empresa": empresa_nombre,
+                    "mode": mode,
+                    "rating": sim_rating,
+                    "objeciones_ingresadas": objeciones_lista,
+                    "predicciones_correctas": predicciones_correctas,
+                    "objecion_nueva": objecion_nueva.strip() if objecion_nueva else "",
+                    "user_role": st.session_state.get("user_active", {}).get("role", "Otro"),
+                    "user_industry": st.session_state.get("user_active", {}).get("industry", "General"),
+                    "type": "dpo_feedback"
+                }
+                with open(ROLEPLAY_LOG, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(dpo_record, ensure_ascii=False) + "\n")
+                # También actualizar vault
+                vault_file = Path("objections_vault.jsonl")
+                with open(vault_file, "a", encoding="utf-8") as f:
+                    f.write(json.dumps({**dpo_record, "type": "dpo_feedback_vault"}, ensure_ascii=False) + "\n")
+                st.toast(f"✅ Feedback DPO guardado. Rating: '{sim_rating}'")
+                if predicciones_correctas:
+                    st.success(f"📌 {len(predicciones_correctas)} objeción(es) confirmadas como correctas.")
+                if objecion_nueva.strip():
+                    st.info(f"➕ Objeción nueva registrada: *{objecion_nueva.strip()}*")
+            except Exception as e:
+                st.error(f"Error guardando feedback DPO: {e}")
 
     full_sim_report = (
         f"# 🔬 Simulación NERV: {empresa_nombre}\n\n"
