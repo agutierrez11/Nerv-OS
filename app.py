@@ -155,33 +155,7 @@ if is_admin:
     }
     st.session_state.user_active = user_active
     st.sidebar.caption("🔐 Sesión Admin activa — los registros se marcarán como **test** y quedan excluidos del DPO.")
-else:
-    # Modo demo/anonimo: el vendedor elige su rol
-    rol_seleccionado = st.sidebar.selectbox(
-        "¿Cuál es tu rol?",
-        options=ROLES_COMERCIALES,
-        key="sidebar_rol"
-    )
-    industria_seleccionada = st.sidebar.selectbox(
-        "¿En qué vertical operas?",
-        options=INDUSTRIAS,
-        key="sidebar_industria"
-    )
-    if rol_seleccionado != "-- Selecciona tu rol --":
-        user_active = {
-            "name": rol_seleccionado,
-            "email": "",
-            "role": rol_seleccionado,
-            "industry": industria_seleccionada if industria_seleccionada != "-- Selecciona tu vertical --" else "General",
-            "is_admin": False,
-        }
-        st.session_state.user_active = user_active
-        st.sidebar.caption(f"✅ Operando como **{rol_seleccionado}**")
-    else:
-        st.session_state.user_active = None
-        st.sidebar.caption("⚠️ Selecciona tu rol para activar NERV.")
-
-if is_admin:
+    
     st.sidebar.success("🔓 Acceso Administrador Autorizado")
     # Mostrar todas las pestañas para el administrador
     tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
@@ -194,10 +168,52 @@ if is_admin:
         
     with tab_lab:
         render_lab_tab(companies_data=companies_data, user_active=user_active)
+
 else:
-    st.sidebar.info("💡 Modo Demostración Activado. Solo visible: NERV Lab.")
-    # En modo agnóstico: sin lista de Toku, el usuario ingresa la URL manualmente
-    render_lab_tab(companies_data=None, user_active=user_active)
+    # --- GATE DE IDENTIFICACION EN PANTALLA PRINCIPAL ---
+    if "user_active" not in st.session_state:
+        st.session_state.user_active = None
+        
+    if st.session_state.user_active is None:
+        st.markdown("""
+            <div style='background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%); padding: 20px; border-radius: 10px; margin-bottom: 25px;'>
+                <h2 style='color: white; margin: 0;'>👋 Bienvenido a NERV Intelligence</h2>
+                <p style='color: #d1d5db; margin: 5px 0 0 0;'>
+                    Por favor, identifícate para iniciar la demostración.
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.info("Tus datos nos ayudan a personalizar la simulación de ventas.")
+        col1, col2 = st.columns(2)
+        with col1:
+            rol_sel = st.selectbox("¿Cuál es tu rol?", options=ROLES_COMERCIALES, key="main_rol")
+        with col2:
+            ind_sel = st.selectbox("¿En qué vertical operas?", options=INDUSTRIAS, key="main_ind")
+            
+        if st.button("Ingresar al Laboratorio 🧬", type="primary"):
+            if rol_sel != "-- Selecciona tu rol --":
+                st.session_state.user_active = {
+                    "name": rol_sel,
+                    "email": "",
+                    "role": rol_sel,
+                    "industry": ind_sel if ind_sel != "-- Selecciona tu vertical --" else "General",
+                    "is_admin": False,
+                }
+                st.rerun()
+            else:
+                st.error("⚠️ Debes seleccionar un rol para continuar.")
+    else:
+        # Ya está identificado
+        user_active = st.session_state.user_active
+        st.sidebar.info("💡 Modo Demostración Activado. Solo visible: NERV Lab.")
+        st.sidebar.caption(f"✅ Operando como **{user_active['role']}**")
+        if st.sidebar.button("Cerrar Sesión"):
+            st.session_state.user_active = None
+            st.rerun()
+            
+        # En modo agnóstico: sin lista de Toku, el usuario ingresa la URL manualmente
+        render_lab_tab(companies_data=None, user_active=user_active)
 
 # Footer con observabilidad
 st.sidebar.title("🛠️ Observabilidad")
