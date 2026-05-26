@@ -369,27 +369,15 @@ def render_lab_tab(companies_data=None, user_active=None):
             ) if p.get("linkedin_url") else ""
 
             with cols[idx]:
-                html_content = f"""
-<div style='background:#1e293b;border-left:5px solid {color};
-            padding:15px;border-radius:5px;min-height:220px;
-            overflow-y:auto;color:#f8fafc;margin-bottom:15px;'>
-    <h4 style='margin:0;color:{color};font-size:1.1em;'>{p['name']}</h4>
-    <p style='margin:5px 0 0 0;font-size:0.85em;'><b>Rol:</b> {p['role']}</p>
-    {email_html}
-    {linkedin_html}
-    <span style='background:{color};color:white;font-size:0.75em;
-                 padding:2px 8px;border-radius:10px;font-weight:bold;
-                 display:inline-block;margin-top:6px;'>
-        DISC: {disc} — {label}
-    </span>
-    <p style='margin:6px 0 0 0;font-size:0.78em;color:#cbd5e1;'>
-        {p.get('disc_description','')}
-    </p>
-    <p style='margin:8px 0 0 0;font-size:0.8em;color:#94a3b8;line-height:1.3;'>
-        {p.get('stance','')}
-    </p>
-</div>
-"""
+                html_content = f"""<div style="background:#1e293b;border-left:5px solid {color};padding:15px;border-radius:5px;min-height:220px;overflow-y:auto;color:#f8fafc;margin-bottom:15px;">
+<h4 style="margin:0;color:{color};font-size:1.1em;">{p['name']}</h4>
+<p style="margin:5px 0 0 0;font-size:0.85em;"><b>Rol:</b> {p['role']}</p>
+{email_html}
+{linkedin_html}
+<span style="background:{color};color:white;font-size:0.75em;padding:2px 8px;border-radius:10px;font-weight:bold;display:inline-block;margin-top:6px;">DISC: {disc} — {label}</span>
+<p style="margin:6px 0 0 0;font-size:0.78em;color:#cbd5e1;">{p.get('disc_description','')}</p>
+<p style="margin:8px 0 0 0;font-size:0.8em;color:#94a3b8;line-height:1.3;">{p.get('stance','')}</p>
+</div>"""
                 st.markdown(html_content, unsafe_allow_html=True)
 
     # ── Tabs de simulación ────────────────────────────────────────────────────
