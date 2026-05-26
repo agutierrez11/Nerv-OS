@@ -389,7 +389,27 @@ def render_lab_tab(companies_data=None, user_active=None):
         st.markdown(sim_result.get("phase_2", sim_result.get("round_2", "")))
     with tab2:
         bp_content = sim_result.get("battle_plan", "")
-        st.text_area("Puedes editar el mensaje o plan aquí antes de copiarlo:", value=bp_content, height=400, key="editable_battle_plan")
+        edited_bp = st.text_area("Puedes editar el mensaje o plan aquí antes de copiarlo:", value=bp_content, height=400, key="editable_battle_plan")
+        
+        if st.button("💾 Guardar Edición", type="secondary"):
+            try:
+                # Guardar la versión editada para DPO
+                vault_file = Path("objections_vault.jsonl")
+                edit_record = {
+                    "ts": datetime.datetime.utcnow().isoformat() + "Z",
+                    "empresa": empresa_nombre,
+                    "user_role": st.session_state.get("user_active", {}).get("role", "Otro"),
+                    "type": "user_edited_battle_plan",
+                    "original_text": bp_content,
+                    "edited_text": edited_bp
+                }
+                with open(vault_file, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(edit_record, ensure_ascii=False) + "\n")
+                
+                st.success("¡Edición guardada exitosamente! Hemos registrado tus ajustes para mejorar futuros análisis.")
+                send_telegram_notification(f"📝 *Edición Guardada* por {edit_record['user_role']} para la empresa {empresa_nombre}. (Revisar logs DPO para ver el cambio de copy).")
+            except Exception as e:
+                st.error("Error al guardar la edición.")
 
     # ── Feedback Simple (Para usuarios regulares) ────────────────────────────
     if not st.session_state.get("user_active", {}).get("is_admin", False):
