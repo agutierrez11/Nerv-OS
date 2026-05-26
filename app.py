@@ -206,11 +206,15 @@ else:
     else:
         # Ya está identificado
         user_active = st.session_state.user_active
-        st.sidebar.info("💡 Modo Demostración Activado. Solo visible: NERV Lab.")
-        st.sidebar.caption(f"✅ Operando como **{user_active['role']}**")
-        if st.sidebar.button("Cerrar Sesión"):
-            st.session_state.user_active = None
-            st.rerun()
+        
+        # Botón de cambio de rol visible en la pantalla principal (header secundario)
+        colA, colB = st.columns([0.7, 0.3])
+        with colA:
+            st.info(f"✅ Operando como **{user_active['role']}** en la vertical **{user_active['industry']}**")
+        with colB:
+            if st.button("🔄 Cambiar Rol / Vertical", use_container_width=True):
+                st.session_state.user_active = None
+                st.rerun()
             
         # En modo agnóstico: sin lista de Toku, el usuario ingresa la URL manualmente
         render_lab_tab(companies_data=None, user_active=user_active)
