@@ -4,6 +4,7 @@ import json
 import datetime
 from pathlib import Path
 from src.toku_radar.tools.miro_predictor import ComiteSimulation
+from core.telegram_logger import send_telegram_notification, send_telegram_alert
 
 def log_objections_vault(
     user_active, empresa, url_cliente, modo, contexto,
@@ -189,6 +190,40 @@ def render_lab_tab(companies_data=None, user_active=None):
             st.warning(f"⚠️ Por favor completa: {', '.join(faltantes)}")
             return
 
+        # --- RATE LIMITING (3 consultas por IP) ---
+        try:
+            # Obtener IP del cliente (funciona en Streamlit Cloud)
+            client_ip = st.context.headers.get("X-Forwarded-For", "unknown_ip").split(",")[0].strip()
+        except Exception:
+            client_ip = "unknown_ip"
+            
+        is_admin_user = user_active.get("is_admin", False)
+        
+        if not is_admin_user and client_ip != "unknown_ip":
+            limits_file = Path("ip_limits.json")
+            try:
+                if limits_file.exists():
+                    with open(limits_file, "r") as f:
+                        limits = json.load(f)
+                else:
+                    limits = {}
+            except Exception:
+                limits = {}
+                
+            count = limits.get(client_ip, 0)
+            if count >= 3:
+                st.error("🚫 **Límite alcanzado.** Tu dirección IP ha agotado las 3 consultas de prueba gratuitas para esta PoC. Por favor contacta al equipo comercial para continuar.")
+                send_telegram_alert(f"Rate Limit Hit by IP {client_ip} ({user_active.get('role')})", Exception("Rate Limit Reached"))
+                return
+                
+            limits[client_ip] = count + 1
+            try:
+                with open(limits_file, "w") as f:
+                    json.dump(limits, f)
+            except:
+                pass
+        # ------------------------------------------
+
         # Parsear objeciones estructuradas (lista limpia sin vacíos)
         objeciones_lista = [
             line.strip() for line in objeciones_raw.splitlines()
@@ -207,6 +242,15 @@ def render_lab_tab(companies_data=None, user_active=None):
         empresa_nombre = parts[0].capitalize() if parts else "Empresa"
         
         st.session_state["nerv_empresa"] = empresa_nombre
+
+        # Notificar por Telegram
+        try:
+            user_label = user_active.get("role", "Desconocido")
+            ind_label = user_active.get("industry", "General")
+            msg = f"🚀 *Nueva Simulación NERV (Lab)*\n\n🎯 *Prospecto:* {empresa_nombre}\n👤 *Usuario:* {user_label} ({ind_label})\n🌐 *IP:* {client_ip}\n💻 *Producto:* {producto}"
+            send_telegram_notification(msg)
+        except:
+            pass
 
         with st.status(f"🧬 Iniciando Protocolos NERV para {empresa_nombre}...", expanded=True) as sim_status:
             log_container = st.empty()
@@ -269,9 +313,15 @@ def render_lab_tab(companies_data=None, user_active=None):
                     vendedor_url=st.session_state.get("nerv_url_vendedor", url_vendedor),
                     dpo_feedback=None  # se actualiza cuando el user valida abajo
                 )
+                
+                try:
+                    send_telegram_notification(f"✅ *Simulación Exitosa*\nEmpresa: {empresa_nombre}")
+                except:
+                    pass
             except Exception as e:
                 st.error(f"Error crítico en la simulación: {e}")
                 sim_status.update(label="❌ Error en la Simulación", state="error")
+                send_telegram_alert(f"Fallo en simulación Lab para {empresa_nombre}", e)
 
     # ── OUTPUT ────────────────────────────────────────────────────────────────
     if "nerv_sim_result" not in st.session_state:
