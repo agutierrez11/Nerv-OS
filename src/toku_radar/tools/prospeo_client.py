@@ -36,6 +36,14 @@ def prospeo_enrich_person(linkedin_url: str) -> str:
         if response.status_code == 429:
             return "Error: Límite de peticiones de Prospeo alcanzado (Rate Limit)."
             
+        if response.status_code == 400:
+            try:
+                err_data = response.json()
+                if err_data.get("error_code") == "NO_MATCH":
+                    return "No encontrado"
+            except Exception:
+                pass
+            
         response.raise_for_status()
         data = response.json()
         

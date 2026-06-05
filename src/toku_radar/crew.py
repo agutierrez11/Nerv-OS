@@ -24,13 +24,14 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
 from toku_radar.tools.search import SerperSearch
-from toku_radar.tools.firecrawl_tool import FirecrawlTool
+from toku_radar.tools.resilient_scraper import ResilientScraper
 from toku_radar.tools.wiki import get_company_profile
 from toku_radar.tools.auditor import GalileoAuditor
 from toku_radar.tools.miro_predictor import MiroPredictor
 from toku_radar.tools.memory import NervMemory
 from toku_radar.tools.groq_rotator import GroqRotator
 from toku_radar.tools.deepseek_client import DeepSeekClient
+from toku_radar.tools.hermes_client import HermesClient
 from toku_radar.tools.google_suite import google_suite
 
 # Cargar .env opcionalmente (para desarrollo local)
@@ -54,13 +55,17 @@ class Agent:
             self.rotator = DeepSeekClient(log_callback=self.log_callback)
             self.model_planning = "deepseek-chat"
             self.model_final = "deepseek-chat"
+        elif self.engine == "hermes":
+            self.rotator = HermesClient(log_callback=self.log_callback)
+            self.model_planning = "nousresearch/hermes-4-70b"
+            self.model_final = "nousresearch/hermes-4-70b"
         else:
             self.rotator = GroqRotator(log_callback=self.log_callback)
             self.model_planning = "llama-3.1-8b-instant"
             self.model_final = "llama-3.3-70b-versatile"
         
         self.search_tool = SerperSearch()
-        self.firecrawl_tool = FirecrawlTool()
+        self.firecrawl_tool = ResilientScraper()
         self.memory = NervMemory()
 
     def _execute_tool(self, plan_text, task_desc):
@@ -82,8 +87,14 @@ class Agent:
             msg = "## Action: Google Trends Analysis"
             res = str(google_suite.get_trends(task_desc))
         elif "firecrawl" in plan_lower or "scrape" in plan_lower:
-            msg = "## Action: Firecrawl Deep Scraping"
-            res = "Resultado de scraping profundo..."
+            msg = "## Action: Resilient Web Scraping"
+            import re
+            urls = re.findall(r'https?://[^\s<>"]+|www\.[^\s<>"]+', plan_text)
+            scrape_url = next((url for url in urls), "")
+            if scrape_url:
+                res = self.firecrawl_tool.scrape_url(scrape_url)
+            else:
+                res = "Error: No se encontró una URL específica para raspar en tu pensamiento."
         elif "wiki" in plan_lower:
             msg = "## Action: Wikipedia lookup"
             res = get_company_profile(task_desc[:30])
@@ -184,11 +195,24 @@ class NervCrew:
             raw_intel = cached_data
         else:
             searcher = SerperSearch()
-            # Pasamos la URL para una búsqueda más precisa
             raw_intel = searcher.research_company(self.empresa, self.sector, self.producto, url=self.url_cliente)
+            
+            # Raspado de la web oficial del cliente
+            website_markdown = ""
+            if self.url_cliente:
+                try:
+                    logger.info(f"Raspando URL oficial de cliente: {self.url_cliente}")
+                    scraper = ResilientScraper()
+                    website_markdown = scraper.scrape_url(self.url_cliente)
+                except Exception as e:
+                    logger.error(f"Error en raspado de url_cliente {self.url_cliente}: {e}")
+            
+            raw_intel["website_markdown"] = website_markdown
             cache.set(cache_key, raw_intel)
         
         initial_context = f"CONTEXTO ESTRATÉGICO:\n{raw_intel['contexto_estrategico']}\n\nDOLOR OPERATIVO:\n{raw_intel['dolor_operativo']}\n\nPEOPLE:\n{raw_intel['linkedin_discovery']}"
+        if raw_intel.get("website_markdown"):
+            initial_context = f"CONTENIDO RASPADO DEL SITIO WEB OFICIAL DEL CLIENTE:\n{raw_intel['website_markdown']}\n\n{initial_context}"
         
         # --- INYECCIÓN DE PROPUESTA DE VALOR OFICIAL DE TOKU ---
         if "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower():

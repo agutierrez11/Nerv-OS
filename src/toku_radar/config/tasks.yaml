@@ -26,19 +26,28 @@ tarea_simulacion_gemelo:
 
 tarea_dossier_final:
   description: >
-    Consolida la inteligencia en un Dossier Forense.
-    Estructura:
+    Consolida toda la inteligencia en un Dossier Forense.
+    Estructura requerida:
     ---
     empresa: "{empresa}"
     vendedor: "{vendedor}"
     producto: "{producto}"
     ---
     ## 🎯 A QUIÉN HABLARLE
-    ## 💬 QUÉ DECIRLE (Scripts para {vendedor})
+    * Muestra el decisor clave (LinkedIn, Nombre y Correo verificado u estimado).
+    
+    ## 💬 PLANTILLAS DE CORREO POR PERFIL PSICOLÓGICO (DISC)
+    Si en la investigación se encontraron malas opiniones, comentarios negativos o fricciones operativas en Google Maps o reseñas de usuarios sobre pagos/comisiones/cobros de {empresa}, DEBES inyectar ese dolor real como gancho al inicio de los correos.
+    
+    Genera 3 variantes distintas de correo frío:
+    *   **Variante D (Directores/CFOs Dominantes - Perfil D):** Menos de 100 palabras. Directo al grano. Enfocado en ROI, DSO, porcentaje de comisiones ahorradas y un enlace directo a Calendly. Cero formalidades excesivas.
+    *   **Variante C (Analíticos/Ingeniería - Perfil C):** Enfoque técnico y racional. Detalles de integración API única, seguridad (3DS2 inteligente, reintentos en cascada, antifraude adaptativo) y enlaces de documentación.
+    *   **Variante I/S (Relacionales/Operaciones - Perfiles I y S):** Enfoque relacional y de alivio operativo. Destacar cómo disminuye la carga manual del equipo contable/finanzas y da estabilidad/paz mental en la recaudación diaria.
+    
     ## ⚔️ PLAN DE ATAQUE (Usando {producto})
-    ## ⚠️ MANEJO DE OBJECIONES
+    ## ⚠️ MANEJO DE OBJECIONES (Simulado por el Gemelo Digital)
   expected_output: >
-    Dossier final en Markdown estructurado y accionable.
+    Dossier final en Markdown estructurado y accionable con las 3 variantes de email DISC personalizadas.
   agent: estratega
 
 tarea_estructuracion_datos:

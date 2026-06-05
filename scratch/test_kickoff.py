@@ -26,9 +26,16 @@ def test():
         print("Lanzando kickoff...")
         resultado = crew.kickoff()
         
+        # Guardar resultado en un archivo UTF-8
+        output_file = PROJECT_ROOT / "output" / "test_walmart_output.md"
+        output_file.write_text(resultado, encoding="utf-8")
+        print(f"Dossier guardado en {output_file}")
+        
         print("\nPRUEBA EXITOSA!")
         print("-" * 30)
-        print(resultado[:500] + "...")
+        # Safe print for Windows terminal
+        safe_print = resultado[:500].encode('ascii', errors='ignore').decode('ascii')
+        print(safe_print + "...")
         print("-" * 30)
         
     except Exception as e:

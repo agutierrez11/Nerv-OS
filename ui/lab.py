@@ -250,7 +250,8 @@ def render_lab_tab(companies_data=None, user_active=None, toku_mode=False):
         try:
             user_label = user_active.get("role", "Desconocido")
             ind_label = user_active.get("industry", "General")
-            msg = f"🚀 *Nueva Simulación NERV (Lab)*\n\n🎯 *Prospecto:* {empresa_nombre}\n👤 *Usuario:* {user_label} ({ind_label})\n🌐 *IP:* {client_ip}\n💻 *Producto:* {producto}"
+            modo_str = "Modo Toku 🟢" if toku_mode else "Modo Agnóstico 🔵"
+            msg = f"🚀 *Nueva Simulación NERV (Lab)* ({modo_str})\n\n🎯 *Prospecto:* {empresa_nombre}\n👤 *Usuario:* {user_label} ({ind_label})\n🌐 *IP:* {client_ip}\n💻 *Producto:* {producto}"
             send_telegram_notification(msg)
         except:
             pass

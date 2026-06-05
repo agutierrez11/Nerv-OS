@@ -90,9 +90,10 @@ def render_lookalike_tab(user_active=None):
                             status.update(label=f"✅ Búsqueda completada: {len(results)} prospectos evaluados", state="complete")
                             
                             # Notificación a Telegram si está configurado
-                            vendedor_name = user_active.get("vendedor_name", "Toku") if user_active else "Toku"
+                            vendedor_name = user_active.get("name", "Invitado") if user_active else "Invitado"
+                            modo_str = "Modo Toku 🟢" if is_toku else "Modo Agnóstico 🔵"
                             send_telegram_notification(
-                                f"🧠 *Lookalike Generado*\nBase: {empresa_base}\nSector: {sector}\nProspectos: {len(results)}\nUsuario: {vendedor_name}"
+                                f"🧠 *Lookalike Generado* ({modo_str})\nBase: {empresa_base}\nSector: {sector}\nProspectos: {len(results)}\nUsuario: {vendedor_name}"
                             )
                         except Exception as e:
                             status.update(label="❌ Error durante la generación", state="error")
@@ -138,9 +139,10 @@ def render_lookalike_tab(user_active=None):
                             st.session_state["lookalike_results"] = results
                             status.update(label=f"✅ Interceptación completada: {len(results)} prospectos detectados", state="complete")
 
-                            vendedor_name = user_active.get("vendedor_name", "Toku") if user_active else "Toku"
+                            vendedor_name = user_active.get("name", "Invitado") if user_active else "Invitado"
+                            modo_str = "Modo Toku 🟢" if is_toku else "Modo Agnóstico 🔵"
                             send_telegram_notification(
-                                f"⚔️ *Competitor Intercept*\nCompetidor: {competitor_url}\nProspectos: {len(results)}\nUsuario: {vendedor_name}"
+                                f"⚔️ *Competitor Intercept* ({modo_str})\nCompetidor: {competitor_url}\nProspectos: {len(results)}\nUsuario: {vendedor_name}"
                             )
                         except Exception as e:
                             status.update(label="❌ Error al interceptar competidor", state="error")

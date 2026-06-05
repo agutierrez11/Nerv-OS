@@ -83,8 +83,16 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                 
                 status.update(label="✅ Analisis Completado y Guardado en Local", state="complete")
                 
-                vendedor_name = user_active.get("vendedor_name", "Toku") if user_active else "Toku"
-                send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}\n👤 *Vendedor:* {vendedor_name}")
+                vendedor_name = user_active.get("name", "Invitado") if user_active else "Invitado"
+                is_toku_mode = user_active.get("is_toku", False) if user_active else False
+                modo_str = "Modo Toku 🟢" if is_toku_mode else "Modo Agnóstico 🔵"
+                send_telegram_notification(
+                    f"📊 *NERV Dossier Audit* ({modo_str})\n"
+                    f"Se ha generado un análisis individual.\n\n"
+                    f"🎯 *Empresa:* {empresa}\n"
+                    f"🏢 *Sector:* {sector}\n"
+                    f"👤 *Vendedor:* {vendedor_name}"
+                )
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
                 from core.telegram_logger import send_telegram_alert
