@@ -33,7 +33,17 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
             help="Cualquier objecion conocida. El enjambre lo usara para calibrar el ataque."
         )
 
-    if st.button("GENERAR DOSSIER E INYECTAR EN SUPABASE", use_container_width=True):
+    # Verificar si ya existe un dossier guardado localmente para evitar regenerarlo
+    safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_') if empresa else ""
+    file_path = output_dir / f"{safe_name}.md" if safe_name else None
+    
+    if file_path and file_path.exists():
+        st.info(f"📂 Se detectó un dossier guardado localmente para **{empresa}**.")
+        if st.button("📂 Cargar Dossier Guardado", use_container_width=True):
+            st.session_state[f"dossier_{empresa}"] = file_path.read_text(encoding="utf-8")
+            st.rerun()
+
+    if st.button("GENERAR NUEVO DOSSIER E INYECTAR EN SUPABASE", use_container_width=True):
         if not user_active:
             st.error("⚠️ Identificación requerida: Por favor, selecciona tu perfil o regístrate en el panel lateral antes de activar el análisis forense.")
             return
@@ -65,7 +75,12 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                 dossier_limpio = re.sub(r'<thought>.*?</thought>', '', dossier, flags=re.DOTALL).strip()
                 
                 st.session_state[f"dossier_{empresa}"] = dossier_limpio
-                status.update(label="✅ Analisis Completado", state="complete")
+                
+                # Guardar automáticamente en el output_dir para consulta posterior
+                safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
+                (output_dir / f"{safe_name}.md").write_text(dossier_limpio, encoding="utf-8")
+                
+                status.update(label="✅ Analisis Completado y Guardado en Local", state="complete")
                 
                 vendedor_name = user_active.get("vendedor_name", "Toku") if user_active else "Toku"
                 send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}\n👤 *Vendedor:* {vendedor_name}")
