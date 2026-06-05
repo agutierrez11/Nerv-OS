@@ -7,6 +7,7 @@ Dos vectores:
 import os
 import json
 from typing import List, Dict, Any, Optional
+from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from tools.search import SerperSearch
@@ -14,6 +15,9 @@ from tools.firecrawl_tool import FirecrawlTool
 from tools.competitor_intel import CompetitorIntelTool
 from core.icp_store import icp_store
 from core.database import db
+
+# Cargar entorno
+load_dotenv()
 
 # ── LLM (reutiliza el mismo modelo que crew_engine) ──────────────────────────
 llm = ChatGroq(
@@ -130,35 +134,43 @@ class ScorerAgent:
         if not prospects:
             return []
 
+        # Agregar ID numérico temporal
+        prospects_with_id = []
+        for idx, p in enumerate(prospects):
+            prospects_with_id.append({**p, "temp_id": idx + 1})
+
         prospects_text = "\n".join(
-            f"- {p['empresa']}: {p.get('snippet', '')}" for p in prospects
+            f"ID: {p['temp_id']} | Empresa: {p['empresa']} | Cita/Snippet: {p.get('snippet', '')}" 
+            for p in prospects_with_id
         )
         icp_text = json.dumps(icp_profile, ensure_ascii=False)
 
-        prompt = f"""Eres un Sales Ops expert. Puntúa cada prospecto del 0 al 100 según su fit con el ICP.
+        prompt = f"""Eres un Sales Ops expert. Tu trabajo es evaluar una lista de prospectos B2B y calificarlos de 0 a 100 respecto al ICP (Perfil de Cliente Ideal) provisto.
 
-ICP:
+ICP de Referencia:
 {icp_text}
 
-Pitch de ventas a aplicar: {pitch or 'automatización de ventas B2B'}
+Pitch de Ventas a aplicar:
+{pitch or 'automatización de ventas B2B'}
 
-Prospectos:
+Lista de Prospectos a calificar:
 {prospects_text}
 
-Devuelve SOLO un JSON con este esquema:
+Analiza cada prospecto y califícalo según su propensión a compra o fit con el ICP.
+Debes devolver un JSON con esta estructura exacta (mantén el campo 'id' tal cual se te entrega en la lista de prospectos):
 ```json
 [
   {{
-    "empresa": "Nombre Empresa",
+    "id": 1,
     "score": 85,
-    "razon": "Por qué encaja bien",
-    "señal_principal": "señal más relevante detectada",
-    "decision_maker_sugerido": "Cargo típico del decisor"
+    "razon": "Razón específica de por qué encaja",
+    "señal_principal": "señal más relevante detectada en el snippet",
+    "decision_maker_sugerido": "Cargo típico del decisor (ej. CFO, Director de Pagos, E-commerce Manager)"
   }}
 ]
 ```"""
         raw = _llm_call(
-            "Eres un sistema de scoring de prospectos B2B. Responde SOLO en JSON válido.",
+            "Eres un calificador técnico de prospectos B2B. Responde únicamente con la lista JSON solicitada.",
             prompt
         )
         scored = _extract_json(raw)
@@ -166,13 +178,30 @@ Devuelve SOLO un JSON con este esquema:
             # Fallback: asignar score 50 a todos
             return [{**p, "score": 50, "razon": "Sin scoring disponible", "señal_principal": ""} for p in prospects]
 
-        # Merge con datos originales (url, snippet)
-        scored_map = {s["empresa"].lower(): s for s in scored}
+        # Mapear las respuestas del LLM por el ID numérico
+        scored_map = {}
+        for item in scored:
+            if isinstance(item, dict) and "id" in item:
+                try:
+                    scored_map[int(item["id"])] = item
+                except ValueError:
+                    pass
+
         merged = []
-        for p in prospects:
-            key = p["empresa"].lower()
-            s = scored_map.get(key, {"score": 50, "razon": "", "señal_principal": ""})
-            merged.append({**p, **s})
+        for p in prospects_with_id:
+            s = scored_map.get(p["temp_id"], {"score": 50, "razon": "Fallo al evaluar por ID", "señal_principal": ""})
+            
+            # Limpiar el temp_id para que no ensucie el output
+            p_clean = {k: v for k, v in p.items() if k != "temp_id"}
+            
+            # Combinar datos
+            merged.append({
+                **p_clean,
+                "score": s.get("score", 50),
+                "razon": s.get("razon", ""),
+                "señal_principal": s.get("señal_principal", ""),
+                "decision_maker_sugerido": s.get("decision_maker_sugerido", "")
+            })
 
         return sorted(merged, key=lambda x: x.get("score", 0), reverse=True)
 

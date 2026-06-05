@@ -4,6 +4,7 @@ from pathlib import Path
 from src.toku_radar.crew import NervCrew
 from core.logger import logger
 from core.database import db
+from core.telegram_logger import send_telegram_notification
 
 def render_individual_tab(companies_data, output_dir, user_active=None):
     st.subheader("// Configurar Analisis Forense")

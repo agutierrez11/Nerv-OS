@@ -230,6 +230,15 @@ class NervCrew:
    - PROPUESTA DE VALOR DE TOKU:
      * Automatizamos la cobranza a consultoras con domiciliación recurrente, AI Agent (WhatsApp/SMS/IVR) y portal self-service para consultoras.
      * Rieles: Domiciliación recurrente, tarjetas, corresponsales físicos, transferencias y wallets.
+
+4. COMPARATIVA / POSICIONAMIENTO VS PASARELAS Y AGREGADORES TRADICIONALES (Clip, Openpay, Stripe, Conekta, etc.)
+   - OBJECIÓN COMÚN DEL PROSPECTO: "Ya cobramos con tarjeta / SPEI / OXXO usando Clip o Openpay. No necesitamos a Toku."
+   - RESPUESTA ESTRATÉGICA / DIFERENCIADOR CLAVE DE TOKU:
+     * TOKU ORQUESTA, NO COMPITE DIRECTAMENTE: Toku no es solo una pasarela de pago; es una plataforma de orquestación y automatización de cobranza. Se puede integrar por encima de pasarelas como Clip o Openpay para complementarlas.
+     * CASCADEO INTELIGENTE (SMART ROUTING): Si Clip o Openpay sufren una caída o rechazan una tarjeta (falso positivo), Toku cascadea automáticamente la transacción a otra pasarela en milisegundos para garantizar la aprobación.
+     * REDUCCIÓN DE COMISIONES (DOMICILIACIÓN Y SPEI): Clip/Openpay cobran comisiones porcentuales (2.5% a 3.6%+). Toku redirige los cobros recurrentes hacia Domiciliación Bancaria y transferencias SPEI automatizadas con costos fijos mínimos (centavos o pocos pesos), reduciendo costos financieros hasta un 80%.
+     * COBRANZA ACTIVA AUTOMATIZADA (AI AGENT): Cuando un pago falla en una pasarela tradicional, la transacción rebota y ahí termina. Toku detecta la falla al instante y activa un AI Agent (WhatsApp, SMS, IVR) que se comunica con el cliente final para gestionar el pago y ofrecerle un link de pago con métodos alternativos.
+     * CONCILIACIÓN AUTOMÁTICA EN ERP: Toku automatiza todo el proceso de conciliación bancaria y contable directamente en el ERP del cliente (ej. SAP, NetSuite), algo que las pasarelas estándar no hacen.
 """
             initial_context = f"{toku_kb}\n\n{initial_context}"
         

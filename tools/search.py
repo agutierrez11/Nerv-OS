@@ -10,7 +10,7 @@ import time
 
 class SerperSearch:
     def __init__(self):
-        self.api_key = os.getenv("SERPER_API_KEY_VM")
+        self.api_key = os.getenv("SERPER_API_KEY_VM") or os.getenv("SERPER_API_KEY")
         self.url = "https://google.serper.dev/search"
 
     def _query(self, q: str) -> str:

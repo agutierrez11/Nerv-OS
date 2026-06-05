@@ -6,9 +6,13 @@ import os
 import re
 import json
 from typing import List
+from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 from tools.firecrawl_tool import FirecrawlTool
+
+# Cargar entorno
+load_dotenv()
 
 llm = ChatGroq(
     temperature=0.0,

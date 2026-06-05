@@ -26,6 +26,7 @@ from ui.styles import apply_styles
 from ui.individual import render_individual_tab
 from ui.batch import render_batch_tab
 from ui.lab import render_lab_tab
+from ui.lab_lookalike import render_lookalike_tab
 from core.logger import logger
 
 # Cargar entorno opcionalmente
@@ -245,7 +246,12 @@ else:
     # Mostrar la interfaz correspondiente
     if is_admin or is_toku:
         # Mostrar todas las pestañas para el administrador y modo Toku
-        tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
+        tab_ind, tab_batch, tab_lab, tab_lookalike = st.tabs([
+            "🎯 Analisis Individual", 
+            "📦 Procesamiento Batch", 
+            "🧪 NERV Lab",
+            "🧠 NERV Lookalike"
+        ])
         
         with tab_ind:
             render_individual_tab(companies_data, OUTPUT_DIR, user_active=user_active)
@@ -255,6 +261,9 @@ else:
             
         with tab_lab:
             render_lab_tab(companies_data=companies_data, user_active=user_active, toku_mode=True)
+            
+        with tab_lookalike:
+            render_lookalike_tab(user_active=user_active)
             
     else:
         # Modo agnóstico / invitado
