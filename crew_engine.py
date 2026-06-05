@@ -50,7 +50,7 @@ class NervAgent:
         response = llm.invoke(messages)
         return response.content
 
-class TokuCrew:
+class NervCrew:
     def __init__(self, empresa, sector, pitch, prior_knowledge=None):
         self.empresa = empresa
         self.sector = sector
@@ -114,3 +114,6 @@ class TokuCrew:
             return dossier_auditado
         except Exception as e:
             return f"### ERROR DE SISTEMA\nDetalles: {str(e)}"
+
+# Alias de retrocompatibilidad
+TokuCrew = NervCrew

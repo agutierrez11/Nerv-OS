@@ -18,7 +18,7 @@ if str(ROOT_DIR) not in sys.path:
 # Cargar entorno local
 load_dotenv()
 
-from src.toku_radar.crew import TokuCrew
+from src.toku_radar.crew import NervCrew
 from core.logger import logger
 
 app = FastAPI(title="NERV OS - Local WhatsApp Bridge")
@@ -63,7 +63,7 @@ def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, prior
             send_whatsapp_message(chat_id, f"⚙️ *Swarm:* {msg.strip()}")
 
     try:
-        crew = TokuCrew(
+        crew = NervCrew(
             empresa=empresa,
             sector=sector,
             pitch=pitch,
@@ -143,7 +143,7 @@ async def whatsapp_webhook(request: Request, background_tasks: BackgroundTasks):
         elif body.lower() in ["hola", "help", "ayuda", "start"]:
             welcome_msg = (
                 "🧠 *¡Hola! Bienvenido al canal local de NERV OS Intelligence.*\n\n"
-                "Soy el Swarm Intelligence Core de Toku. Puedo realizar un dossier estratégico forense de cualquier prospecto directamente desde aquí.\n\n"
+                "Soy el Swarm Intelligence Core de NERV OS. Puedo realizar un dossier estratégico forense de cualquier prospecto directamente desde aquí.\n\n"
                 "👉 *¿Cómo usarme?*\n"
                 "Escribe un comando con este formato:\n"
                 "`!radar Walmart México, Retail` o\n"

@@ -83,7 +83,7 @@ def load_users():
                 return json.load(f)
         except Exception as e:
             logger.error(f"Error cargando user_registry.json: {e}")
-    return [{"name": "Antonio", "email": "antonio@toku.com", "role": "Sales Manager", "industry": "Fintech / Pagos"}]
+    return [{"name": "Antonio", "email": "", "role": "Sales Manager", "industry": "Fintech / Pagos"}]
 
 def save_user(name, email, role, industry):
     users = load_users()
@@ -95,12 +95,14 @@ def save_user(name, email, role, industry):
         except Exception as e:
             logger.error(f"Error guardando user_registry.json: {e}")
 
-# --- PUERTA DE ACCESO ADMINISTRATIVO (BLOQUEO) ---
+# --- PUERTA DE ACCESO ADMINISTRATIVO / ESPECIAL (BLOQUEO) ---
 st.sidebar.title("🔒 Control de Acceso")
 admin_password = os.getenv("NERV_PASSWORD", "nerv2026")
-entered_password = st.sidebar.text_input("Contraseña Administrador", type="password", help="Ingresa la contraseña para desbloquear los módulos avanzados.")
+toku_password = os.getenv("TOKU_MODE_KEY", "toku2026")
+entered_password = st.sidebar.text_input("Contraseña de Acceso", type="password", help="Ingresa la contraseña para desbloquear los módulos avanzados o especiales.")
 
 is_admin = (entered_password == admin_password)
+is_toku = (entered_password == toku_password)
 
 # --- SECCION USUARIO COMERCIAL ---
 st.sidebar.divider()
@@ -144,20 +146,39 @@ INDUSTRIAS = [
 
 user_active = None
 
-if is_admin:
-    # Admin autologin — sin selector, sin contaminar DPO
-    user_active = {
-        "name": "Admin",
-        "email": "admin@nerv.internal",
-        "role": "Admin",
-        "industry": "Test",
-        "is_admin": True,   # ← flag para excluir del dataset DPO
-    }
-    st.session_state.user_active = user_active
-    st.sidebar.caption("🔐 Sesión Admin activa — los registros se marcarán como **test** y quedan excluidos del DPO.")
-    
-    st.sidebar.success("🔓 Acceso Administrador Autorizado")
-    # Mostrar todas las pestañas para el administrador
+if is_admin or is_toku:
+    if is_admin:
+        # Admin autologin — sin selector, sin contaminar DPO
+        user_active = {
+            "name": "Admin",
+            "email": "admin@nerv.internal",
+            "role": "Admin",
+            "industry": "Test",
+            "is_admin": True,   # ← flag para excluir del dataset DPO
+            "is_toku": True,
+            "vendedor_name": "Toku",
+            "vendedor_url": "https://toku.com"
+        }
+        st.session_state.user_active = user_active
+        st.sidebar.caption("🔐 Sesión Admin activa — los registros se marcarán como **test** y quedan excluidos del DPO.")
+        st.sidebar.success("🔓 Acceso Administrador Autorizado")
+    else:
+        # Toku mode login
+        user_active = {
+            "name": "Toku Agent",
+            "email": "agent@toku.com",
+            "role": "Toku Hunter",
+            "industry": "Fintech / Pagos",
+            "is_admin": False,
+            "is_toku": True,
+            "vendedor_name": "Toku",
+            "vendedor_url": "https://toku.com"
+        }
+        st.session_state.user_active = user_active
+        st.sidebar.caption("🔐 Sesión Especial Toku activa.")
+        st.sidebar.success("🔓 Acceso Toku Autorizado")
+        
+    # Mostrar todas las pestañas para el administrador y modo Toku
     tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
     
     with tab_ind:
@@ -167,7 +188,7 @@ if is_admin:
         render_batch_tab(companies_data, OUTPUT_DIR, user_active=user_active)
         
     with tab_lab:
-        render_lab_tab(companies_data=companies_data, user_active=user_active)
+        render_lab_tab(companies_data=companies_data, user_active=user_active, toku_mode=True)
 
 else:
     # --- GATE DE IDENTIFICACION EN PANTALLA PRINCIPAL ---
@@ -199,6 +220,7 @@ else:
                     "role": rol_sel,
                     "industry": ind_sel if ind_sel != "-- Selecciona tu vertical --" else "General",
                     "is_admin": False,
+                    "is_toku": False,
                 }
                 st.rerun()
             else:
@@ -217,7 +239,7 @@ else:
                 st.rerun()
             
         # En modo agnóstico: sin lista de Toku, el usuario ingresa la URL manualmente
-        render_lab_tab(companies_data=None, user_active=user_active)
+        render_lab_tab(companies_data=None, user_active=user_active, toku_mode=False)
 
 # Footer con observabilidad
 st.sidebar.title("🛠️ Observabilidad")

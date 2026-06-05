@@ -48,7 +48,7 @@ def log_objections_vault(
         from core.logger import logger
         logger.error(f"Error escribiendo en supabase: {e}")
 
-def render_lab_tab(companies_data=None, user_active=None):
+def render_lab_tab(companies_data=None, user_active=None, toku_mode=False):
     st.markdown("""
         <div style='background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%); padding: 20px; border-radius: 10px; margin-bottom: 25px;'>
             <h2 style='color: white; margin: 0;'>🧪 NERV Lab</h2>
@@ -76,11 +76,14 @@ def render_lab_tab(companies_data=None, user_active=None):
             # Admin / Toku: selector desplegable con la lista de prospectos
             opciones = ["(Nueva Empresa / Ingreso Manual)"] + sorted([c["empresa"] for c in companies_data])
             seleccion = st.selectbox("Selecciona el prospecto", options=opciones)
-            use_toku_demo = st.checkbox(
-                "🔌 Usar propuesta de valor Demo (Toku)",
-                value=False,
-                help="Carga el pitch predefinido de Toku para cobros y recurrencia."
-            )
+            if toku_mode:
+                use_toku_demo = st.checkbox(
+                    "🔌 Usar propuesta de valor Demo (Toku)",
+                    value=False,
+                    help="Carga el pitch predefinido de Toku para cobros y recurrencia."
+                )
+            else:
+                use_toku_demo = False
             if seleccion != "(Nueva Empresa / Ingreso Manual)":
                 empresa_data = next(c for c in companies_data if c["empresa"] == seleccion)
                 def_url_cliente = empresa_data.get("url", "")
@@ -263,9 +266,9 @@ def render_lab_tab(companies_data=None, user_active=None):
 
             # 1. Extraer Inteligencia Automáticamente
             try:
-                from src.toku_radar.crew import TokuCrew
+                from src.toku_radar.crew import NervCrew
                 import re
-                crew = TokuCrew(
+                crew = NervCrew(
                     empresa=empresa_nombre,
                     sector="General", 
                     pitch=producto,

@@ -16,24 +16,24 @@ for path in [str(ROOT_DIR), str(SRC_DIR)]:
 
 # Ahora podemos importar los módulos de toku_radar con seguridad
 try:
-    from toku_radar.crew import TokuCrew
+    from toku_radar.crew import NervCrew
 except ImportError:
     # Fallback por si acaso
-    from src.toku_radar.crew import TokuCrew
+    from src.toku_radar.crew import NervCrew
 
 load_dotenv(dotenv_path=str(ROOT_DIR / ".env"))
 
-class TokuDossierEngine:
+class NervDossierEngine:
     def __init__(self):
         """Orquestador compatible con la arquitectura NERV Swarm."""
         pass
 
     def generate_dossier(self, empresa: str, sector: str, pitch: str, contexto_crm: str = "") -> str:
-        """Genera el dossier usando la Swarm Intelligence de TokuCrew."""
+        """Genera el dossier usando la Swarm Intelligence de NervCrew."""
         logger.info(f"NERV OS: Desplegando enjambre para {empresa}")
         
         # Iniciar la tripulación (Crew)
-        crew = TokuCrew(empresa, sector, pitch, prior_knowledge=contexto_crm, log_callback=print)
+        crew = NervCrew(empresa, sector, pitch, prior_knowledge=contexto_crm, log_callback=print)
         
         # Ejecutar el Kickoff del Enjambre
         dossier_final = crew.kickoff()
@@ -43,3 +43,6 @@ class TokuDossierEngine:
     def safe_filename(self, empresa: str) -> str:
         """Limpia el nombre de la empresa para guardarlo como archivo."""
         return re.sub(r'[^\w\-]', '_', empresa).strip('_')
+
+# Alias de retrocompatibilidad
+TokuDossierEngine = NervDossierEngine

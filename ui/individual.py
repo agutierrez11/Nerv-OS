@@ -1,7 +1,7 @@
 import streamlit as st
 import re
 from pathlib import Path
-from src.toku_radar.crew import TokuCrew
+from src.toku_radar.crew import NervCrew
 from core.logger import logger
 from core.database import db
 
@@ -50,11 +50,12 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                     st.session_state.full_log += msg + "\n\n"
                     log_placeholder.markdown(f"```text\n{st.session_state.full_log}\n```")
 
-                crew = TokuCrew(
+                vendedor_url = user_active.get("vendedor_url", "https://toku.com") if user_active else "https://toku.com"
+                crew = NervCrew(
                     empresa=empresa, 
                     sector=sector, 
                     pitch=pitch, 
-                    vendedor="https://toku.com", 
+                    vendedor=vendedor_url, 
                     prior_knowledge=prior_knowledge, 
                     log_callback=update_ui_log
                 )
@@ -66,8 +67,8 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                 st.session_state[f"dossier_{empresa}"] = dossier_limpio
                 status.update(label="✅ Analisis Completado", state="complete")
                 
-                from core.telegram_logger import send_telegram_notification
-                send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}\n👤 *Vendedor:* Toku")
+                vendedor_name = user_active.get("vendedor_name", "Toku") if user_active else "Toku"
+                send_telegram_notification(f"📊 *NERV Dossier Audit*\nSe ha generado un análisis individual.\n\n🎯 *Empresa:* {empresa}\n🏢 *Sector:* {sector}\n👤 *Vendedor:* {vendedor_name}")
             except Exception as e:
                 logger.error(f"Error en UI Individual: {e}")
                 from core.telegram_logger import send_telegram_alert
@@ -95,7 +96,7 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                         "empresa": empresa,
                         "rating": rating,
                         "content_corrected": final_dossier,
-                        "vendedor": "Toku",
+                        "vendedor": user_active.get("vendedor_name", "Toku") if user_active else "Toku",
                         "user_role": user_active.get("role", "Otro") if user_active else "Otro",
                         "user_industry": user_active.get("industry", "General") if user_active else "General"
                     }

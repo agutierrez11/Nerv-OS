@@ -2,7 +2,7 @@ import streamlit as st
 import re
 from pathlib import Path
 from core.batch_processor import run_parallel_tasks
-from src.toku_radar.crew import TokuCrew
+from src.toku_radar.crew import NervCrew
 from core.logger import logger
 
 def render_batch_tab(companies_data, output_dir, user_active=None):
@@ -44,11 +44,12 @@ def render_batch_tab(companies_data, output_dir, user_active=None):
             def create_task(row):
                 def task():
                     try:
-                        crew = TokuCrew(
+                        vendedor_url = user_active.get("vendedor_url", "https://toku.com") if user_active else "https://toku.com"
+                        crew = NervCrew(
                             empresa=row["empresa"], 
                             sector=row["sector"], 
                             pitch=row["pitch_principal"],
-                            vendedor="https://toku.com"
+                            vendedor=vendedor_url
                         )
                         res = crew.kickoff()
                         # Guardar resultado

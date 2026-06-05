@@ -8,14 +8,14 @@ PROJECT_ROOT = CURRENT_DIR.parent
 sys.path.append(str(PROJECT_ROOT))
 sys.path.append(str(PROJECT_ROOT / "src"))
 
-from src.toku_radar.crew import TokuCrew
+from src.toku_radar.crew import NervCrew
 from core.logger import logger
 
 def test():
     print("--- INICIANDO PRUEBA TECNICA DE NERV OS ---")
     try:
         # Probamos con datos de ejemplo para el LAB
-        crew = TokuCrew(
+        crew = NervCrew(
             empresa="Walmart Mexico",
             sector="Retail",
             pitch="SaaS de Conciliacion Bancaria",

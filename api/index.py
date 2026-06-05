@@ -168,8 +168,8 @@ async def save_feedback(request: FeedbackRequest):
 @app.post("/api/analyze")
 async def run_analysis(request: AnalysisRequest):
     try:
-        from src.toku_radar.crew import TokuCrew
-        crew = TokuCrew(
+        from src.toku_radar.crew import NervCrew
+        crew = NervCrew(
             empresa=request.empresa,
             sector=request.sector,
             pitch=request.pitch,

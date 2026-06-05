@@ -28,7 +28,7 @@ from toku_radar.tools.firecrawl_tool import FirecrawlTool
 from toku_radar.tools.wiki import get_company_profile
 from toku_radar.tools.auditor import GalileoAuditor
 from toku_radar.tools.miro_predictor import MiroPredictor
-from toku_radar.tools.memory import TokuMemory
+from toku_radar.tools.memory import NervMemory
 from toku_radar.tools.groq_rotator import GroqRotator
 from toku_radar.tools.deepseek_client import DeepSeekClient
 from toku_radar.tools.google_suite import google_suite
@@ -61,7 +61,7 @@ class Agent:
         
         self.search_tool = SerperSearch()
         self.firecrawl_tool = FirecrawlTool()
-        self.memory = TokuMemory()
+        self.memory = NervMemory()
 
     def _execute_tool(self, plan_text, task_desc):
         """Lógica de decisión de herramienta avanzada (Google Suite + Fallbacks)."""
@@ -151,8 +151,11 @@ class Agent:
         )
         return final_resp.choices[0].message.content
 
-class TokuCrew:
-    def __init__(self, empresa, sector, pitch="Solución de Pagos", vendedor="Toku", url_cliente="", prior_knowledge="", log_callback=None):
+# Alias de compatibilidad para imports legacy que aún usen TokuCrew
+TokuCrew = None  # se define al final del archivo
+
+class NervCrew:
+    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", log_callback=None):
         self.empresa = empresa
         self.sector = sector
         self.vendedor = vendedor
@@ -161,7 +164,7 @@ class TokuCrew:
         self.prior_knowledge = prior_knowledge
         self.log_callback = log_callback
         self.base_path = os.path.dirname(__file__)
-        self.memory = TokuMemory()
+        self.memory = NervMemory()
         
         with open(os.path.join(self.base_path, 'config', 'agents.yaml'), 'r', encoding='utf-8') as f:
             self.agents_config = yaml.safe_load(f)
@@ -285,3 +288,6 @@ class TokuCrew:
         self.memory.save_dossier(self.empresa, self.sector, clean_output)
         
         return clean_output
+
+# Alias de retrocompatibilidad — evita romper imports que usen TokuCrew
+TokuCrew = NervCrew

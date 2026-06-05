@@ -34,6 +34,29 @@ class SerperSearch:
         except Exception as e:
             return f"[Error Serper: {e}]"
 
+    def search(self, q: str) -> list:
+        """Búsqueda que retorna resultados estructurados (list of dicts)."""
+        if not self.api_key:
+            return []
+        try:
+            resp = requests.post(
+                self.url,
+                headers={"X-API-KEY": self.api_key, "Content-Type": "application/json"},
+                json={"q": q, "gl": "mx", "hl": "es", "num": 10},
+                timeout=10,
+            )
+            results = resp.json()
+            return [
+                {
+                    "title": item.get("title", ""),
+                    "snippet": item.get("snippet", ""),
+                    "link": item.get("link", ""),
+                }
+                for item in results.get("organic", [])[:10]
+            ]
+        except Exception:
+            return []
+
     def research_company(self, empresa: str, sector: str, pitch: str) -> dict:
         """
         3 queries por empresa.

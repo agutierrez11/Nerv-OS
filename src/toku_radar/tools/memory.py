@@ -84,3 +84,6 @@ class TokuMemory:
         for s in similar[:3]:
             context += f"- {s['company']}: {s['summary'][:300]}...\n"
         return context
+
+# Alias agnóstico — el nombre de la clase ya no asume un vendedor específico
+NervMemory = TokuMemory
