@@ -146,6 +146,7 @@ INDUSTRIAS = [
     "Energía / CleanTech",
     "Consultoría / Servicios Prof.",
     "Gobierno / Sector Público",
+    "Venta por Catálogo / Direct Selling",
     "Otra",
 ]
 

@@ -190,6 +190,49 @@ class NervCrew:
         
         initial_context = f"CONTEXTO ESTRATÉGICO:\n{raw_intel['contexto_estrategico']}\n\nDOLOR OPERATIVO:\n{raw_intel['dolor_operativo']}\n\nPEOPLE:\n{raw_intel['linkedin_discovery']}"
         
+        # --- INYECCIÓN DE PROPUESTA DE VALOR OFICIAL DE TOKU ---
+        if "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower():
+            toku_kb = """
+🧠 TOKU OFFICIAL VALUE PROPOSITION & KNOWLEDGE BASE:
+
+1. VERTICAL: BIENES DE CONSUMO (Goods / Consumo Masivo B2B)
+   - DOLORES / PAIN POINTS PRINCIPALES:
+     * Cobranza no digitalizada en canal tradicional (changarros, tienditas pagan en efectivo o transferencia sin trazabilidad).
+     * Cobranza manual a distribuidores (costo operativo alto, DSO elevado, cartera vencida que crece sin control).
+     * Crédito sin trazabilidad en tiempo real sobre comportamiento de pago.
+     * Conciliación manual (pagos de múltiples canales sin aplicación automática en ERP, cierre contable lento y errores).
+   - PROPUESTA DE VALOR DE TOKU:
+     * Digitalizamos la cobranza B2B con AI Agent, portal de pago y conciliación automática.
+     * Conexión única entre sistemas del cliente (ERP/Core Distribución, Sistema de Crédito, Base de Clientes, Core Financiero) con todos los rieles de pago en México:
+       - Domiciliación bancaria recurrente (BBVA, Santander, Banamex, Banorte, HSBC, Inbursa, Scotiabank).
+       - Pagos con tarjeta (Débito y crédito, one-time y recurrente Visa, Mastercard, American Express).
+       - Efectivo en corresponsales (OXXO, 7-Eleven, Farmacias del Ahorro, Telecomm, Walmart).
+       - Transferencias conciliadas (SPEI con aplicación automática: CoDi, SPEI, Banregio, STP).
+       - Métodos alternativos (BNPL, wallets y pagos digitales: Aplazo, Kueski, Klarna, PayPal, Apple Pay, MercadoPago).
+     * Habilitadores clave: Reintentos inteligentes y orquestación, Fallback automático, Antifraude + 3DS2, Conciliación automática y reportería, AI Agent de cobranza, Portal de pago por liga.
+
+2. VERTICAL: ECOMMERCE & RETAIL
+   - DOLORES / PAIN POINTS PRINCIPALES:
+     * Tasa de aprobación subóptima (rechazos innecesarios por falta de orquestación inteligente de adquirentes y sin fallback automático).
+     * Fraude vs Conversión (sin motor adaptativo hay contracargos altos o fricción excesiva; requiere 3DS2 inteligente).
+     * Integraciones fragmentadas (cada método de pago es un conector distinto, mantenimiento caro, lento time-to-market).
+     * Conciliación manual (pagos capturados sin reflejo automático en ERP/OMS).
+   - PROPUESTA DE VALOR DE TOKU:
+     * Unificamos adquirencia, métodos, antifraude y conciliación en una sola integración (una API conectable).
+     * Conecta plataformas (Storefront, ERP/OMS, CRM, Core de Pagos) con todos los rieles (Tarjetas, Domiciliación, SPEI, Corresponsales y métodos alternativos).
+
+3. VERTICAL: VENTA POR CATÁLOGO (Direct Selling)
+   - DOLORES / PAIN POINTS PRINCIPALES:
+     * DSO alto y cartera vencida de consultoras (compran a crédito y pagan tarde/no pagan, sin visibilidad ni automatización).
+     * Venta a crédito sin domiciliación (top vendedoras con alto volumen sin mecanismo de cobro automático recurrente, dependiendo de recordatorios manuales).
+     * Sin herramientas digitales para la fuerza de venta (consultoras y líderes sin acceso digital a su estado de cuenta o autoservicio).
+     * Conciliación manual (abonos de múltiples canales sin aplicación automática en el sistema de pedidos, errores).
+   - PROPUESTA DE VALOR DE TOKU:
+     * Automatizamos la cobranza a consultoras con domiciliación recurrente, AI Agent (WhatsApp/SMS/IVR) y portal self-service para consultoras.
+     * Rieles: Domiciliación recurrente, tarjetas, corresponsales físicos, transferencias y wallets.
+"""
+            initial_context = f"{toku_kb}\n\n{initial_context}"
+        
         # --- BLOQUE RLHF: CARGAR EXPERIENCIA PREVIA ---
         experience_context = db.get_recent_feedback(limit=2)
         if experience_context:
