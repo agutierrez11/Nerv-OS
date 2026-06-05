@@ -37,6 +37,7 @@ st.set_page_config(
     page_title="NERV OS Intelligence",
     page_icon="🧠",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 # Aplicar estilos CSS personalizados (FORCE LIGHT MODE)
@@ -96,18 +97,22 @@ def save_user(name, email, role, industry):
             logger.error(f"Error guardando user_registry.json: {e}")
 
 # --- PUERTA DE ACCESO ADMINISTRATIVO / ESPECIAL (BLOQUEO) ---
-st.sidebar.title("🔒 Control de Acceso")
 admin_password = os.getenv("NERV_PASSWORD", "nerv2026")
 toku_password = os.getenv("TOKU_MODE_KEY", "toku2026")
-entered_password = st.sidebar.text_input("Contraseña de Acceso", type="password", help="Ingresa la contraseña para desbloquear los módulos avanzados o especiales.")
 
-is_admin = (entered_password == admin_password)
-is_toku = (entered_password == toku_password)
+# Inicializar estados de autenticación si no existen
+if "is_admin" not in st.session_state:
+    st.session_state.is_admin = False
+if "is_toku" not in st.session_state:
+    st.session_state.is_toku = False
+if "user_active" not in st.session_state:
+    st.session_state.user_active = None
 
-# --- SECCION USUARIO COMERCIAL ---
-st.sidebar.divider()
-st.sidebar.title("👤 Identificación Comercial")
+is_admin = st.session_state.is_admin
+is_toku = st.session_state.is_toku
+user_active = st.session_state.user_active
 
+# --- SECCION USUARIO COMERCIAL CONSTANTES ---
 ROLES_COMERCIALES = [
     "-- Selecciona tu rol --",
     "BDR",
@@ -144,79 +149,65 @@ INDUSTRIAS = [
     "Otra",
 ]
 
-user_active = None
-
-if is_admin or is_toku:
-    if is_admin:
-        # Admin autologin — sin selector, sin contaminar DPO
-        user_active = {
-            "name": "Admin",
-            "email": "admin@nerv.internal",
-            "role": "Admin",
-            "industry": "Test",
-            "is_admin": True,   # ← flag para excluir del dataset DPO
-            "is_toku": True,
-            "vendedor_name": "Toku",
-            "vendedor_url": "https://toku.com"
-        }
-        st.session_state.user_active = user_active
-        st.sidebar.caption("🔐 Sesión Admin activa — los registros se marcarán como **test** y quedan excluidos del DPO.")
-        st.sidebar.success("🔓 Acceso Administrador Autorizado")
-    else:
-        # Toku mode login
-        user_active = {
-            "name": "Toku Agent",
-            "email": "agent@toku.com",
-            "role": "Toku Hunter",
-            "industry": "Fintech / Pagos",
-            "is_admin": False,
-            "is_toku": True,
-            "vendedor_name": "Toku",
-            "vendedor_url": "https://toku.com"
-        }
-        st.session_state.user_active = user_active
-        st.sidebar.caption("🔐 Sesión Especial Toku activa.")
-        st.sidebar.success("🔓 Acceso Toku Autorizado")
-        
-    # Mostrar todas las pestañas para el administrador y modo Toku
-    tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
+# --- LOGIN FORM O CONTENIDO ---
+if user_active is None:
+    st.markdown("""
+        <div style='background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%); padding: 25px; border-radius: 10px; margin-bottom: 25px; text-align: center;'>
+            <h2 style='color: white; margin: 0;'>👋 Bienvenido a NERV Intelligence</h2>
+            <p style='color: #d1d5db; margin: 5px 0 0 0;'>
+                Plataforma de simulación de comités de compras y análisis forense B2B.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
     
-    with tab_ind:
-        render_individual_tab(companies_data, OUTPUT_DIR, user_active=user_active)
+    tab_login, tab_invitado = st.tabs(["🔑 Iniciar Sesión", "🌍 Demo Agnóstica (Invitado)"])
+    
+    with tab_login:
+        st.write("Ingresa tus credenciales corporativas para acceder a tu panel de trabajo.")
+        username = st.text_input("Usuario", placeholder="ej: antonio", key="login_username")
+        password = st.text_input("Contraseña", type="password", key="login_password")
         
-    with tab_batch:
-        render_batch_tab(companies_data, OUTPUT_DIR, user_active=user_active)
+        if st.button("Entrar", type="primary", use_container_width=True):
+            if password == admin_password:
+                st.session_state.is_admin = True
+                st.session_state.is_toku = True
+                st.session_state.user_active = {
+                    "name": username if username else "Admin",
+                    "email": "admin@nerv.internal",
+                    "role": "Admin",
+                    "industry": "Test",
+                    "is_admin": True,
+                    "is_toku": True,
+                    "vendedor_name": "Toku",
+                    "vendedor_url": "https://toku.com"
+                }
+                st.rerun()
+            elif password == toku_password:
+                st.session_state.is_admin = False
+                st.session_state.is_toku = True
+                st.session_state.user_active = {
+                    "name": username if username else "Toku Agent",
+                    "email": "agent@toku.com",
+                    "role": "Toku Hunter",
+                    "industry": "Fintech / Pagos",
+                    "is_admin": False,
+                    "is_toku": True,
+                    "vendedor_name": "Toku",
+                    "vendedor_url": "https://toku.com"
+                }
+                st.rerun()
+            else:
+                st.error("❌ Contraseña incorrecta. Si eres invitado, por favor ingresa usando la otra pestaña.")
+                
+    with tab_invitado:
+        st.write("Identifícate comercialmente para utilizar el Laboratorio Público.")
+        rol_sel = st.selectbox("¿Cuál es tu rol?", options=ROLES_COMERCIALES, key="main_rol")
+        ind_sel = st.selectbox("¿En qué vertical operas?", options=INDUSTRIAS, key="main_ind")
         
-    with tab_lab:
-        render_lab_tab(companies_data=companies_data, user_active=user_active, toku_mode=True)
-
-else:
-    # --- GATE DE IDENTIFICACION EN PANTALLA PRINCIPAL ---
-    if "user_active" not in st.session_state:
-        st.session_state.user_active = None
-        
-    if st.session_state.user_active is None:
-        st.markdown("""
-            <div style='background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%); padding: 20px; border-radius: 10px; margin-bottom: 25px;'>
-                <h2 style='color: white; margin: 0;'>👋 Bienvenido a NERV Intelligence</h2>
-                <p style='color: #d1d5db; margin: 5px 0 0 0;'>
-                    Por favor, identifícate para iniciar la demostración.
-                </p>
-                <p style='color: #93c5fd; margin: 10px 0 0 0; font-size: 0.9em; font-weight: bold;'>
-                    🔑 ¿Eres miembro de Toku? Ingresa tu contraseña en la sección de "Control de Acceso" en la barra lateral para desbloquear tu espacio de trabajo.
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
-        
-        st.info("Tus datos nos ayudan a personalizar la simulación de ventas.")
-        col1, col2 = st.columns(2)
-        with col1:
-            rol_sel = st.selectbox("¿Cuál es tu rol?", options=ROLES_COMERCIALES, key="main_rol")
-        with col2:
-            ind_sel = st.selectbox("¿En qué vertical operas?", options=INDUSTRIAS, key="main_ind")
-            
-        if st.button("Ingresar al Laboratorio 🧬", type="primary"):
+        if st.button("Ingresar al Laboratorio 🧬", type="primary", use_container_width=True):
             if rol_sel != "-- Selecciona tu rol --":
+                st.session_state.is_admin = False
+                st.session_state.is_toku = False
                 st.session_state.user_active = {
                     "name": rol_sel,
                     "email": "",
@@ -228,11 +219,44 @@ else:
                 st.rerun()
             else:
                 st.error("⚠️ Debes seleccionar un rol para continuar.")
+
+else:
+    # --- RENDERIZADO CUANDO YA SE IDENTIFICÓ ---
+    
+    # Barra lateral de información del usuario y logout
+    st.sidebar.title("👤 Sesión Activa")
+    st.sidebar.write(f"**Usuario:** {user_active['name']}")
+    st.sidebar.write(f"**Rol:** {user_active['role']}")
+    st.sidebar.write(f"**Industria/Vertical:** {user_active['industry']}")
+    if is_admin:
+        st.sidebar.caption("🔐 Modo Administrador activo.")
+    elif is_toku:
+        st.sidebar.caption("🔐 Modo Corporativo (Toku) activo.")
     else:
-        # Ya está identificado
-        user_active = st.session_state.user_active
+        st.sidebar.caption("🌍 Modo Invitado (Agnóstico).")
         
-        # Botón de cambio de rol visible en la pantalla principal (header secundario)
+    if st.sidebar.button("🚪 Cerrar Sesión", use_container_width=True):
+        st.session_state.user_active = None
+        st.session_state.is_admin = False
+        st.session_state.is_toku = False
+        st.rerun()
+
+    # Mostrar la interfaz correspondiente
+    if is_admin or is_toku:
+        # Mostrar todas las pestañas para el administrador y modo Toku
+        tab_ind, tab_batch, tab_lab = st.tabs(["🎯 Analisis Individual", "📦 Procesamiento Batch", "🧪 NERV Lab"])
+        
+        with tab_ind:
+            render_individual_tab(companies_data, OUTPUT_DIR, user_active=user_active)
+            
+        with tab_batch:
+            render_batch_tab(companies_data, OUTPUT_DIR, user_active=user_active)
+            
+        with tab_lab:
+            render_lab_tab(companies_data=companies_data, user_active=user_active, toku_mode=True)
+            
+    else:
+        # Modo agnóstico / invitado
         colA, colB = st.columns([0.7, 0.3])
         with colA:
             st.info(f"✅ Operando como **{user_active['role']}** en la vertical **{user_active['industry']}**")
