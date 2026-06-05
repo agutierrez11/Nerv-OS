@@ -202,6 +202,9 @@ else:
                 <p style='color: #d1d5db; margin: 5px 0 0 0;'>
                     Por favor, identifícate para iniciar la demostración.
                 </p>
+                <p style='color: #93c5fd; margin: 10px 0 0 0; font-size: 0.9em; font-weight: bold;'>
+                    🔑 ¿Eres miembro de Toku? Ingresa tu contraseña en la sección de "Control de Acceso" en la barra lateral para desbloquear tu espacio de trabajo.
+                </p>
             </div>
         """, unsafe_allow_html=True)
         
