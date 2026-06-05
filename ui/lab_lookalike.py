@@ -82,7 +82,8 @@ def render_lookalike_tab(user_active=None):
                                 sector=sector,
                                 pitch=pitch,
                                 extra_context=extra_context,
-                                max_results=max_results
+                                max_results=max_results,
+                                vendor=user_active.get("vendedor_name") if user_active else None
                             )
                             results = crew.run()
                             st.session_state["lookalike_results"] = results
@@ -130,7 +131,8 @@ def render_lookalike_tab(user_active=None):
                                 empresa_base=empresa_base,
                                 sector=sector,
                                 pitch=pitch,
-                                max_results=max_results
+                                max_results=max_results,
+                                vendor=user_active.get("vendedor_name") if user_active else None
                             )
                             results = crew.run()
                             st.session_state["lookalike_results"] = results

@@ -222,6 +222,62 @@ class CompetitorInterceptAgent:
         return prospects
 
 
+def clean_and_filter_prospects(prospects: List[Dict], empresa_base: str = "", vendor: str = "") -> List[Dict]:
+    """Filtra y limpia la lista de prospectos para evitar ruidos de directorios y competidores directos."""
+    blacklist = {
+        "wikipedia", "linkedin", "facebook", "crunchbase", "pitchbook", "glassdoor", 
+        "youtube", "twitter", "instagram", "github", "softonic", "amazon", 
+        "mercadolibre", "shopify", "medium", "reddit", "bloomberg"
+    }
+    
+    # Agregar empresa base para no recomendársele a sí misma
+    if empresa_base:
+        blacklist.add(empresa_base.lower().strip())
+        
+    # Agregar el vendor a la exclusión
+    if vendor:
+        blacklist.add(vendor.lower().strip())
+        
+    # Si detectamos Toku como vendor o en el contexto, excluimos pasarelas y agregadores competidores
+    if vendor and "toku" in vendor.lower() or not vendor:
+        toku_competitors = [
+            "toku", "clip", "openpay", "conekta", "stripe", "kushki", "mercado pago", "mercadopago", 
+            "sr pago", "srpago", "dlocal", "adyen", "payu", "paypal", "netpay", "paynet", 
+            "plug", "todito cash", "culqi", "bold", "pago facil", "pagofacil", "pagoefectivo", 
+            "pago efectivo", "kueski", "aplazo", "addi", "sysde", "pago46"
+        ]
+        for c in toku_competitors:
+            blacklist.add(c)
+                
+    filtered = []
+    for p in prospects:
+        name = p.get("empresa", "").strip()
+        name_lower = name.lower()
+        url_lower = p.get("url", "").lower()
+        
+        # 1. Filtro de longitud y formatos de blogs/directorios
+        if len(name) < 2 or len(name) > 35:
+            continue
+        if any(kw in name_lower for kw in ["las 10", "los 10", "mejores", "ranking", "directorio", "guía", "cómo", "versus", " vs ", "comparativa"]):
+            continue
+            
+        # 2. Filtro de blacklist (exacto o contención)
+        is_blacklisted = False
+        for b in blacklist:
+            if b in name_lower or name_lower in b:
+                is_blacklisted = True
+                break
+            if b in url_lower:
+                is_blacklisted = True
+                break
+                
+        if is_blacklisted:
+            continue
+            
+        filtered.append(p)
+    return filtered
+
+
 # ── LookalikeCrew ─────────────────────────────────────────────────────────────
 
 class LookalikeCrew:
@@ -239,7 +295,8 @@ class LookalikeCrew:
         pitch: Optional[str] = None,
         competitor_url: Optional[str] = None,
         extra_context: Optional[str] = None,
-        max_results: int = 15
+        max_results: int = 15,
+        vendor: Optional[str] = None
     ):
         if mode not in ("direct", "competitor"):
             raise ValueError("mode debe ser 'direct' o 'competitor'")
@@ -250,6 +307,7 @@ class LookalikeCrew:
         self.competitor_url = competitor_url or ""
         self.extra_context = extra_context or ""
         self.max_results = max_results
+        self.vendor = vendor or ""
 
     def run(self) -> List[Dict]:
         try:
@@ -275,7 +333,10 @@ class LookalikeCrew:
 
         # Paso 2 — Prospectar
         prospector = ProspectorAgent()
-        prospects = prospector.run(icp, self.max_results)
+        raw_prospects = prospector.run(icp, self.max_results)
+
+        # Filtrado de exclusiones dinámico para evitar colisiones y ruido
+        prospects = clean_and_filter_prospects(raw_prospects, self.empresa_base, self.vendor)
 
         # Paso 3 — Puntuar
         scorer = ScorerAgent()
@@ -290,11 +351,14 @@ class LookalikeCrew:
         """Vector 2: Interceptar clientes de un competidor."""
         # Paso 1 — Extraer clientes del competidor
         interceptor = CompetitorInterceptAgent()
-        prospects = interceptor.run(self.competitor_url)
+        raw_prospects = interceptor.run(self.competitor_url)
 
-        if not prospects:
+        if not raw_prospects:
             return [{"empresa": "Sin resultados", "score": 0,
                      "razon": "No se encontraron clientes en la URL proporcionada."}]
+
+        # Filtrado de exclusiones dinámico
+        prospects = clean_and_filter_prospects(raw_prospects, self.empresa_base, self.vendor)
 
         # Paso 2 — Construir ICP desde empresa base (si se dio) o genérico
         icp = {}
