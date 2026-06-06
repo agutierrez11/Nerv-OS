@@ -126,3 +126,46 @@ class SerperSearch:
             "linkedin_discovery": self._query(q3, gl=gl, hl=hl),
             "favikon_intel": self._query(q4, gl=gl, hl=hl),
         }
+
+
+class TavilySearch:
+    def __init__(self):
+        self.api_key = os.getenv("TAVILY_API_KEY")
+        self.url = "https://api.tavily.com/search"
+
+    def query(self, q: str) -> str:
+        """
+        Realiza una consulta de alta fidelidad a Tavily para obtener respuestas optimizadas para RAG.
+        Devuelve el resumen de la respuesta (answer) y las 3 fuentes más relevantes.
+        """
+        if not self.api_key:
+            return "[ERROR: TAVILY_API_KEY no encontrada en .env]"
+        try:
+            payload = {
+                "api_key": self.api_key,
+                "query": q,
+                "search_depth": "advanced",
+                "include_answer": True
+            }
+            resp = requests.post(self.url, json=payload, timeout=20)
+            if resp.status_code == 200:
+                data = resp.json()
+                answer = data.get("answer", "")
+                results = []
+                for item in data.get("results", [])[:3]:
+                    title = item.get("title", "")
+                    snippet = item.get("snippet", "")
+                    url = item.get("url", "")
+                    results.append(f"- {title}: {snippet} ({url})")
+                
+                output = ""
+                if answer:
+                    output += f"Resumen Inteligente de Tavily:\n{answer}\n\n"
+                if results:
+                    output += "Fuentes clave:\n" + "\n".join(results)
+                
+                return output if output else "Sin resultados."
+            else:
+                return f"[Error de Tavily API (Status {resp.status_code}): {resp.text}]"
+        except Exception as e:
+            return f"[Excepción en Tavily Search: {e}]"

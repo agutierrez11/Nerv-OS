@@ -23,7 +23,7 @@ if str(SRC_DIR) not in sys.path:
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
-from toku_radar.tools.search import SerperSearch
+from toku_radar.tools.search import SerperSearch, TavilySearch
 from toku_radar.tools.resilient_scraper import ResilientScraper
 from toku_radar.tools.wiki import get_company_profile
 from toku_radar.tools.auditor import VeracityAuditor
@@ -68,6 +68,7 @@ class Agent:
             self.model_final = "llama-3.3-70b-versatile"
         
         self.search_tool = SerperSearch()
+        self.tavily_tool = TavilySearch()
         self.firecrawl_tool = ResilientScraper()
         self.memory = NervMemory()
 
@@ -77,7 +78,10 @@ class Agent:
         msg = ""
         res = ""
 
-        if "news" in plan_lower or "noticias" in plan_lower:
+        if "tavily" in plan_lower or "deep search" in plan_lower or "búsqueda profunda" in plan_lower:
+            msg = "## Action: Tavily Deep Search"
+            res = self.tavily_tool.query(task_desc)
+        elif "news" in plan_lower or "noticias" in plan_lower:
             msg = "## Action: Serper Strategic News"
             res = self.search_tool._query(f"{task_desc} news 2024 2025", gl=self.gl, hl=self.hl)
         elif "maps" in plan_lower or "reseñas" in plan_lower or "sentiment" in plan_lower:
