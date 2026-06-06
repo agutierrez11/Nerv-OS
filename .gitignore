@@ -4,9 +4,11 @@ __pycache__/
 .env
 .DS_Store
 *.log
-output/cosmoscope/
 package-lock.json
 
 objections_vault.jsonl
 nerv_cache.db
 user_registry.json
+scratch/
+output/
+memory/*_raw.md

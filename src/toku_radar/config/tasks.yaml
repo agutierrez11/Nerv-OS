@@ -41,11 +41,14 @@ tarea_dossier_final:
     
     Genera 3 variantes distintas de correo frío:
     *   **Variante D (Directores/CFOs Dominantes - Perfil D):** Menos de 100 palabras. Directo al grano. Enfocado en ROI, DSO, porcentaje de comisiones ahorradas y un enlace directo a Calendly. Cero formalidades excesivas.
-    *   **Variante C (Analíticos/Ingeniería - Perfil C):** Enfoque técnico y racional. Detalles de integración API única, seguridad (3DS2 inteligente, reintentos en cascada, antifraude adaptativo) y enlaces de documentación.
+    *   **Variante C (Analíticos/Ingeniería - Perfil C):** Enfoque técnico y racional. Detalles de integración API única, seguridad (3DS2 inteligente, reintentos en cascada, antifraude adaptativo) y enlaces de documentación. En el caso de Toku, destaca explícitamente sus certificaciones de seguridad (PCI DSS Level 1 e ISO 27001) para mitigar el riesgo de seguridad de datos.
     *   **Variante I/S (Relacionales/Operaciones - Perfiles I y S):** Enfoque relacional y de alivio operativo. Destacar cómo disminuye la carga manual del equipo contable/finanzas y da estabilidad/paz mental en la recaudación diaria.
     
     ## ⚔️ PLAN DE ATAQUE (Usando {producto})
+    Diseña una secuencia de contacto multicanal adaptada. En el caso de Toku, integra activamente el enfoque consultivo en el plan (Fases de Diagnóstico, Acompañamiento integral sin cobro si no hay valor, y Definición conjunta de KPIs).
+    
     ## ⚠️ MANEJO DE OBJECIONES (Simulado por el Gemelo Digital)
+    Resuelve las objeciones principales. En el caso de Toku, utiliza argumentos de peso: el modelo "Consultoría + SaaS", el compromiso libre de riesgo "Aportar valor o no cobramos", el respaldo de Wollef Capital, y el cumplimiento de PCI DSS Level 1 e ISO 27001 para destruir cualquier objeción de desconfianza técnica o comercial.
   expected_output: >
     Dossier final en Markdown estructurado y accionable con las 3 variantes de email DISC personalizadas.
   agent: estratega

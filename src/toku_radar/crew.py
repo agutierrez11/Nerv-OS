@@ -215,7 +215,9 @@ class NervCrew:
             initial_context = f"CONTENIDO RASPADO DEL SITIO WEB OFICIAL DEL CLIENTE:\n{raw_intel['website_markdown']}\n\n{initial_context}"
         
         # --- INYECCIÓN DE PROPUESTA DE VALOR OFICIAL DE TOKU ---
-        if "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower():
+        toku_kb = ""
+        is_toku = "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower()
+        if is_toku:
             toku_kb = """
 🧠 TOKU OFFICIAL VALUE PROPOSITION & KNOWLEDGE BASE:
 
@@ -263,6 +265,18 @@ class NervCrew:
      * REDUCCIÓN DE COMISIONES (DOMICILIACIÓN Y SPEI): Clip/Openpay cobran comisiones porcentuales (2.5% a 3.6%+). Toku redirige los cobros recurrentes hacia Domiciliación Bancaria y transferencias SPEI automatizadas con costos fijos mínimos (centavos o pocos pesos), reduciendo costos financieros hasta un 80%.
      * COBRANZA ACTIVA AUTOMATIZADA (AI AGENT): Cuando un pago falla en una pasarela tradicional, la transacción rebota y ahí termina. Toku detecta la falla al instante y activa un AI Agent (WhatsApp, SMS, IVR) que se comunica con el cliente final para gestionar el pago y ofrecerle un link de pago con métodos alternativos.
      * CONCILIACIÓN AUTOMÁTICA EN ERP: Toku automatiza todo el proceso de conciliación bancaria y contable directamente en el ERP del cliente (ej. SAP, NetSuite), algo que las pasarelas estándar no hacen.
+
+5. ACERCAMIENTO CONSULTIVO Y MODELO COMERCIAL DE TOKU
+   - MODELO Y FILOSOFÍA COMERCIAL:
+     * Modelo de Negocio: Consultoría + SaaS. No vendemos un software cerrado, sino que acompañamos a cada cliente como consultores de pagos para rediseñar su operación de cobros.
+     * Compromiso de Valor Real ("Aportar valor o no cobramos"): Si no generamos valor medible en la operación del cliente, no cobramos.
+   - METODOLOGÍA DE TRABAJO:
+     * 01. Diagnóstico: Evaluación exhaustiva y detallada del proceso y flujos de cobro actuales para encontrar dónde aportar valor real.
+     * 02. Acompañamiento: Soporte continuo durante todo el proceso, incluyendo la apertura de cada método de pago y asegurando que las condiciones contractuales respondan a las necesidades del cliente.
+     * 03. Definición: En conjunto se definen KPIs prioritarios, tiempos de implementación convenientes y métricas de éxito trazables y medibles desde el primer mes.
+   - RESPALDO, INVERSORES Y CERTIFICACIONES:
+     * Respaldados por inversores de primer nivel como Wollef Capital.
+     * Certificaciones de seguridad empresarial: PCI DSS Level 1 (estándar máximo de seguridad en la industria de pagos) e ISO 27001 (estándar internacional de gestión de seguridad de la información).
 """
             initial_context = f"{toku_kb}\n\n{initial_context}"
         
@@ -297,6 +311,10 @@ class NervCrew:
             context=res_investigacion
         )
         
+        gemelo_context = f"PERFIL: {res_psicologia}\nNOTICIAS: {res_investigacion}"
+        if is_toku:
+            gemelo_context = f"{toku_kb}\n\n{gemelo_context}"
+
         gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek")
         res_gemelo = gemelo.execute(
             self.tasks_config['tarea_simulacion_gemelo']['description'].format(
@@ -304,9 +322,13 @@ class NervCrew:
                 vendedor=self.vendedor,
                 producto=self.producto
             ),
-            context=f"PERFIL: {res_psicologia}\nNOTICIAS: {res_investigacion}"
+            context=gemelo_context
         )
         
+        estratega_context = f"INVEST: {res_investigacion}\nPSICO: {res_psicologia}\nTWIN: {res_gemelo}"
+        if is_toku:
+            estratega_context = f"{toku_kb}\n\n{estratega_context}"
+
         estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek")
         dossier_preliminar = estratega.execute(
             self.tasks_config['tarea_dossier_final']['description'].format(
@@ -315,7 +337,7 @@ class NervCrew:
                 vendedor=self.vendedor,
                 producto=self.producto
             ),
-            context=f"INVEST: {res_investigacion}\nPSICO: {res_psicologia}\nTWIN: {res_gemelo}"
+            context=estratega_context
         )
 
         # --- FASE 3: ESTRUCTURACION SUPABASE ---
