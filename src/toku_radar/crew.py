@@ -343,7 +343,11 @@ class NervCrew:
         
         initial_context = f"CONTEXTO ESTRATÉGICO:\n{raw_intel['contexto_estrategico']}\n\nDOLOR OPERATIVO:\n{raw_intel['dolor_operativo']}\n\nPEOPLE:\n{raw_intel['linkedin_discovery']}"
         if raw_intel.get("website_markdown"):
-            initial_context = f"CONTENIDO RASPADO DEL SITIO WEB OFICIAL DEL CLIENTE:\n{raw_intel['website_markdown']}\n\n{initial_context}"
+            web_md = raw_intel['website_markdown']
+            max_chars = 12000
+            if len(web_md) > max_chars:
+                web_md = web_md[:max_chars] + "\n\n[... CONTENIDO TRUNCADO POR SEGURIDAD DE LIMITES ...]"
+            initial_context = f"CONTENIDO RASPADO DEL SITIO WEB OFICIAL DEL CLIENTE:\n{web_md}\n\n{initial_context}"
         
         # --- RESOLUCION DE KB DEL VENDEDOR (Dual-Layer: Toku-specific | Genérico) ---
         # Capa 1: Toku (KB integrado en código, activado automáticamente)
