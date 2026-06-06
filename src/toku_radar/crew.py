@@ -351,6 +351,10 @@ NO copies ni cites este bloque literalmente en el output.
             context=estratega_context
         )
 
+        # Limpieza de corchetes múltiples (ej: [[[[Ecommerce]]]], [[CFO]] -> Ecommerce, CFO)
+        import re
+        dossier_preliminar = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', dossier_preliminar)
+
         # --- FASE 3: ESTRUCTURACION SUPABASE ---
         if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando ]")
         data_engineer = Agent(self.agents_config['ingeniero_datos'], log_callback=self.log_callback, engine="groq")
@@ -393,6 +397,7 @@ NO copies ni cites este bloque literalmente en el output.
 ## 🛡️ Auditoría Galileo
 {audit_res}
 """
+        clean_output = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', clean_output)
         db.log_search(self.empresa, "COMPLETED")
         self.memory.save_dossier(self.empresa, self.sector, clean_output)
         
