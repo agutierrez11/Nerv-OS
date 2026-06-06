@@ -64,7 +64,7 @@ class Agent:
             self.model_final = "nousresearch/hermes-4-70b"
         else:
             self.rotator = GroqRotator(log_callback=self.log_callback)
-            self.model_planning = "llama-3.1-8b-instant"
+            self.model_planning = "llama-3.3-70b-versatile"
             self.model_final = "llama-3.3-70b-versatile"
         
         self.search_tool = SerperSearch()
