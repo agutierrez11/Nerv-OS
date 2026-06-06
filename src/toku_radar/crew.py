@@ -44,12 +44,13 @@ elif os.path.exists("../.env"):
 llm_breaker = CircuitBreaker(failure_threshold=5, recovery_timeout=30)
 
 class Agent:
-    def __init__(self, config, log_callback=None, engine="groq"):
+    def __init__(self, config, log_callback=None, engine="groq", constitution=""):
         self.role = config['role']
         self.goal = config['goal']
         self.backstory = config['backstory']
         self.log_callback = log_callback
         self.engine = engine
+        self.constitution = constitution  # Reglas universales de NERV OS
         
         if self.engine == "deepseek":
             self.rotator = DeepSeekClient(log_callback=self.log_callback)
@@ -125,12 +126,15 @@ class Agent:
         # BUCLE DE RAZONAMIENTO ESTILO HERMES 3
         full_conversation = [
             {"role": "system", "content": f"""Eres {self.role}. {self.backstory}
-            REGLAS DE OPERACION:
-            1. Empieza con <thought> para planificar tus pasos.
-            2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search/Prospeo).
-            3. Analiza la observacion y genera el entregable final.
-            EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
-            IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente.
+
+{self.constitution}
+
+REGLAS DE OPERACION:
+1. Empieza con <thought> para planificar tus pasos.
+2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search/Prospeo).
+3. Analiza la observacion y genera el entregable final.
+EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
+IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente.
             """},
             {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
         ]
@@ -166,13 +170,14 @@ class Agent:
 TokuCrew = None  # se define al final del archivo
 
 class NervCrew:
-    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", log_callback=None):
+    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None):
         self.empresa = empresa
         self.sector = sector
         self.vendedor = vendedor
-        self.producto = pitch # Usamos pitch como el producto/solución
+        self.producto = pitch
         self.url_cliente = url_cliente
         self.prior_knowledge = prior_knowledge
+        self.vendor_kb = vendor_kb  # KB genérico para cualquier vendedor (no-Toku)
         self.log_callback = log_callback
         self.base_path = os.path.dirname(__file__)
         self.memory = NervMemory()
@@ -181,6 +186,18 @@ class NervCrew:
             self.agents_config = yaml.safe_load(f)
         with open(os.path.join(self.base_path, 'config', 'tasks.yaml'), 'r', encoding='utf-8') as f:
             self.tasks_config = yaml.safe_load(f)
+        
+        # Cargar Constitución de NERV OS (reglas universales para todos los agentes)
+        constitution_path = os.path.join(self.base_path, 'config', 'constitution.yaml')
+        try:
+            with open(constitution_path, 'r', encoding='utf-8') as f:
+                const_data = yaml.safe_load(f)
+            rules = const_data.get('rules', [])
+            self.constitution = "LEYES INVIOLABLES DE NERV OS (se aplican en TODAS las respuestas):\n" + "\n".join(
+                f"- [{r['id']}] {r['name']}: {r['instruction']}" for r in rules
+            )
+        except Exception:
+            self.constitution = ""  # Graceful fallback si no existe el archivo
 
     def kickoff(self):
         logger.info(f"Iniciando NERV OS para: {self.empresa} (Vendedor: {self.vendedor})")
@@ -214,12 +231,12 @@ class NervCrew:
         if raw_intel.get("website_markdown"):
             initial_context = f"CONTENIDO RASPADO DEL SITIO WEB OFICIAL DEL CLIENTE:\n{raw_intel['website_markdown']}\n\n{initial_context}"
         
-        # --- INYECCIÓN DE PROPUESTA DE VALOR OFICIAL DE TOKU ---
-        toku_kb = ""
+        # --- RESOLUCION DE KB DEL VENDEDOR (Dual-Layer: Toku-specific | Genérico) ---
+        # Capa 1: Toku (KB integrado en código, activado automáticamente)
         is_toku = "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower()
         if is_toku:
-            toku_kb = """
-🧠 TOKU OFFICIAL VALUE PROPOSITION & KNOWLEDGE BASE:
+            active_kb = """
+🧠 CONTEXTO DE FONDO DEL VENDEDOR — TOKU:
 
 1. VERTICAL: BIENES DE CONSUMO (Goods / Consumo Masivo B2B)
    - DOLORES / PAIN POINTS PRINCIPALES:
@@ -227,58 +244,50 @@ class NervCrew:
      * Cobranza manual a distribuidores (costo operativo alto, DSO elevado, cartera vencida que crece sin control).
      * Crédito sin trazabilidad en tiempo real sobre comportamiento de pago.
      * Conciliación manual (pagos de múltiples canales sin aplicación automática en ERP, cierre contable lento y errores).
-   - PROPUESTA DE VALOR DE TOKU:
-     * Digitalizamos la cobranza B2B con AI Agent, portal de pago y conciliación automática.
-     * Conexión única entre sistemas del cliente (ERP/Core Distribución, Sistema de Crédito, Base de Clientes, Core Financiero) con todos los rieles de pago en México:
-       - Domiciliación bancaria recurrente (BBVA, Santander, Banamex, Banorte, HSBC, Inbursa, Scotiabank).
-       - Pagos con tarjeta (Débito y crédito, one-time y recurrente Visa, Mastercard, American Express).
-       - Efectivo en corresponsales (OXXO, 7-Eleven, Farmacias del Ahorro, Telecomm, Walmart).
-       - Transferencias conciliadas (SPEI con aplicación automática: CoDi, SPEI, Banregio, STP).
-       - Métodos alternativos (BNPL, wallets y pagos digitales: Aplazo, Kueski, Klarna, PayPal, Apple Pay, MercadoPago).
-     * Habilitadores clave: Reintentos inteligentes y orquestación, Fallback automático, Antifraude + 3DS2, Conciliación automática y reportería, AI Agent de cobranza, Portal de pago por liga.
+   - QUÉ HACE TOKU:
+     * Digitaliza la cobranza B2B con AI Agent, portal de pago y conciliación automática.
+     * Una sola conexión a todos los rieles de pago en México: domiciliación (BBVA, Santander, Banamex, Banorte...), tarjetas, corresponsales (OXXO, 7-Eleven...), SPEI/CoDi, métodos alternativos (BNPL, wallets).
+     * Habilitadores: Smart routing, fallback automático, antifraude 3DS2, conciliación automática en ERP, AI Agent de cobranza.
 
 2. VERTICAL: ECOMMERCE & RETAIL
-   - DOLORES / PAIN POINTS PRINCIPALES:
-     * Tasa de aprobación subóptima (rechazos innecesarios por falta de orquestación inteligente de adquirentes y sin fallback automático).
-     * Fraude vs Conversión (sin motor adaptativo hay contracargos altos o fricción excesiva; requiere 3DS2 inteligente).
-     * Integraciones fragmentadas (cada método de pago es un conector distinto, mantenimiento caro, lento time-to-market).
-     * Conciliación manual (pagos capturados sin reflejo automático en ERP/OMS).
-   - PROPUESTA DE VALOR DE TOKU:
-     * Unificamos adquirencia, métodos, antifraude y conciliación en una sola integración (una API conectable).
-     * Conecta plataformas (Storefront, ERP/OMS, CRM, Core de Pagos) con todos los rieles (Tarjetas, Domiciliación, SPEI, Corresponsales y métodos alternativos).
+   - DOLORES: Tasa de aprobación subóptima, fraude vs. conversión, integraciones fragmentadas, conciliación manual.
+   - QUÉ HACE TOKU: Unifica adquirencia, métodos, antifraude y conciliación en una sola API.
 
 3. VERTICAL: VENTA POR CATÁLOGO (Direct Selling)
-   - DOLORES / PAIN POINTS PRINCIPALES:
-     * DSO alto y cartera vencida de consultoras (compran a crédito y pagan tarde/no pagan, sin visibilidad ni automatización).
-     * Venta a crédito sin domiciliación (top vendedoras con alto volumen sin mecanismo de cobro automático recurrente, dependiendo de recordatorios manuales).
-     * Sin herramientas digitales para la fuerza de venta (consultoras y líderes sin acceso digital a su estado de cuenta o autoservicio).
-     * Conciliación manual (abonos de múltiples canales sin aplicación automática en el sistema de pedidos, errores).
-   - PROPUESTA DE VALOR DE TOKU:
-     * Automatizamos la cobranza a consultoras con domiciliación recurrente, AI Agent (WhatsApp/SMS/IVR) y portal self-service para consultoras.
-     * Rieles: Domiciliación recurrente, tarjetas, corresponsales físicos, transferencias y wallets.
+   - DOLORES: DSO alto y cartera vencida de consultoras, venta a crédito sin domiciliación, sin herramientas digitales para fuerza de venta.
+   - QUÉ HACE TOKU: Automatiza la cobranza a consultoras con domiciliación recurrente, AI Agent y portal self-service.
 
-4. COMPARATIVA / POSICIONAMIENTO VS PASARELAS Y AGREGADORES TRADICIONALES (Clip, Openpay, Stripe, Conekta, etc.)
-   - OBJECIÓN COMÚN DEL PROSPECTO: "Ya cobramos con tarjeta / SPEI / OXXO usando Clip o Openpay. No necesitamos a Toku."
-   - RESPUESTA ESTRATÉGICA / DIFERENCIADOR CLAVE DE TOKU:
-     * TOKU ORQUESTA, NO COMPITE DIRECTAMENTE: Toku no es solo una pasarela de pago; es una plataforma de orquestación y automatización de cobranza. Se puede integrar por encima de pasarelas como Clip o Openpay para complementarlas.
-     * CASCADEO INTELIGENTE (SMART ROUTING): Si Clip o Openpay sufren una caída o rechazan una tarjeta (falso positivo), Toku cascadea automáticamente la transacción a otra pasarela en milisegundos para garantizar la aprobación.
-     * REDUCCIÓN DE COMISIONES (DOMICILIACIÓN Y SPEI): Clip/Openpay cobran comisiones porcentuales (2.5% a 3.6%+). Toku redirige los cobros recurrentes hacia Domiciliación Bancaria y transferencias SPEI automatizadas con costos fijos mínimos (centavos o pocos pesos), reduciendo costos financieros hasta un 80%.
-     * COBRANZA ACTIVA AUTOMATIZADA (AI AGENT): Cuando un pago falla en una pasarela tradicional, la transacción rebota y ahí termina. Toku detecta la falla al instante y activa un AI Agent (WhatsApp, SMS, IVR) que se comunica con el cliente final para gestionar el pago y ofrecerle un link de pago con métodos alternativos.
-     * CONCILIACIÓN AUTOMÁTICA EN ERP: Toku automatiza todo el proceso de conciliación bancaria y contable directamente en el ERP del cliente (ej. SAP, NetSuite), algo que las pasarelas estándar no hacen.
+4. POSICIONAMIENTO VS COMPETENCIA (Clip, Openpay, Stripe, Conekta):
+   - Toku orquesta, no compite directamente. Puede integrarse sobre pasarelas existentes.
+   - Smart Routing: Si falla un adquirente, cascadea a otro en milisegundos.
+   - Reducción de comisiones hasta 80% redirigiendo cobros recurrentes a domiciliación/SPEI (costo fijo mínimo vs. 2.5-3.6% de pasarelas).
+   - Cobranza activa: cuando falla un pago, el AI Agent (WhatsApp/SMS/IVR) actúa de inmediato.
+   - Conciliación automática directamente en el ERP (SAP, NetSuite) — algo que pasarelas estándar no hacen.
 
-5. ACERCAMIENTO CONSULTIVO Y MODELO COMERCIAL DE TOKU
-   - MODELO Y FILOSOFÍA COMERCIAL:
-     * Modelo de Negocio: Consultoría + SaaS. No vendemos un software cerrado, sino que acompañamos a cada cliente como consultores de pagos para rediseñar su operación de cobros.
-     * Compromiso de Valor Real ("Aportar valor o no cobramos"): Si no generamos valor medible en la operación del cliente, no cobramos.
-   - METODOLOGÍA DE TRABAJO:
-     * 01. Diagnóstico: Evaluación exhaustiva y detallada del proceso y flujos de cobro actuales para encontrar dónde aportar valor real.
-     * 02. Acompañamiento: Soporte continuo durante todo el proceso, incluyendo la apertura de cada método de pago y asegurando que las condiciones contractuales respondan a las necesidades del cliente.
-     * 03. Definición: En conjunto se definen KPIs prioritarios, tiempos de implementación convenientes y métricas de éxito trazables y medibles desde el primer mes.
-   - RESPALDO, INVERSORES Y CERTIFICACIONES:
-     * Respaldados por inversores de primer nivel como Wollef Capital.
-     * Certificaciones de seguridad empresarial: PCI DSS Level 1 (estándar máximo de seguridad en la industria de pagos) e ISO 27001 (estándar internacional de gestión de seguridad de la información).
+5. MODELO COMERCIAL:
+   - Consultoría + SaaS. Acompañamos como consultores de pagos, no solo como software.
+   - Compromiso: “Aportar valor o no cobramos.”
+   - Metodología: Diagnóstico → Acompañamiento → Definición conjunta de KPIs.
+   - Respaldo: Wollef Capital. Certificaciones: PCI DSS Level 1, ISO 27001.
+
+NOTA: Este es contexto de fondo. Úsalo para razonar y adaptar argumentos al target.
+NO copies ni cites este bloque literalmente en el output.
 """
-            initial_context = f"{toku_kb}\n\n{initial_context}"
+        # Capa 2: Vendór genérico (KB inyectado externamente por el usuario)
+        elif self.vendor_kb:
+            active_kb = f"""
+🧠 CONTEXTO DE FONDO DEL VENDEDOR — {self.vendedor.upper()}:
+
+{self.vendor_kb}
+
+NOTA: Este es contexto de fondo. Úsalo para razonar y adaptar argumentos al target.
+NO copies ni cites este bloque literalmente en el output.
+"""
+        else:
+            active_kb = ""  # Sin KB específico: los agentes trabajan con la investigación pública
+
+        if active_kb:
+            initial_context = f"{active_kb}\n\n{initial_context}"
         
         # --- BLOQUE RLHF: CARGAR EXPERIENCIA PREVIA ---
         experience_context = db.get_recent_feedback(limit=2)
@@ -289,8 +298,8 @@ class NervCrew:
         if self.prior_knowledge:
             initial_context = f"{initial_context}\n\nCONTEXTO PREVIO/OBJECIONES:\n{self.prior_knowledge}"
             
-        # 2. Ejecucion del Enjambre
-        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq")
+        # 2. Ejecucion del Enjambre (todos los agentes reciben la Constitution)
+        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq", constitution=self.constitution)
         res_investigacion = investigador.execute(
             self.tasks_config['tarea_investigacion']['description'].format(
                 empresa=self.empresa, 
@@ -301,7 +310,7 @@ class NervCrew:
             context=initial_context
         )
         
-        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek")
+        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution)
         res_psicologia = psicologo.execute(
             self.tasks_config['tarea_psicologia']['description'].format(
                 empresa=self.empresa,
@@ -311,11 +320,12 @@ class NervCrew:
             context=res_investigacion
         )
         
-        gemelo_context = f"PERFIL: {res_psicologia}\nNOTICIAS: {res_investigacion}"
-        if is_toku:
-            gemelo_context = f"{toku_kb}\n\n{gemelo_context}"
+        # Gemelo recibe: DISC profile + research + KB del vendedor (si aplica)
+        gemelo_context = f"PERFIL DISC DEL DECISOR:\n{res_psicologia}\n\nINVESTIGACION DE MERCADO:\n{res_investigacion}"
+        if active_kb:
+            gemelo_context = f"{active_kb}\n\n{gemelo_context}"
 
-        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek")
+        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution)
         res_gemelo = gemelo.execute(
             self.tasks_config['tarea_simulacion_gemelo']['description'].format(
                 empresa=self.empresa,
@@ -325,11 +335,12 @@ class NervCrew:
             context=gemelo_context
         )
         
-        estratega_context = f"INVEST: {res_investigacion}\nPSICO: {res_psicologia}\nTWIN: {res_gemelo}"
-        if is_toku:
-            estratega_context = f"{toku_kb}\n\n{estratega_context}"
+        # Estratega recibe todo: investigacion + DISC + simulacion + KB del vendedor
+        estratega_context = f"INVESTIGACION:\n{res_investigacion}\n\nPERFIL DISC:\n{res_psicologia}\n\nSIMULACION GEMELO:\n{res_gemelo}"
+        if active_kb:
+            estratega_context = f"{active_kb}\n\n{estratega_context}"
 
-        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek")
+        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution)
         dossier_preliminar = estratega.execute(
             self.tasks_config['tarea_dossier_final']['description'].format(
                 empresa=self.empresa,
