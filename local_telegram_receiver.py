@@ -58,11 +58,11 @@ def send_telegram_message(chat_id: str, text: str):
             logger.error(f"Fallo al enviar mensaje a Telegram: {e}")
 
 def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vendedor: str, prior_knowledge: str):
-    """Ejecuta el enjambre de agentes en segundo plano y envía el reporte final a Telegram."""
+    """Ejecuta el enjambre de agentes en segundo plano, guarda el dossier y notifica éxito/falla."""
     send_telegram_message(
         chat_id, 
-        f"🧠 *NERV OS:* Iniciando análisis forense ({'Modo Toku' if vendedor.lower() == 'toku' else 'Modo Agnóstico'}) de *{empresa}*...\n"
-        f"Esto puede tardar entre 1 y 2 minutos mientras el enjambre de agentes (Investigador, Psicólogo, Twin y Estratega) debate y Galileo audita las fuentes."
+        f"🧠 *NERV OS:* Iniciando análisis forense ({'Modo Toku 🟢' if vendedor.lower() == 'toku' else 'Modo Agnóstico 🔵'}) de *{empresa}*...\n"
+        f"Esto puede tardar entre 1 y 2 minutos mientras el enjambre de agentes debate y audita las fuentes."
     )
     
     # Callback para reportar progreso en tiempo real
@@ -83,13 +83,35 @@ def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vende
         
         dossier = crew.kickoff()
         
-        # Enviar el reporte final
-        send_telegram_message(chat_id, f"✅ *¡ANÁLISIS COMPLETADO!*\n\nAquí tienes el Dossier Estratégico para *{empresa}*:")
-        send_telegram_message(chat_id, dossier)
+        # Limpiar pensamientos y guardar localmente en carpeta output
+        import re
+        dossier_limpio = re.sub(r'<thought>.*?</thought>', '', dossier, flags=re.DOTALL).strip()
+        safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
+        output_dir = ROOT_DIR / "output"
+        output_dir.mkdir(exist_ok=True)
+        file_path = output_dir / f"{safe_name}.md"
+        file_path.write_text(dossier_limpio, encoding="utf-8")
+        
+        # Enviar reporte de éxito resumido
+        modo_label = "Modo Toku 🟢" if vendedor.lower() == "toku" else "Modo Agnóstico 🔵"
+        msg_exito = (
+            f"✅ *¡ANÁLISIS COMPLETADO CON ÉXITO!*\n\n"
+            f"🎯 *Empresa:* {empresa}\n"
+            f"🏢 *Sector:* {sector}\n"
+            f"👤 *Fase:* {modo_label}\n\n"
+            f"📂 *Guardado:* El dossier estratégico se ha guardado en la base de datos de Supabase y localmente en:\n"
+            f"`output/{safe_name}.md`"
+        )
+        send_telegram_message(chat_id, msg_exito)
         
     except Exception as e:
         logger.error(f"Error procesando análisis local de Telegram: {e}")
-        send_telegram_message(chat_id, f"❌ *Error de NERV OS:* Ocurrió un error al procesar el análisis.\nDetalles: `{str(e)}`")
+        send_telegram_message(chat_id, f"❌ *Error de NERV OS:* Ocurrió un error al procesar el análisis de *{empresa}*.\nDetalles: `{str(e)}`")
+        try:
+            from core.telegram_logger import send_telegram_alert
+            send_telegram_alert(f"Telegram Bot Analysis ({empresa})", e)
+        except Exception as alert_err:
+            logger.error(f"Fallo al enviar alerta de Telegram: {alert_err}")
 
 def process_message(chat_id: str, text: str):
     """Parsea el mensaje y decide la acción a tomar."""
