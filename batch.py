@@ -54,9 +54,9 @@ def run_batch(limit: int = None, skip_existing: bool = True):
             print(f"         FAIL: {e}")
             failed += 1
 
-        # Pausa entre empresas para respetar rate limits
+        # Pausa entre empresas para respetar rate limits (incrementada a 12s para seguridad)
         if i < total:
-            time.sleep(2)
+            time.sleep(12)
 
     print("\n" + "=" * 55)
     print(f"COMPLETED: {ok} | FAILED: {failed} | Total: {total}")

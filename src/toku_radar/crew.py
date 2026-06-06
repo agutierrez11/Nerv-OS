@@ -72,6 +72,17 @@ class Agent:
         self.firecrawl_tool = ResilientScraper()
         self.memory = NervMemory()
 
+    def _log(self, text: str):
+        if self.log_callback:
+            try:
+                self.log_callback(text)
+            except Exception:
+                try:
+                    # Fallback para consolas con codificación heredada (Windows CP1252/charmap)
+                    print(text.encode('ascii', errors='replace').decode('ascii'))
+                except Exception:
+                    pass
+
     def _execute_tool(self, plan_text, task_desc):
         """Lógica de decisión de herramienta avanzada (Google Suite + Fallbacks)."""
         plan_lower = plan_text.lower()
@@ -119,13 +130,13 @@ class Agent:
             msg = "## Action: Standard Search (Serper)"
             res = self.search_tool._query(task_desc, gl=self.gl, hl=self.hl)
         
-        if self.log_callback: self.log_callback(f"  {msg}")
+        self._log(f"  {msg}")
         return res
 
     @retry_with_backoff(retries=3, backoff_in_seconds=2)
     def execute(self, task_desc, context=""):
         logger.info(f"Agente {self.role} iniciando razonamiento Hermes...")
-        if self.log_callback: self.log_callback(f"\n[ AGENT: {self.role} ]")
+        self._log(f"\n[ AGENT: {self.role} ]")
         
         past_intelligence = self.memory.search_similar_cases(context[:100])
         
@@ -152,7 +163,7 @@ IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como
             temperature=0.3
         )
         thought_process = resp.choices[0].message.content
-        if self.log_callback: self.log_callback(f"  ## Pensamiento: {thought_process[:200]}...")
+        self._log(f"  ## Pensamiento: {thought_process[:200]}...")
 
         # 2. Fase de Accion (Si el pensamiento lo requiere)
         plan_lower = thought_process.lower()
