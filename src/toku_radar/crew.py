@@ -55,15 +55,15 @@ class Agent:
         self.hl = hl
         
         if self.engine == "deepseek":
-            self.rotator = DeepSeekClient(log_callback=self.log_callback)
+            self.rotator = DeepSeekClient(log_callback=self._log)
             self.model_planning = "deepseek-chat"
             self.model_final = "deepseek-chat"
         elif self.engine == "hermes":
-            self.rotator = HermesClient(log_callback=self.log_callback)
+            self.rotator = HermesClient(log_callback=self._log)
             self.model_planning = "nousresearch/hermes-4-70b"
             self.model_final = "nousresearch/hermes-4-70b"
         else:
-            self.rotator = GroqRotator(log_callback=self.log_callback)
+            self.rotator = GroqRotator(log_callback=self._log)
             self.model_planning = "llama-3.3-70b-versatile"
             self.model_final = "llama-3.3-70b-versatile"
         
