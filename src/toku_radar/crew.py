@@ -26,7 +26,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from toku_radar.tools.search import SerperSearch
 from toku_radar.tools.resilient_scraper import ResilientScraper
 from toku_radar.tools.wiki import get_company_profile
-from toku_radar.tools.auditor import GalileoAuditor
+from toku_radar.tools.auditor import VeracityAuditor
 from toku_radar.tools.miro_predictor import MiroPredictor
 from toku_radar.tools.memory import NervMemory
 from toku_radar.tools.groq_rotator import GroqRotator
@@ -355,11 +355,16 @@ NO copies ni cites este bloque literalmente en el output.
         import re
         dossier_preliminar = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', dossier_preliminar)
 
-        # Limpieza de metadatos técnicos e internos (Razonamiento del enjambre, MiroFish, etc.)
-        dossier_preliminar = re.sub(r'(?i)(?:[^a-zA-Z0-9\n]*)?razonamiento del enjambre.*?(?=\n\n|\Z)', '', dossier_preliminar, flags=re.DOTALL)
-        dossier_preliminar = re.sub(r'(?i).*?swarm readiness score.*?\n', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?i).*?mirofish consensus.*?\n', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?i).*?mirofish.*?\n', '', dossier_preliminar)
+        # Limpieza de metadatos técnicos e internos del dossier
+        dossier_preliminar = re.sub(r'(?im)^.*?razonamiento del enjambre.*$', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?im)^.*?swarm readiness score.*$', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?im)^.*?mirofish.*$', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?im)^.*?para data engineers?.*$', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?im)^.*?gtm swarm.*$', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?im)^.*?galileo.*$', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?im)^.*?probabilidad de .xito:?\s*\d+%.*$', '', dossier_preliminar)
+        # Limpiar líneas vacías consecutivas resultantes
+        dossier_preliminar = re.sub(r'\n{3,}', '\n\n', dossier_preliminar).strip()
 
         # --- FASE 3: ESTRUCTURACION SUPABASE ---
         if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando ]")
@@ -392,7 +397,7 @@ NO copies ni cites este bloque literalmente en el output.
             logger.error(f"Error parseando o subiendo JSON a Supabase: {e}")
 
         # 4. Protocolos de Veracidad
-        auditor = GalileoAuditor()
+        auditor = VeracityAuditor()
         audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
         
         clean_output = f"""
@@ -404,10 +409,14 @@ NO copies ni cites este bloque literalmente en el output.
 {audit_res}
 """
         clean_output = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', clean_output)
-        clean_output = re.sub(r'(?i)(?:[^a-zA-Z0-9\n]*)?razonamiento del enjambre.*?(?=\n\n|\Z)', '', clean_output, flags=re.DOTALL)
-        clean_output = re.sub(r'(?i).*?swarm readiness score.*?\n', '', clean_output)
-        clean_output = re.sub(r'(?i).*?mirofish consensus.*?\n', '', clean_output)
-        clean_output = re.sub(r'(?i).*?mirofish.*?\n', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?razonamiento del enjambre.*$', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?swarm readiness score.*$', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?mirofish.*$', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?para data engineers?.*$', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?gtm swarm.*$', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?galileo.*$', '', clean_output)
+        clean_output = re.sub(r'(?im)^.*?probabilidad de .xito:?\s*\d+%.*$', '', clean_output)
+        clean_output = re.sub(r'\n{3,}', '\n\n', clean_output).strip()
 
         db.log_search(self.empresa, "COMPLETED")
         self.memory.save_dossier(self.empresa, self.sector, clean_output)

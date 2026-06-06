@@ -2,7 +2,7 @@ import os
 import yaml
 from toku_radar.tools.groq_rotator import GroqRotator
 
-class GalileoAuditor:
+class VeracityAuditor:
     """Motor de Auditoría Metacognitiva basada en la Constitución de NERV OS."""
     def __init__(self, log_callback=None):
         self.rotator = GroqRotator(log_callback=log_callback)
@@ -48,3 +48,6 @@ class GalileoAuditor:
             temperature=0
         )
         return resp.choices[0].message.content
+
+# Alias de retrocompatibilidad
+GalileoAuditor = VeracityAuditor
