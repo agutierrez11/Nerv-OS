@@ -355,6 +355,12 @@ NO copies ni cites este bloque literalmente en el output.
         import re
         dossier_preliminar = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', dossier_preliminar)
 
+        # Limpieza de metadatos técnicos e internos (Razonamiento del enjambre, MiroFish, etc.)
+        dossier_preliminar = re.sub(r'(?i)(?:[^a-zA-Z0-9\n]*)?razonamiento del enjambre.*?(?=\n\n|\Z)', '', dossier_preliminar, flags=re.DOTALL)
+        dossier_preliminar = re.sub(r'(?i).*?swarm readiness score.*?\n', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?i).*?mirofish consensus.*?\n', '', dossier_preliminar)
+        dossier_preliminar = re.sub(r'(?i).*?mirofish.*?\n', '', dossier_preliminar)
+
         # --- FASE 3: ESTRUCTURACION SUPABASE ---
         if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando ]")
         data_engineer = Agent(self.agents_config['ingeniero_datos'], log_callback=self.log_callback, engine="groq")
@@ -385,7 +391,7 @@ NO copies ni cites este bloque literalmente en el output.
         except Exception as e:
             logger.error(f"Error parseando o subiendo JSON a Supabase: {e}")
 
-        # 4. Protocolos Galileo & MiroFish
+        # 4. Protocolos de Veracidad
         auditor = GalileoAuditor()
         audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
         
@@ -394,10 +400,15 @@ NO copies ni cites este bloque literalmente en el output.
 {dossier_preliminar}
 
 ---
-## 🛡️ Auditoría Galileo
+## 🛡️ Protocolo de Veracidad
 {audit_res}
 """
         clean_output = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', clean_output)
+        clean_output = re.sub(r'(?i)(?:[^a-zA-Z0-9\n]*)?razonamiento del enjambre.*?(?=\n\n|\Z)', '', clean_output, flags=re.DOTALL)
+        clean_output = re.sub(r'(?i).*?swarm readiness score.*?\n', '', clean_output)
+        clean_output = re.sub(r'(?i).*?mirofish consensus.*?\n', '', clean_output)
+        clean_output = re.sub(r'(?i).*?mirofish.*?\n', '', clean_output)
+
         db.log_search(self.empresa, "COMPLETED")
         self.memory.save_dossier(self.empresa, self.sector, clean_output)
         

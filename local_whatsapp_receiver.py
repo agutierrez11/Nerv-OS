@@ -54,7 +54,7 @@ def send_whatsapp_message(chat_id: str, text: str):
 
 def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, prior_knowledge: str):
     """Ejecuta el enjambre de agentes en segundo plano y envía el reporte final."""
-    send_whatsapp_message(chat_id, f"🧠 *NERV OS:* Iniciando análisis forense de *{empresa}*...\nEsto puede tardar entre 1 y 2 minutos mientras el enjambre de agentes (Investigador, Psicólogo, Twin y Estratega) debate y Galileo audita las fuentes.")
+    send_whatsapp_message(chat_id, f"🧠 *NERV OS:* Iniciando análisis forense de *{empresa}*...\nEsto puede tardar entre 1 y 2 minutos mientras el enjambre de agentes (Investigador, Psicólogo, Twin y Estratega) debate y se auditan las fuentes.")
     
     # Callback para reportar progreso en tiempo real
     def log_progress(msg):

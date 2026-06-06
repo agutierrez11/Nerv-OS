@@ -25,3 +25,8 @@ rules:
     name: "Integridad de Entidades"
     instruction: "Si no se encuentran nombres de personas reales, no inventar perfiles. Es preferible reportar 'Sin Decisor Identificado' que crear un fantasma."
     severity: "CRITICAL"
+
+  - id: "L06_NO_TECHNICAL_FLUFF"
+    name: "Cero Metadatos Técnicos o Internos"
+    instruction: "Está estrictamente PROHIBIDO incluir secciones sobre 'Razonamiento del Enjambre', 'Data Engineers', 'MiroFish', 'Readiness Score', 'Swarm' o cualquier metadato de depuración técnica en el entregable final. El dossier debe ser 100% comercial y limpio para el vendedor."
+    severity: "CRITICAL"
