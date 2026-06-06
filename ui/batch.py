@@ -49,7 +49,9 @@ def render_batch_tab(companies_data, output_dir, user_active=None):
                             empresa=row["empresa"], 
                             sector=row["sector"], 
                             pitch=row["pitch_principal"],
-                            vendedor=vendedor_url
+                            vendedor=vendedor_url,
+                            url_cliente=row.get("url", ""),
+                            prior_knowledge=row.get("contexto", "")
                         )
                         res = crew.kickoff()
                         # Guardar resultado

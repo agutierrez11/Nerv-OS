@@ -1,7 +1,7 @@
 tarea_investigacion:
   description: >
     Eres un analista de inteligencia de mercado de élite.
-    Investiga a fondo {empresa} en el contexto de México y LATAM.
+    Investiga a fondo {empresa} en el contexto de {pais} y LATAM.
 
     1. Busca noticias, reportes, entrevistas y movimientos recientes (2024-2025).
     2. Identifica sus retos, dolores operativos, presión competitiva y oportunidades de mejora

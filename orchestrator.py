@@ -28,12 +28,12 @@ class NervDossierEngine:
         """Orquestador compatible con la arquitectura NERV Swarm."""
         pass
 
-    def generate_dossier(self, empresa: str, sector: str, pitch: str, contexto_crm: str = "") -> str:
+    def generate_dossier(self, empresa: str, sector: str, pitch: str, contexto_crm: str = "", url_cliente: str = "", pais: str = "México") -> str:
         """Genera el dossier usando la Swarm Intelligence de NervCrew."""
         logger.info(f"NERV OS: Desplegando enjambre para {empresa}")
         
         # Iniciar la tripulación (Crew)
-        crew = NervCrew(empresa, sector, pitch, prior_knowledge=contexto_crm, log_callback=print)
+        crew = NervCrew(empresa, sector, pitch, prior_knowledge=contexto_crm, url_cliente=url_cliente, log_callback=print, pais=pais)
         
         # Ejecutar el Kickoff del Enjambre
         dossier_final = crew.kickoff()

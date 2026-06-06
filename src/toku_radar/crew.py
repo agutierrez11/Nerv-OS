@@ -44,13 +44,15 @@ elif os.path.exists("../.env"):
 llm_breaker = CircuitBreaker(failure_threshold=5, recovery_timeout=30)
 
 class Agent:
-    def __init__(self, config, log_callback=None, engine="groq", constitution=""):
+    def __init__(self, config, log_callback=None, engine="groq", constitution="", gl="mx", hl="es"):
         self.role = config['role']
         self.goal = config['goal']
         self.backstory = config['backstory']
         self.log_callback = log_callback
         self.engine = engine
         self.constitution = constitution  # Reglas universales de NERV OS
+        self.gl = gl
+        self.hl = hl
         
         if self.engine == "deepseek":
             self.rotator = DeepSeekClient(log_callback=self.log_callback)
@@ -77,10 +79,10 @@ class Agent:
 
         if "news" in plan_lower or "noticias" in plan_lower:
             msg = "## Action: Serper Strategic News"
-            res = self.search_tool._query(f"{task_desc} news 2024 2025")
+            res = self.search_tool._query(f"{task_desc} news 2024 2025", gl=self.gl, hl=self.hl)
         elif "maps" in plan_lower or "reseñas" in plan_lower or "sentiment" in plan_lower:
             msg = "## Action: Standard Search (Maps Disabled)"
-            res = self.search_tool._query(f"{task_desc} news reviews")
+            res = self.search_tool._query(f"{task_desc} news reviews", gl=self.gl, hl=self.hl)
         elif "noticias" in plan_lower or "news" in plan_lower:
             msg = "## Action: Google News Deep Scan"
             res = str(google_suite.search_news(task_desc))
@@ -111,7 +113,7 @@ class Agent:
                 res = "Error: No se detectó una URL de LinkedIn válida en tu petición para usar Prospeo. Asegúrate de incluir la URL completa (ej. https://www.linkedin.com/in/...) al mencionar Prospeo."
         else:
             msg = "## Action: Standard Search (Serper)"
-            res = self.search_tool._query(task_desc)
+            res = self.search_tool._query(task_desc, gl=self.gl, hl=self.hl)
         
         if self.log_callback: self.log_callback(f"  {msg}")
         return res
@@ -170,7 +172,7 @@ IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como
 TokuCrew = None  # se define al final del archivo
 
 class NervCrew:
-    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None):
+    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None, pais="México"):
         self.empresa = empresa
         self.sector = sector
         self.vendedor = vendedor
@@ -181,6 +183,31 @@ class NervCrew:
         self.log_callback = log_callback
         self.base_path = os.path.dirname(__file__)
         self.memory = NervMemory()
+        
+        # Detección automática de país basada en url_cliente si existe
+        self.pais = pais
+        if url_cliente:
+            url_lower = url_cliente.lower()
+            if ".br" in url_lower or "/pt-br" in url_lower or "/pt" in url_lower or "/br/" in url_lower:
+                self.pais = "Brasil"
+            elif ".mx" in url_lower or "/mx" in url_lower:
+                self.pais = "México"
+            elif ".co" in url_lower or "/co" in url_lower:
+                if not url_lower.endswith(".com") and not ".com/" in url_lower:
+                    self.pais = "Colombia"
+            elif ".cl" in url_lower or "/cl" in url_lower:
+                self.pais = "Chile"
+            elif ".pe" in url_lower or "/pe" in url_lower:
+                self.pais = "Perú"
+            elif ".ar" in url_lower or "/ar" in url_lower:
+                self.pais = "Argentina"
+
+        # Obtener gl y hl de PAIS_CODES
+        from toku_radar.tools.search import get_pais_codes
+        codes = get_pais_codes(self.pais)
+        self.gl = codes["gl"]
+        self.hl = codes["hl"]
+        self.pais_nombre = codes["nombre"]
         
         with open(os.path.join(self.base_path, 'config', 'agents.yaml'), 'r', encoding='utf-8') as f:
             self.agents_config = yaml.safe_load(f)
@@ -199,28 +226,94 @@ class NervCrew:
         except Exception:
             self.constitution = ""  # Graceful fallback si no existe el archivo
 
+    def _discover_subpages(self, url: str) -> List[str]:
+        """Descubre subpáginas críticas del dominio para enriquecer el scraping."""
+        if not url:
+            return []
+        try:
+            domain = url.replace("https://", "").replace("http://", "").split("?")[0]
+            domain_only = domain.split("/")[0]
+            
+            searcher = SerperSearch()
+            if self.hl == "pt":
+                q = f'site:{domain_only} (pagamentos OR cobrancas OR tarifas OR preco OR checkout OR "solucoes" OR financeiro)'
+            else:
+                q = f'site:{domain_only} (pagos OR cobros OR precios OR tarifas OR checkout OR "soluciones" OR finanzas OR pricing)'
+            
+            results = searcher.search_links(q, gl=self.gl, hl=self.hl, num=6)
+            subpages = []
+            seen_urls = {url.lower().rstrip('/')}
+            
+            for item in results:
+                link = item.get("link", "")
+                if not link:
+                    continue
+                link_clean = link.lower().rstrip('/')
+                if link_clean in seen_urls:
+                    continue
+                
+                if domain_only in link_clean:
+                    if any(ext in link_clean for ext in [".pdf", ".png", ".jpg", "/blog/", "/news/", "/noticias/"]):
+                        continue
+                    subpages.append(link)
+                    seen_urls.add(link_clean)
+                    if len(subpages) >= 2:
+                        break
+            return subpages
+        except Exception as e:
+            logger.error(f"Error descubriendo subpáginas para {url}: {e}")
+            return []
+
     def kickoff(self):
         logger.info(f"Iniciando NERV OS para: {self.empresa} (Vendedor: {self.vendedor})")
         db.log_search(self.empresa, "STARTED")
 
         # 1. Ingesta Inicial (Con Cache y URL Directa)
-        cache_key = f"research_{self.empresa}_{self.url_cliente}".lower()
+        cache_key = f"research_{self.empresa}_{self.url_cliente}_{self.pais}".lower()
         cached_data = cache.get(cache_key)
         
         if cached_data:
             logger.info(f"Usando datos cacheados para {self.empresa}")
             raw_intel = cached_data
         else:
+            # Si no hay URL, intentamos auto-resolverla
+            if not self.url_cliente:
+                searcher = SerperSearch()
+                links = searcher.search_links(f"{self.empresa} sitio oficial", gl=self.gl, hl=self.hl, num=1)
+                if links:
+                    self.url_cliente = links[0].get("link", "")
+                    logger.info(f"Auto-resolución de URL para {self.empresa}: {self.url_cliente}")
+                    if self.log_callback:
+                        self.log_callback(f"⚙️ *NERV OS:* URL oficial auto-detectada: {self.url_cliente}")
+
             searcher = SerperSearch()
-            raw_intel = searcher.research_company(self.empresa, self.sector, self.producto, url=self.url_cliente)
+            raw_intel = searcher.research_company(self.empresa, self.sector, self.producto, url=self.url_cliente, pais=self.pais, gl=self.gl, hl=self.hl)
             
             # Raspado de la web oficial del cliente
             website_markdown = ""
             if self.url_cliente:
                 try:
                     logger.info(f"Raspando URL oficial de cliente: {self.url_cliente}")
+                    if self.log_callback:
+                        self.log_callback(f"⚙️ *NERV OS:* Raspando página principal: {self.url_cliente}")
                     scraper = ResilientScraper()
-                    website_markdown = scraper.scrape_url(self.url_cliente)
+                    home_content = scraper.scrape_url(self.url_cliente)
+                    website_markdown = f"# Sitio Web Oficial: {self.url_cliente}\n\n## Página Principal (Home)\n\n{home_content}\n\n"
+                    
+                    # Descubrir y raspar subpáginas
+                    subpages = self._discover_subpages(self.url_cliente)
+                    if subpages:
+                        logger.info(f"Subpáginas descubiertas para scraping: {subpages}")
+                        if self.log_callback:
+                            self.log_callback(f"⚙️ *NERV OS:* Subpáginas detectadas: {', '.join(subpages)}")
+                        for idx, subpage in enumerate(subpages, 1):
+                            try:
+                                if self.log_callback:
+                                    self.log_callback(f"⚙️ *NERV OS:* Raspando subpágina ({idx}/2): {subpage}")
+                                subpage_content = scraper.scrape_url(subpage)
+                                website_markdown += f"## Subpágina {idx}: {subpage}\n\n{subpage_content}\n\n"
+                            except Exception as sub_err:
+                                logger.error(f"Error raspando subpágina {subpage}: {sub_err}")
                 except Exception as e:
                     logger.error(f"Error en raspado de url_cliente {self.url_cliente}: {e}")
             
@@ -299,18 +392,19 @@ NO copies ni cites este bloque literalmente en el output.
             initial_context = f"{initial_context}\n\nCONTEXTO PREVIO/OBJECIONES:\n{self.prior_knowledge}"
             
         # 2. Ejecucion del Enjambre (todos los agentes reciben la Constitution)
-        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq", constitution=self.constitution)
+        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq", constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_investigacion = investigador.execute(
             self.tasks_config['tarea_investigacion']['description'].format(
                 empresa=self.empresa, 
                 sector=self.sector,
                 vendedor=self.vendedor,
-                producto=self.producto
+                producto=self.producto,
+                pais=self.pais_nombre
             ),
             context=initial_context
         )
         
-        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution)
+        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_psicologia = psicologo.execute(
             self.tasks_config['tarea_psicologia']['description'].format(
                 empresa=self.empresa,
@@ -325,7 +419,7 @@ NO copies ni cites este bloque literalmente en el output.
         if active_kb:
             gemelo_context = f"{active_kb}\n\n{gemelo_context}"
 
-        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution)
+        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_gemelo = gemelo.execute(
             self.tasks_config['tarea_simulacion_gemelo']['description'].format(
                 empresa=self.empresa,
@@ -340,7 +434,7 @@ NO copies ni cites este bloque literalmente en el output.
         if active_kb:
             estratega_context = f"{active_kb}\n\n{estratega_context}"
 
-        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution)
+        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
         dossier_preliminar = estratega.execute(
             self.tasks_config['tarea_dossier_final']['description'].format(
                 empresa=self.empresa,

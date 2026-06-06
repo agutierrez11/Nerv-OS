@@ -96,12 +96,35 @@ def render_lab_tab(companies_data=None, user_active=None, toku_mode=False):
         else:
             # Demo / Agnóstico: el usuario escribe la URL manualmente
             url_cliente = st.text_input("URL de la Empresa Cliente", value="", placeholder="https://empresa-cliente.com")
+        # Autodetección de país basada en URL
+        detected_pais = "México"
+        if url_cliente:
+            url_lower = url_cliente.lower()
+            if ".br" in url_lower or "/pt-br" in url_lower or "/pt" in url_lower or "/br/" in url_lower:
+                detected_pais = "Brasil"
+            elif ".co" in url_lower or "/co" in url_lower:
+                if not url_lower.endswith(".com") and not ".com/" in url_lower:
+                    detected_pais = "Colombia"
+            elif ".cl" in url_lower or "/cl" in url_lower:
+                detected_pais = "Chile"
+            elif ".pe" in url_lower or "/pe" in url_lower:
+                detected_pais = "Perú"
+            elif ".ar" in url_lower or "/ar" in url_lower:
+                detected_pais = "Argentina"
+            elif ".mx" in url_lower or "/mx" in url_lower:
+                detected_pais = "México"
+
+        paises_disponibles = ["México", "Brasil", "Colombia", "Chile", "Perú", "Argentina"]
+        default_index = paises_disponibles.index(detected_pais) if detected_pais in paises_disponibles else 0
+        pais = st.selectbox("País de Prospección", paises_disponibles, index=default_index, key="lab_pais")
+
         icp_linkedin = st.text_input(
             "🔗 LinkedIn del Tomador de Decisión (Opcional)",
             placeholder="https://linkedin.com/in/usuario",
             help="Si lo ingresas, NERV garantizará que esta persona sea parte del comité y buscará su correo verificado.",
             key="icp_linkedin"
         )
+
 
     st.divider()
 
@@ -276,7 +299,8 @@ def render_lab_tab(companies_data=None, user_active=None, toku_mode=False):
                     vendedor=url_vendedor,
                     url_cliente=url_cliente,
                     prior_knowledge=contexto,
-                    log_callback=sim_logger
+                    log_callback=sim_logger,
+                    pais=pais
                 )
                 raw_dossier = crew.kickoff()
                 dossier_final = re.sub(r'<thought>.*?</thought>', '', raw_dossier, flags=re.DOTALL).strip()

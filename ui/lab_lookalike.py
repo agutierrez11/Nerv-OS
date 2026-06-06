@@ -217,6 +217,7 @@ def render_lookalike_tab(user_active=None):
                                         sector=sector if 'sector' in locals() else "General",
                                         pitch=custom_pitch,
                                         vendedor=vendedor_url,
+                                        url_cliente=row_data.get("url", ""),
                                         prior_knowledge=f"Prospecto calificado por NERV Lookalike. Razón: {custom_reason}",
                                         log_callback=update_ui_log
                                     )

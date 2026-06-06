@@ -26,6 +26,8 @@ class AnalysisRequest(BaseModel):
     sector: str
     pitch: str
     context: str = ""
+    url_cliente: str = ""
+    pais: str = "México"
 
 class IntelRequest(BaseModel):
     company: str
@@ -173,7 +175,9 @@ async def run_analysis(request: AnalysisRequest):
             empresa=request.empresa,
             sector=request.sector,
             pitch=request.pitch,
-            prior_knowledge=request.context
+            prior_knowledge=request.context,
+            url_cliente=request.url_cliente,
+            pais=request.pais
         )
         result = crew.kickoff()
         return {"success": True, "data": str(result)}

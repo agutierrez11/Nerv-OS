@@ -57,11 +57,11 @@ def send_telegram_message(chat_id: str, text: str):
         except Exception as e:
             logger.error(f"Fallo al enviar mensaje a Telegram: {e}")
 
-def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vendedor: str, prior_knowledge: str):
+def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vendedor: str, prior_knowledge: str, pais: str = "México"):
     """Ejecuta el enjambre de agentes en segundo plano, guarda el dossier y notifica éxito/falla."""
     send_telegram_message(
         chat_id, 
-        f"🧠 *NERV OS:* Iniciando análisis forense ({'Modo Toku 🟢' if vendedor.lower() == 'toku' else 'Modo Agnóstico 🔵'}) de *{empresa}*...\n"
+        f"🧠 *NERV OS:* Iniciando análisis forense ({'Modo Toku 🟢' if vendedor.lower() == 'toku' else 'Modo Agnóstico 🔵'}) de *{empresa}* en *{pais}*...\n"
         f"Esto puede tardar entre 1 y 2 minutos mientras el enjambre de agentes debate y audita las fuentes."
     )
     
@@ -78,7 +78,8 @@ def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vende
             pitch=pitch,
             vendedor=vendedor,
             prior_knowledge=prior_knowledge,
-            log_callback=log_progress
+            log_callback=log_progress,
+            pais=pais
         )
         
         dossier = crew.kickoff()
@@ -98,6 +99,7 @@ def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vende
             f"✅ *¡ANÁLISIS COMPLETADO CON ÉXITO!*\n\n"
             f"🎯 *Empresa:* {empresa}\n"
             f"🏢 *Sector:* {sector}\n"
+            f"🌍 *País:* {pais}\n"
             f"👤 *Fase:* {modo_label}\n\n"
             f"📂 *Guardado:* El dossier estratégico se ha guardado en la base de datos de Supabase y localmente en:\n"
             f"`output/{safe_name}.md`"
@@ -153,12 +155,12 @@ def process_message(chat_id: str, text: str):
             if is_toku:
                 send_telegram_message(
                     chat_id, 
-                    "💡 *Instrucciones de NERV OS (Modo Toku):*\n\nPara iniciar un radar de Toku, escribe:\n`/toku [Nombre Empresa], [Sector]`"
+                    "💡 *Instrucciones de NERV OS (Modo Toku):*\n\nPara iniciar un radar de Toku, escribe:\n`/toku [Nombre Empresa], [Sector], [País (Opcional)]`"
                 )
             else:
                 send_telegram_message(
                     chat_id, 
-                    "💡 *Instrucciones de NERV OS (Modo Agnóstico):*\n\nPara iniciar un radar, escribe:\n`/radar [Nombre Empresa], [Sector], [Propuesta/Pitch (Opcional)]`"
+                    "💡 *Instrucciones de NERV OS (Modo Agnóstico):*\n\nPara iniciar un radar, escribe:\n`/radar [Nombre Empresa], [Sector], [Propuesta/Pitch (Opcional)], [País (Opcional)]`"
                 )
             return
             
@@ -168,9 +170,11 @@ def process_message(chat_id: str, text: str):
         if is_toku:
             pitch = "Solución de Pagos + Recurrencia B2B"
             vendedor = "Toku"
+            pais = parts[2] if len(parts) > 2 else "México"
         else:
             pitch = parts[2] if len(parts) > 2 else "Software SaaS B2B"
             vendedor = "Agnóstico"
+            pais = parts[3] if len(parts) > 3 else "México"
         
         # Lanzar el enjambre de agentes en segundo plano
         thread = threading.Thread(
@@ -181,7 +185,8 @@ def process_message(chat_id: str, text: str):
                 "sector": sector,
                 "pitch": pitch,
                 "vendedor": vendedor,
-                "prior_knowledge": ""
+                "prior_knowledge": "",
+                "pais": pais
             }
         )
         thread.daemon = True
@@ -193,11 +198,11 @@ def process_message(chat_id: str, text: str):
             "Soy el Swarm Intelligence Core de NERV OS. Puedo realizar un dossier estratégico forense de cualquier prospecto en modo Toku o Agnóstico.\n\n"
             "👉 *¿Cómo usarme?*\n\n"
             "🟢 **Modo Toku (Propuesta Oficial):**\n"
-            "`/toku [Nombre Empresa], [Sector]`\n"
-            "Ej: `/toku Walmart México, Retail`\n\n"
+            "`/toku [Nombre Empresa], [Sector], [País (Opcional)]`\n"
+            "Ej: `/toku Walmart, Retail, México` o `/toku Walmart, Retail, Brasil`\n\n"
             "🔵 **Modo Agnóstico (Cualquier Producto/Empresa):**\n"
-            "`/radar [Nombre Empresa], [Sector], [Propuesta]`\n"
-            "Ej: `/radar Nike, Ecommerce, Orquestación de Pagos y Recurrencia`"
+            "`/radar [Nombre Empresa], [Sector], [Propuesta], [País (Opcional)]`\n"
+            "Ej: `/radar Nike, Ecommerce, Orquestación de Pagos, México`"
         )
         send_telegram_message(chat_id, welcome_msg)
 

@@ -17,21 +17,45 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
         if empresa_sel == "[ Escribir manualmente ]":
             empresa = st.text_input("Nombre de la empresa", placeholder="ej: Walmart México")
             sector = st.text_input("Sector", placeholder="ej: Retail")
+            url_cliente = st.text_input("Sitio Web / URL de la empresa", placeholder="ej: https://www.walmart.com.mx")
             pitch = st.text_area("Propuesta de Valor (Vendedor)", placeholder="ej: Orquestacion de Pagos")
         else:
             row = next(r for r in companies_data if r["empresa"] == empresa_sel)
             empresa = row["empresa"]
             sector = row["sector"]
+            url_cliente = st.text_input("Sitio Web / URL de la empresa", value=row.get("url", ""))
             # Permitir editar la propuesta aunque venga del CSV
             pitch = st.text_area("Propuesta de Valor (Personalizable)", value=row["pitch_principal"])
             st.success(f"**Empresa:** {empresa} | **Sector:** {sector}")
 
     with col2:
-        st.markdown("**Inteligencia de Venta / Objeciones:**")
+        # Autodetección de país basada en URL
+        detected_pais = "México"
+        if url_cliente:
+            url_lower = url_cliente.lower()
+            if ".br" in url_lower or "/pt-br" in url_lower or "/pt" in url_lower or "/br/" in url_lower:
+                detected_pais = "Brasil"
+            elif ".co" in url_lower or "/co" in url_lower:
+                if not url_lower.endswith(".com") and not ".com/" in url_lower:
+                    detected_pais = "Colombia"
+            elif ".cl" in url_lower or "/cl" in url_lower:
+                detected_pais = "Chile"
+            elif ".pe" in url_lower or "/pe" in url_lower:
+                detected_pais = "Perú"
+            elif ".ar" in url_lower or "/ar" in url_lower:
+                detected_pais = "Argentina"
+            elif ".mx" in url_lower or "/mx" in url_lower:
+                detected_pais = "México"
+
+        paises_disponibles = ["México", "Brasil", "Colombia", "Chile", "Perú", "Argentina"]
+        default_index = paises_disponibles.index(detected_pais) if detected_pais in paises_disponibles else 0
+        pais = st.selectbox("País de Prospección", paises_disponibles, index=default_index)
+
+        st.markdown("**Inteligencia de Venta / Contexto del Prospecto:**")
         prior_knowledge = st.text_area(
             "Contexto Previo (RLHF)", 
-            placeholder="Ej: 'A este CFO le preocupa la regulacion de la CNBV'...",
-            help="Cualquier objecion conocida. El enjambre lo usara para calibrar el ataque."
+            placeholder="Ej: 'A este CFO le preocupa la regulacion de la CNBV, queremos venderle SPEI y Conciliación automática'...",
+            help="Detalles sobre objeciones, contactos previos o cualquier contexto valioso para personalizar la venta."
         )
 
     # Verificar si ya existe un dossier guardado localmente para evitar regenerarlo
@@ -67,8 +91,10 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                     sector=sector, 
                     pitch=pitch, 
                     vendedor=vendedor_url, 
+                    url_cliente=url_cliente,
                     prior_knowledge=prior_knowledge, 
-                    log_callback=update_ui_log
+                    log_callback=update_ui_log,
+                    pais=pais
                 )
                 dossier = crew.kickoff()
                 
@@ -90,6 +116,7 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                     f"📊 *NERV Dossier Audit* ({modo_str})\n"
                     f"Se ha generado un análisis individual.\n\n"
                     f"🎯 *Empresa:* {empresa}\n"
+                    f"🌍 *País:* {pais}\n"
                     f"🏢 *Sector:* {sector}\n"
                     f"👤 *Vendedor:* {vendedor_name}"
                 )
