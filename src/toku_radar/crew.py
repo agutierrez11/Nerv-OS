@@ -332,6 +332,12 @@ class NervCrew:
                 except Exception as e:
                     logger.error(f"Error en raspado de url_cliente {self.url_cliente}: {e}")
             
+            # Truncar el contenido de scraping para evitar exceder la ventana de tokens de los LLMs (6k-12k TPM)
+            max_chars = 12000
+            if len(website_markdown) > max_chars:
+                logger.info(f"Truncando website_markdown de {len(website_markdown)} a {max_chars} caracteres.")
+                website_markdown = website_markdown[:max_chars] + "\n\n[... CONTENIDO TRUNCADO POR LÍMITE DE TAMAÑO ...]"
+
             raw_intel["website_markdown"] = website_markdown
             cache.set(cache_key, raw_intel)
         
