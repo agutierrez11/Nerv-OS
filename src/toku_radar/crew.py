@@ -417,7 +417,7 @@ NO copies ni cites este bloque literalmente en el output.
             initial_context = f"{initial_context}\n\nCONTEXTO PREVIO/OBJECIONES:\n{self.prior_knowledge}"
             
         # 2. Ejecucion del Enjambre (todos los agentes reciben la Constitution)
-        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="groq", constitution=self.constitution, gl=self.gl, hl=self.hl)
+        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_investigacion = investigador.execute(
             self.tasks_config['tarea_investigacion']['description'].format(
                 empresa=self.empresa, 
@@ -487,7 +487,7 @@ NO copies ni cites este bloque literalmente en el output.
 
         # --- FASE 3: ESTRUCTURACION SUPABASE ---
         if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando ]")
-        data_engineer = Agent(self.agents_config['ingeniero_datos'], log_callback=self.log_callback, engine="groq")
+        data_engineer = Agent(self.agents_config['ingeniero_datos'], log_callback=self.log_callback, engine="deepseek")
         json_output_raw = data_engineer.execute(
             self.tasks_config['tarea_estructuracion_datos']['description'].format(
                 empresa=self.empresa,
