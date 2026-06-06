@@ -1,11 +1,11 @@
 import os
 import yaml
-from toku_radar.tools.groq_rotator import GroqRotator
+from toku_radar.tools.deepseek_client import DeepSeekClient
 
 class VeracityAuditor:
     """Motor de Auditoría Metacognitiva basada en la Constitución de NERV OS."""
     def __init__(self, log_callback=None):
-        self.rotator = GroqRotator(log_callback=log_callback)
+        self.rotator = DeepSeekClient(log_callback=log_callback)
         self.base_path = os.path.dirname(__file__)
         self.constitution_path = os.path.join(os.path.dirname(self.base_path), 'config', 'constitution.yaml')
         
@@ -43,7 +43,7 @@ class VeracityAuditor:
         """
         
         resp = self.rotator.create_completion(
-            model="llama-3.1-8b-instant",
+            model="deepseek-chat",
             messages=[{"role": "user", "content": prompt}],
             temperature=0
         )

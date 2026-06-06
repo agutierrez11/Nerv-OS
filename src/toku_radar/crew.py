@@ -516,8 +516,12 @@ NO copies ni cites este bloque literalmente en el output.
             logger.error(f"Error parseando o subiendo JSON a Supabase: {e}")
 
         # 4. Protocolos de Veracidad
-        auditor = VeracityAuditor()
-        audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
+        try:
+            auditor = VeracityAuditor()
+            audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
+        except Exception as aud_err:
+            logger.error(f"Error en Protocolo de Veracidad: {aud_err}")
+            audit_res = f"Protocolo de Veracidad omitido por razones técnicas: {aud_err}"
         
         clean_output = f"""
 # 🚀 NERV Intelligence Report: {self.empresa}
