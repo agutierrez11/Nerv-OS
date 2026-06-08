@@ -29,8 +29,8 @@ class GroqRotator:
         if self.log_callback:
             self.log_callback(f"⚠️ [ROTACIÓN ACTIVADA] Cambiando a API Key #{self.current_index + 1}")
 
-    def create_completion(self, model, messages, temperature=0.7, max_retries=3):
-        """Envuelve la llamada a Groq con manejo de errores y rotación."""
+    def create_completion(self, model, messages, temperature=0.7, max_retries=10):
+        """Envuelve la llamada a Groq con manejo de errores, rotación y sleep de enfriamiento."""
         attempts = 0
         while attempts < max_retries:
             try:
@@ -44,17 +44,23 @@ class GroqRotator:
             except groq.RateLimitError as e:
                 attempts += 1
                 if self.log_callback:
-                    self.log_callback(f"⛔ Rate Limit con Key #{self.current_index + 1}. Intentando rotación...")
+                    self.log_callback(f"⛔ Rate Limit con Key #{self.current_index + 1}. Rotando y durmiendo 4s... (Intento {attempts}/{max_retries})")
                 
-                # Si tenemos más de una llave, rotamos inmediatamente
-                if len(self.keys) > 1:
-                    self._rotate_key()
-                else:
-                    # Si solo hay 1 llave, hacemos un backoff (esperamos)
-                    time.sleep(2)
+                # Rotamos la llave
+                self._rotate_key()
+                # Dormimos para dar tiempo a enfriar los límites de RPM/TPM
+                time.sleep(4)
             except Exception as e:
-                # Cualquier otro error, lo lanzamos
-                raise e
+                # Si es un error de rate limit camuflado como BadRequest/413 u otro, intentamos rotar también
+                err_str = str(e).lower()
+                if "rate_limit" in err_str or "limit exceeded" in err_str or "too many requests" in err_str:
+                    attempts += 1
+                    if self.log_callback:
+                        self.log_callback(f"⚠️ Error de límites detectado ({e}). Rotando y esperando 4s...")
+                    self._rotate_key()
+                    time.sleep(4)
+                else:
+                    raise e
                 
         # Si agotamos los intentos
-        raise Exception(f"Fallo crítico: Rate Limits excedidos tras {max_retries} intentos con rotación.")
+        raise Exception(f"Fallo crítico: Rate Limits excedidos tras {max_retries} intentos con rotación y esperas.")

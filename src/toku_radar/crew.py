@@ -353,43 +353,100 @@ class NervCrew:
         # Capa 1: Toku (KB integrado en código, activado automáticamente)
         is_toku = "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower()
         if is_toku:
-            active_kb = """
-🧠 CONTEXTO DE FONDO DEL VENDEDOR — TOKU:
+            # Cargar dinámicamente las 3 presentaciones de Toku desde la carpeta memory
+            memory_dir = PROJECT_ROOT / "memory"
+            bienes_text = ""
+            ecom_text = ""
+            cat_text = ""
+            
+            bienes_path = memory_dir / "Toku x Bienes de Consumo_raw.md"
+            if bienes_path.exists():
+                try:
+                    bienes_text = bienes_path.read_text(encoding="utf-8").strip()
+                except Exception as e:
+                    logger.error(f"Error leyendo Toku x Bienes de Consumo_raw.md: {e}")
+                    
+            ecom_path = memory_dir / "Toku x Ecommerce_raw.md"
+            if ecom_path.exists():
+                try:
+                    ecom_text = ecom_path.read_text(encoding="utf-8").strip()
+                except Exception as e:
+                    logger.error(f"Error leyendo Toku x Ecommerce_raw.md: {e}")
+                    
+            cat_path = memory_dir / "Toku x Venta por Catalogo_raw.md"
+            if cat_path.exists():
+                try:
+                    cat_text = cat_path.read_text(encoding="utf-8").strip()
+                except Exception as e:
+                    logger.error(f"Error leyendo Toku x Venta por Catalogo_raw.md: {e}")
+            
+            fallback_bienes = "Digitalizar la cobranza B2B con AI Agent, portal de pago y conciliación automática en Consumo Masivo / Bienes de Consumo."
+            fallback_ecom = "Unificar adquirencia, métodos, antifraude and conciliación en una sola API para E-commerce & Retail."
+            fallback_cat = "Automatizar la cobranza a consultoras con domiciliación recurrente, AI Agent y portal self-service en Venta por Catálogo."
+            
+            # Determinar vertical principal según el sector del prospecto
+            sector_lower = str(self.sector).lower()
+            primary_vertical = "No determinada directamente (General/Discovery)"
+            primary_content = ""
+            
+            if any(kw in sector_lower for kw in ["bienes", "consumo", "goods", "distribution", "distribucion", "fmcg", "alimento", "bebida"]):
+                primary_vertical = "BIENES DE CONSUMO (Goods / Consumo Masivo B2B)"
+                primary_content = bienes_text if bienes_text else fallback_bienes
+            elif any(kw in sector_lower for kw in ["ecommerce", "e-commerce", "retail", "tienda", "online", "checkout", "comercio"]):
+                primary_vertical = "ECOMMERCE & RETAIL"
+                primary_content = ecom_text if ecom_text else fallback_ecom
+            elif any(kw in sector_lower for kw in ["catalogo", "catalog", "venta directa", "direct selling", "consultora", "vendedora", "multinivel"]):
+                primary_vertical = "VENTA POR CATÁLOGO (Direct Selling)"
+                primary_content = cat_text if cat_text else fallback_cat
+                
+            active_kb = f"""
+🧠 CONTEXTO DE FONDO DEL VENDEDOR — TOKU (INFRAESTRUCTURA DE COBROS Y PAGOS B2B/B2C):
 
-1. VERTICAL: BIENES DE CONSUMO (Goods / Consumo Masivo B2B)
-   - DOLORES / PAIN POINTS PRINCIPALES:
-     * Cobranza no digitalizada en canal tradicional (changarros, tienditas pagan en efectivo o transferencia sin trazabilidad).
-     * Cobranza manual a distribuidores (costo operativo alto, DSO elevado, cartera vencida que crece sin control).
-     * Crédito sin trazabilidad en tiempo real sobre comportamiento de pago.
-     * Conciliación manual (pagos de múltiples canales sin aplicación automática en ERP, cierre contable lento y errores).
-   - QUÉ HACE TOKU:
-     * Digitaliza la cobranza B2B con AI Agent, portal de pago y conciliación automática.
-     * Una sola conexión a todos los rieles de pago en México: domiciliación (BBVA, Santander, Banamex, Banorte...), tarjetas, corresponsales (OXXO, 7-Eleven...), SPEI/CoDi, métodos alternativos (BNPL, wallets).
-     * Habilitadores: Smart routing, fallback automático, antifraude 3DS2, conciliación automática en ERP, AI Agent de cobranza.
+A continuación se presenta la información comercial oficial de Toku. Como estratega, debes analizar el sector y los dolores del cliente para alinear la propuesta de valor.
 
-2. VERTICAL: ECOMMERCE & RETAIL
-   - DOLORES: Tasa de aprobación subóptima, fraude vs. conversión, integraciones fragmentadas, conciliación manual.
-   - QUÉ HACE TOKU: Unifica adquirencia, métodos, antifraude y conciliación en una sola API.
+==================================================
+1. VERTICAL IDENTIFICADA COMO PRINCIPAL PARA ESTE PROSPECTO:
+Vertical: {primary_vertical}
 
-3. VERTICAL: VENTA POR CATÁLOGO (Direct Selling)
-   - DOLORES: DSO alto y cartera vencida de consultoras, venta a crédito sin domiciliación, sin herramientas digitales para fuerza de venta.
-   - QUÉ HACE TOKU: Automatiza la cobranza a consultoras con domiciliación recurrente, AI Agent y portal self-service.
+"""
+            if primary_content:
+                active_kb += f"""--- INICIO DE INFORMACIÓN DE LA VERTICAL PRINCIPAL ---
+{primary_content}
+--- FIN DE INFORMACIÓN DE LA VERTICAL PRINCIPAL ---
+"""
+            else:
+                active_kb += "No se pre-identificó una vertical exclusiva. Analiza el prospecto y decide cuál de las soluciones de Toku (Bienes de Consumo, E-commerce, o Venta por Catálogo) se adapta mejor.\n"
+                
+            active_kb += f"""
+==================================================
+2. CATÁLOGO COMPLETO DE PRESENTACIONES DE TOKU PARA ANÁLISIS CRUZADO:
 
-4. POSICIONAMIENTO VS COMPETENCIA (Clip, Openpay, Stripe, Conekta):
-   - Toku orquesta, no compite directamente. Puede integrarse sobre pasarelas existentes.
-   - Smart Routing: Si falla un adquirente, cascadea a otro en milisegundos.
-   - Reducción de comisiones hasta 80% redirigiendo cobros recurrentes a domiciliación/SPEI (costo fijo mínimo vs. 2.5-3.6% de pasarelas).
-   - Cobranza activa: cuando falla un pago, el AI Agent (WhatsApp/SMS/IVR) actúa de inmediato.
-   - Conciliación automática directamente en el ERP (SAP, NetSuite) — algo que pasarelas estándar no hacen.
+[PRESENTACIÓN 1: BIENES DE CONSUMO (Goods / Consumo Masivo B2B)]
+{bienes_text if bienes_text else "(No se pudo cargar el archivo local)"}
 
-5. MODELO COMERCIAL:
-   - Consultoría + SaaS. Acompañamos como consultores de pagos, no solo como software.
-   - Compromiso: “Aportar valor o no cobramos.”
-   - Metodología: Diagnóstico → Acompañamiento → Definición conjunta de KPIs.
-   - Respaldo: Wollef Capital. Certificaciones: PCI DSS Level 1, ISO 27001.
+[PRESENTACIÓN 2: ECOMMERCE & RETAIL]
+{ecom_text if ecom_text else "(No se pudo cargar el archivo local)"}
 
-NOTA: Este es contexto de fondo. Úsalo para razonar y adaptar argumentos al target.
-NO copies ni cites este bloque literalmente en el output.
+[PRESENTACIÓN 3: VENTA POR CATÁLOGO (Direct Selling)]
+{cat_text if cat_text else "(No se pudo cargar el archivo local)"}
+
+==================================================
+3. POSICIONAMIENTO CLAVE VS COMPETENCIA (Clip, Openpay, Stripe, Conekta, etc.):
+- Toku orquesta y complementa, no compite necesariamente. Puede montarse sobre pasarelas existentes.
+- Smart Routing / Enrutamiento Inteligente: Si falla un adquirente, cascadea a otro en milisegundos para salvar la venta.
+- Reducción de comisiones de hasta el 80%: Redirige cobros recurrentes y de alto ticket a domiciliación o transferencias SPEI con comisiones fijas mínimas frente al 2.5% - 3.6% variable de pasarelas tradicionales.
+- Cobranza Activa (AI Agent): Intervención automática e inmediata vía WhatsApp interactivo, SMS o llamadas robotizadas (IVR) cuando un pago es rechazado.
+- Conciliación Automática en tiempo real directo al ERP (SAP, NetSuite, etc.), resolviendo el mayor dolor administrativo de finanzas.
+
+==================================================
+4. MODELO COMERCIAL Y RESPALDO:
+- Modelo: Consultoría experta en pagos + Software as a Service (SaaS).
+- Filosofía: Aportamos valor o no cobramos.
+- Metodología: 1) Diagnóstico completo → 2) Acompañamiento en contratos bancarios → 3) Definición conjunta de KPIs.
+- Respaldo e Inversores: Respaldado por Wollef Capital.
+- Seguridad y Cumplimiento: Certificaciones PCI DSS Level 1 y ISO 27001.
+
+NOTA: Este es contexto de fondo para el enjambre de agentes de NERV. Úsalo para estructurar y justificar detalladamente cada sección de la propuesta en el dossier final. NO copies ni cites este bloque textualmente en el entregable final.
 """
         # Capa 2: Vendór genérico (KB inyectado externamente por el usuario)
         elif self.vendor_kb:
