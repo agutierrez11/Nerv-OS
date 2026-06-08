@@ -353,11 +353,19 @@ class NervCrew:
         # Capa 1: Toku (KB integrado en código, activado automáticamente)
         is_toku = "toku" in str(self.vendedor).lower() or "toku" in str(self.producto).lower()
         if is_toku:
-            # Cargar dinámicamente las 3 presentaciones de Toku desde la carpeta memory
+            # Cargar dinámicamente las presentaciones y el KB Global de Toku desde memory
             memory_dir = PROJECT_ROOT / "memory"
             bienes_text = ""
             ecom_text = ""
             cat_text = ""
+            global_kb_text = ""
+            
+            global_kb_path = memory_dir / "Toku_Global_KB.md"
+            if global_kb_path.exists():
+                try:
+                    global_kb_text = global_kb_path.read_text(encoding="utf-8").strip()
+                except Exception as e:
+                    logger.error(f"Error leyendo Toku_Global_KB.md: {e}")
             
             bienes_path = memory_dir / "Toku x Bienes de Consumo_raw.md"
             if bienes_path.exists():
@@ -431,7 +439,11 @@ Vertical: {primary_vertical}
 {cat_text if cat_text else "(No se pudo cargar el archivo local)"}
 
 ==================================================
-3. POSICIONAMIENTO CLAVE VS COMPETENCIA (Clip, Openpay, Stripe, Conekta, etc.):
+3. CONOCIMIENTO GLOBAL Y CASOS DE USO DE TOKU (COMPLEMENTO MAESTRO):
+{global_kb_text if global_kb_text else "(No se pudo cargar el catálogo global)"}
+
+==================================================
+4. POSICIONAMIENTO CLAVE VS COMPETENCIA (Clip, Openpay, Stripe, Conekta, etc.):
 - Toku orquesta y complementa, no compite necesariamente. Puede montarse sobre pasarelas existentes.
 - Smart Routing / Enrutamiento Inteligente: Si falla un adquirente, cascadea a otro en milisegundos para salvar la venta.
 - Reducción de comisiones de hasta el 80%: Redirige cobros recurrentes y de alto ticket a domiciliación o transferencias SPEI con comisiones fijas mínimas frente al 2.5% - 3.6% variable de pasarelas tradicionales.
@@ -439,14 +451,14 @@ Vertical: {primary_vertical}
 - Conciliación Automática en tiempo real directo al ERP (SAP, NetSuite, etc.), resolviendo el mayor dolor administrativo de finanzas.
 
 ==================================================
-4. MODELO COMERCIAL Y RESPALDO:
+5. MODELO COMERCIAL Y RESPALDO:
 - Modelo: Consultoría experta en pagos + Software as a Service (SaaS).
 - Filosofía: Aportamos valor o no cobramos.
 - Metodología: 1) Diagnóstico completo → 2) Acompañamiento en contratos bancarios → 3) Definición conjunta de KPIs.
 - Respaldo e Inversores: Respaldado por Wollef Capital.
 - Seguridad y Cumplimiento: Certificaciones PCI DSS Level 1 y ISO 27001.
 
-NOTA: Este es contexto de fondo para el enjambre de agentes de NERV. Úsalo para estructurar y justificar detalladamente cada sección de la propuesta en el dossier final. NO copies ni cites este bloque textualmente en el entregable final.
+NOTA: Este es contexto de fondo para el enjambre de agentes de NERV. Úsalo para estructurar y justificar detalladamente cada sección de la propuesta en el dossier final. Busca activamente cruzar el dolor del cliente con los productos descritos en el Conocimiento Global. NO copies ni cites este bloque textualmente en el entregable final.
 """
         # Capa 2: Vendór genérico (KB inyectado externamente por el usuario)
         elif self.vendor_kb:
