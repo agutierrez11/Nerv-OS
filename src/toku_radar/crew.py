@@ -582,7 +582,7 @@ NO copies ni cites este bloque literalmente en el output.
             else:
                 logger.warning(f"No se detectó JSON válido en la respuesta del ingeniero de datos.")
         except Exception as e:
-            logger.error(f"Error parseando o subiendo JSON a Supabase: {e}")
+            logger.warning(f"No se pudo parsear el JSON de la base de datos (Ignorado para no detener el flujo).")
 
         # 4. Protocolos de Veracidad
         try:
