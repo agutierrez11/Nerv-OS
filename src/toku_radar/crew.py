@@ -174,7 +174,7 @@ REGLAS DE OPERACION:
 2. Si necesitas datos de contacto, menciona 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' y el tipo (Search/Prospeo/FullEnrich).
 3. Analiza la observacion y genera el entregable final.
 EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
-IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente.
+IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible (o no encontró coincidencia), escribe estrictamente 'No detectado'. Está ESTRICTAMENTE PROHIBIDO estimar, calcular o inventar correos electrónicos que no hayan sido verificados por las herramientas.
             """},
             {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
         ]

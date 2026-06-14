@@ -172,7 +172,7 @@ FORMATO JSON REQUERIDO (lista de 3 objetos):
     "stance": "Postura real basada en el dossier y su rol funcional",
     "core_concerns": ["Concern 1 derivado del dossier", "Concern 2"],
     "linkedin_url": "URL provista, o inferida de LinkedIn (ej: https://linkedin.com/in/nombre-apellido)",
-    "email": "Email provisto o inferido en base a nombre y empresa (ej: j.perez@empresa.com)"
+    "email": "Email verificado obtenido mediante la herramienta (ej: j.perez@empresa.com), o escribe estrictamente 'No detectado' si no hay un correo verificado. Está estrictamente prohibido inventar o calcular correos ficticios."
   }
 ]
 Devuelve SOLO el bloque JSON, sin markdown ni explicaciones.
