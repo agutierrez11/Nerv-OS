@@ -12,7 +12,7 @@ def fullenrich_enrich_person(linkedin_url: str) -> str:
     Input: La URL de LinkedIn (ej. https://www.linkedin.com/in/usuario).
     Output: El correo electrónico de trabajo o personal de la persona, o un mensaje indicando que no se encontró.
     """
-    api_key = os.environ.get("FULLENRICH_API_KEY", "ca49ba4c-a56b-426e-995e-f384cb484273")
+    api_key = os.environ.get("FULLENRICH_API_KEY")
     if not api_key:
         return "Error: FULLENRICH_API_KEY no está configurada en el entorno."
 
