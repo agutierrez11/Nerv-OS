@@ -58,6 +58,14 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
             help="Detalles sobre objeciones, contactos previos o cualquier contexto valioso para personalizar la venta."
         )
 
+        detect_payment_provider = False
+        if user_active and user_active.get("is_toku", False):
+            detect_payment_provider = st.checkbox(
+                "🔍 Detectar Pasarela de Pagos (Solo para Toku)", 
+                value=True, 
+                help="Intenta buscar y verificar qué pasarela de pagos usa el prospecto. Si no encuentra nada, no inventará."
+            )
+
     # Verificar si ya existe un dossier guardado localmente para evitar regenerarlo
     safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_') if empresa else ""
     file_path = output_dir / f"{safe_name}.md" if safe_name else None
@@ -94,7 +102,8 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                     url_cliente=url_cliente,
                     prior_knowledge=prior_knowledge, 
                     log_callback=update_ui_log,
-                    pais=pais
+                    pais=pais,
+                    detect_payment_provider=detect_payment_provider
                 )
                 dossier = crew.kickoff()
                 

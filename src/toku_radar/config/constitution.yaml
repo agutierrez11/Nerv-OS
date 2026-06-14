@@ -8,8 +8,8 @@ rules:
 
   - id: "L02_EVIDENCIA_HARD"
     name: "Prueba de Veracidad"
-    instruction: "Todo dato financiero, noticia de expansión o crisis operativa debe ir acompañado de un enlace (URL) o cita del contexto de investigación. No se permiten datos 'estimados' sin base real."
-    severity: "HIGH"
+    instruction: "Todo dato financiero, métrica, noticia de expansión, crisis operativa o proveedor de pagos debe ir acompañado de una cita de texto exacta entre comillas o enlace del contexto de investigación. Si el dato no se encuentra explícitamente citado, debe ser removido o marcado como No detectado. Está estrictamente prohibido inventar o estimar pasarelas de pago."
+    severity: "CRITICAL"
 
   - id: "L03_ANTI_FLUFF"
     name: "Cero Marketing Genérico"

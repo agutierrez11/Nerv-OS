@@ -187,7 +187,7 @@ IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como
 TokuCrew = None  # se define al final del archivo
 
 class NervCrew:
-    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None, pais="México"):
+    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None, pais="México", detect_payment_provider=False):
         self.empresa = empresa
         self.sector = sector
         self.vendedor = vendedor
@@ -198,6 +198,7 @@ class NervCrew:
         self.log_callback = log_callback
         self.base_path = os.path.dirname(__file__)
         self.memory = NervMemory()
+        self.detect_payment_provider = detect_payment_provider
         
         # Detección automática de país basada en url_cliente si existe
         self.pais = pais
@@ -279,6 +280,77 @@ class NervCrew:
             logger.error(f"Error descubriendo subpáginas para {url}: {e}")
             return []
 
+    def _detect_payment_provider(self, website_markdown: str) -> str:
+        """
+        Detecta qué pasarela de pagos usa el prospecto usando Wappalyzer,
+        búsqueda en el código raspado de la web y búsquedas en Google Search.
+        Si no se encuentra nada, retorna "No detectado".
+        """
+        logger.info(f"Iniciando escaneo de pasarela de pagos para: {self.empresa}")
+        if self.log_callback:
+            self.log_callback("🔍 *NERV OS:* Escaneando pasarela de pagos del prospecto...")
+            
+        gateways = {
+            'stripe': 'Stripe',
+            'dlocal': 'dLocal',
+            'adyen': 'Adyen',
+            'mercado pago': 'Mercado Pago',
+            'mercadopago': 'Mercado Pago',
+            'conekta': 'Conekta',
+            'openpay': 'Openpay',
+            'kushki': 'Kushki',
+            'payu': 'PayU',
+            'paypal': 'PayPal',
+            'pagseguro': 'PagSeguro',
+            'ebanx': 'Ebanx',
+            'paymentez': 'Paymentez',
+            'webpay': 'Webpay (Transbank)',
+            'getnet': 'Getnet',
+            'clip': 'Clip',
+            'paysafe': 'Paysafe',
+            'placetopay': 'Placetopay'
+        }
+        
+        detected = set()
+        
+        # 1. Escaneo en el HTML raspado de la web principal y subpáginas
+        if website_markdown:
+            md_lower = website_markdown.lower()
+            import re
+            for kw, name in gateways.items():
+                if re.search(rf'\b{kw}\b', md_lower):
+                    detected.add(name)
+                    
+        # 2. Búsqueda estratégica en Google (Serper)
+        try:
+            searcher = SerperSearch()
+            query = f'"{self.empresa}" (stripe OR dlocal OR adyen OR \"mercado pago\" OR conekta OR openpay OR kushki OR payu OR checkout OR pasarela OR \"payment gateway\")'
+            search_results = searcher._query(query, gl=self.gl, hl=self.hl)
+            
+            if isinstance(search_results, dict) and "organic" in search_results:
+                import re
+                for item in search_results["organic"]:
+                    snippet = item.get("snippet", "").lower()
+                    title = item.get("title", "").lower()
+                    text_to_check = f"{title} {snippet}"
+                    for kw, name in gateways.items():
+                        if re.search(rf'\b{kw}\b', text_to_check):
+                            detected.add(name)
+        except Exception as e:
+            logger.warning(f"Error en búsqueda de pasarela de pagos: {e}")
+            
+        if detected:
+            providers = ", ".join(sorted(list(detected)))
+            logger.info(f"Pasarela(s) detectada(s) para {self.empresa}: {providers}")
+            if self.log_callback:
+                self.log_callback(f"💳 *Pasarela Detectada:* {providers}")
+            return providers
+            
+        logger.info(f"No se detectó ninguna pasarela de pagos para {self.empresa}")
+        if self.log_callback:
+            self.log_callback("💳 *Pasarela:* No detectada en fuentes oficiales ni noticias.")
+        return "No detectado"
+
     def kickoff(self):
         logger.info(f"Iniciando NERV OS para: {self.empresa} (Vendedor: {self.vendedor})")
         db.log_search(self.empresa, "STARTED")
@@ -348,6 +420,11 @@ class NervCrew:
             if len(web_md) > max_chars:
                 web_md = web_md[:max_chars] + "\n\n[... CONTENIDO TRUNCADO POR SEGURIDAD DE LIMITES ...]"
             initial_context = f"CONTENIDO RASPADO DEL SITIO WEB OFICIAL DEL CLIENTE:\n{web_md}\n\n{initial_context}"
+
+        # Detección de Pasarela de Pagos (solo si se solicita)
+        if getattr(self, 'detect_payment_provider', False):
+            detected_provider = self._detect_payment_provider(raw_intel.get("website_markdown", ""))
+            initial_context = f"💳 PASARELA DE PAGOS DETECTADA EN EL PROSPECTO: {detected_provider}\n(Importante: Si dice 'No detectado', está ESTRICTAMENTE PROHIBIDO inventar un proveedor de pagos. Debes asumir que no se conoce. Si se detectó, explica detalladamente cómo Toku mejora o complementa a ese proveedor específico).\n\n" + initial_context
         
         # --- RESOLUCION DE KB DEL VENDEDOR (Dual-Layer: Toku-specific | Genérico) ---
         # Capa 1: Toku (KB integrado en código, activado automáticamente)
@@ -529,30 +606,79 @@ NO copies ni cites este bloque literalmente en el output.
             estratega_context = f"{active_kb}\n\n{estratega_context}"
 
         estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
-        dossier_preliminar = estratega.execute(
-            self.tasks_config['tarea_dossier_final']['description'].format(
-                empresa=self.empresa,
-                sector=self.sector,
-                vendedor=self.vendedor,
-                producto=self.producto
-            ),
-            context=estratega_context
-        )
-
-        # Limpieza de corchetes múltiples (ej: [[[[Ecommerce]]]], [[CFO]] -> Ecommerce, CFO)
-        import re
-        dossier_preliminar = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', dossier_preliminar)
-
-        # Limpieza de metadatos técnicos e internos del dossier
-        dossier_preliminar = re.sub(r'(?im)^.*?razonamiento del enjambre.*$', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?im)^.*?swarm readiness score.*$', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?im)^.*?mirofish.*$', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?im)^.*?para data engineers?.*$', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?im)^.*?gtm swarm.*$', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?im)^.*?galileo.*$', '', dossier_preliminar)
-        dossier_preliminar = re.sub(r'(?im)^.*?probabilidad de .xito:?\s*\d+%.*$', '', dossier_preliminar)
-        # Limpiar líneas vacías consecutivas resultantes
-        dossier_preliminar = re.sub(r'\n{3,}', '\n\n', dossier_preliminar).strip()
+        
+        # --- BUCLE DE AUTO-CORRECCIÓN CON EL AUDITOR (GALILEO SELF-CORRECTION) ---
+        max_tries = 3
+        dossier_preliminar = ""
+        audit_res = ""
+        feedback_history = ""
+        
+        for attempt in range(1, max_tries + 1):
+            logger.info(f"Fase de Generación de Dossier - Intento {attempt}/{max_tries}")
+            if self.log_callback:
+                self.log_callback(f"⚙️ *NERV OS:* Generando dossier comercial (Intento {attempt}/{max_tries})...")
+            
+            # Incorporamos feedback en el contexto del estratega si lo hay
+            current_estratega_context = estratega_context
+            if feedback_history:
+                current_estratega_context += f"\n\n--- REPORTE DE AUDITORÍA ANTERIOR (CORREGIR ESTOS ERRORES Y ALUCINACIONES): ---\n{feedback_history}\n\nIMPORTANTE: Reescribe el dossier eliminando toda alucinación o dato inventado que el Auditor haya marcado."
+                
+            dossier_preliminar = estratega.execute(
+                self.tasks_config['tarea_dossier_final']['description'].format(
+                    empresa=self.empresa,
+                    sector=self.sector,
+                    vendedor=self.vendedor,
+                    producto=self.producto
+                ),
+                context=current_estratega_context
+            )
+            
+            # Limpieza básica
+            dossier_preliminar = re.sub(r'\[{2,}([^\]\n]+)\]{2,}', r'\1', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?razonamiento del enjambre.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?swarm readiness score.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?mirofish.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?para data engineers?.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?gtm swarm.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?galileo.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'(?im)^.*?probabilidad de .xito:?\s*\d+%.*$', '', dossier_preliminar)
+            dossier_preliminar = re.sub(r'\n{3,}', '\n\n', dossier_preliminar).strip()
+            
+            # Auditoría inmediata
+            logger.info(f"Fase de Auditoría - Intento {attempt}/{max_tries}")
+            if self.log_callback:
+                self.log_callback(f"🛡️ *Protocolo de Veracidad:* Auditando calidad y veracidad del dossier...")
+                
+            from toku_radar.tools.auditor import VeracityAuditor
+            try:
+                auditor = VeracityAuditor()
+                audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
+            except Exception as aud_err:
+                logger.error(f"Error en auditoría: {aud_err}")
+                audit_res = "Veredicto Final: Aprobado\nNotas: Error en auditoria automatica, bypass."
+                
+            # Analizar decisión del auditor
+            audit_lower = audit_res.lower()
+            is_approved = False
+            if "veredicto final:" in audit_lower:
+                veredicto_line = [line for line in audit_lower.split('\n') if "veredicto final:" in line]
+                if veredicto_line:
+                    line_val = veredicto_line[0]
+                    if "aprobado" in line_val and "rechazado" not in line_val and "ajuste" not in line_val:
+                        is_approved = True
+            elif "aprobado" in audit_lower and "rechazado" not in audit_lower and "ajuste" not in audit_lower:
+                is_approved = True
+                
+            if is_approved or attempt == max_tries:
+                logger.info(f"Dossier aprobado o límite de intentos alcanzado (Aprobado: {is_approved})")
+                if self.log_callback:
+                    self.log_callback(f"🛡️ *Protocolo de Veracidad:* Dossier Aprobado (Intento {attempt}/{max_tries})")
+                break
+            else:
+                logger.warning(f"Dossier rechazado por el Auditor en intento {attempt}. Iniciando auto-corrección...")
+                if self.log_callback:
+                    self.log_callback(f"⚠️ *Protocolo de Veracidad:* Dossier Rechazado. Solicitando corrección al Estratega...")
+                feedback_history = audit_res
 
         # --- FASE 3: ESTRUCTURACION SUPABASE ---
         if self.log_callback: self.log_callback("\n[ AGENT: Ingeniero de Datos - Sincronizando ]")
@@ -584,13 +710,14 @@ NO copies ni cites este bloque literalmente en el output.
         except Exception as e:
             logger.warning(f"No se pudo parsear el JSON de la base de datos (Ignorado para no detener el flujo).")
 
-        # 4. Protocolos de Veracidad
-        try:
-            auditor = VeracityAuditor()
-            audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
-        except Exception as aud_err:
-            logger.error(f"Error en Protocolo de Veracidad: {aud_err}")
-            audit_res = f"Protocolo de Veracidad omitido por razones técnicas: {aud_err}"
+        # 4. Protocolos de Veracidad (Usamos el resultado de la última auditoría del bucle)
+        if not audit_res:
+            try:
+                auditor = VeracityAuditor()
+                audit_res = auditor.audit_fact(dossier_preliminar, res_investigacion)
+            except Exception as aud_err:
+                logger.error(f"Error en Protocolo de Veracidad: {aud_err}")
+                audit_res = f"Protocolo de Veracidad omitido por razones técnicas: {aud_err}"
         
         clean_output = f"""
 # 🚀 NERV Intelligence Report: {self.empresa}

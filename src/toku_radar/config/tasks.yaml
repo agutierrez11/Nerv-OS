@@ -77,6 +77,10 @@ tarea_dossier_final:
     - El argumento de valor central adaptado a su contexto específico (no citar specs genéricas).
     - El momento de entrada ideal: ¿qué trigger reciente hace que sea el momento correcto para contactar?
 
+    ## 💳 PROVEEDOR DE PAGOS ACTUAL
+    Si se detectó un proveedor de pagos en la investigación (especificado en el contexto), documenta cuál es. Explica brevemente cómo Toku mejora o complementa ese proveedor específico.
+    REGLA DE VERACIDAD CRÍTICA: Si el proveedor está marcado como 'No detectado', escribe exactamente 'Proveedor de pagos: No detectado' y NO inventes ni supongas ninguna pasarela de pagos.
+
     ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al perfil DISC del decisor)
     Genera 3 variantes distintas. Cada una debe sonar como escrita por un humano para este prospecto
     específico. Usa el gancho correcto para el perfil DISC:
@@ -108,6 +112,7 @@ tarea_estructuracion_datos:
     Toma el Dossier Estratégico de {empresa} y extrae los datos clave en formato estructurado:
     nombre, vertical, uvp (propuesta de valor única adaptada al target), 
     strategic_hook (el gancho principal para {producto}), pains (top 3 dolores), 
+    proveedor_pago (el proveedor de pagos detectado o 'No detectado' si no se menciona),
     y killer_argument (el argumento más poderoso del dossier).
   expected_output: >
     Objeto JSON estructurado con la inteligencia de mercado extraída del dossier.
