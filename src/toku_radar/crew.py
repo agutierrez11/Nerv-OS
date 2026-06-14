@@ -116,16 +116,39 @@ class Agent:
         elif "wiki" in plan_lower:
             msg = "## Action: Wikipedia lookup"
             res = get_company_profile(task_desc[:30])
-        elif "prospeo" in plan_lower or "correo" in plan_lower or "email" in plan_lower:
-            msg = "## Action: Prospeo Email Enrichment"
+        elif "prospeo" in plan_lower or "correo" in plan_lower or "email" in plan_lower or "fullenrich" in plan_lower:
+            msg = "## Action: Contact Email Enrichment"
             import re
             urls = re.findall(r'https?://[^\s<>"]+|www\.[^\s<>"]+', plan_text)
             linkedin_url = next((url for url in urls if 'linkedin.com/in/' in url), "")
             if linkedin_url:
-                from toku_radar.tools.prospeo_client import prospeo_enrich_person
-                res = prospeo_enrich_person.run(linkedin_url)
+                res = "No encontrado"
+                
+                # Caso 1: Específicamente pidió FullEnrich
+                if "fullenrich" in plan_lower and "prospeo" not in plan_lower:
+                    from toku_radar.tools.fullenrich_client import fullenrich_enrich_person
+                    res = fullenrich_enrich_person.run(linkedin_url)
+                # Caso 2: Específicamente pidió Prospeo
+                elif "prospeo" in plan_lower and "fullenrich" not in plan_lower:
+                    from toku_radar.tools.prospeo_client import prospeo_enrich_person
+                    res = prospeo_enrich_person.run(linkedin_url)
+                # Caso 3: Genérico (correo / email) o ambos
+                else:
+                    # Intentar Prospeo primero
+                    from toku_radar.tools.prospeo_client import prospeo_enrich_person
+                    res_prospeo = prospeo_enrich_person.run(linkedin_url)
+                    if res_prospeo and "@" in res_prospeo:
+                        res = res_prospeo
+                    else:
+                        # Fallback a FullEnrich
+                        from toku_radar.tools.fullenrich_client import fullenrich_enrich_person
+                        res_fullenrich = fullenrich_enrich_person.run(linkedin_url)
+                        if res_fullenrich and "@" in res_fullenrich:
+                            res = res_fullenrich
+                        else:
+                            res = f"Prospeo: {res_prospeo} | FullEnrich: {res_fullenrich}"
             else:
-                res = "Error: No se detectó una URL de LinkedIn válida en tu petición para usar Prospeo. Asegúrate de incluir la URL completa (ej. https://www.linkedin.com/in/...) al mencionar Prospeo."
+                res = "Error: No se detectó una URL de LinkedIn válida en tu petición para usar las herramientas de enriquecimiento. Asegúrate de incluir la URL completa (ej. https://www.linkedin.com/in/...) al solicitar el correo."
         else:
             msg = "## Action: Standard Search (Serper)"
             res = self.search_tool._query(task_desc, gl=self.gl, hl=self.hl)
@@ -143,15 +166,15 @@ class Agent:
         # BUCLE DE RAZONAMIENTO ESTILO HERMES 3
         full_conversation = [
             {"role": "system", "content": f"""Eres {self.role}. {self.backstory}
-
+ 
 {self.constitution}
-
+ 
 REGLAS DE OPERACION:
 1. Empieza con <thought> para planificar tus pasos.
-2. Si necesitas datos, menciona 'USAR HERRAMIENTA' y el tipo (Maps/News/Search/Prospeo).
+2. Si necesitas datos de contacto, menciona 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' y el tipo (Search/Prospeo/FullEnrich).
 3. Analiza la observacion y genera el entregable final.
-EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
-IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente.
+EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
+IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente.
             """},
             {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
         ]
