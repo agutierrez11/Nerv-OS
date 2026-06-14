@@ -111,11 +111,11 @@ class SerperSearch:
         if site_filter:
             q2 = f'{site_filter} "pagos" OR "cobros" OR "contacto" OR "pricing"'
 
-        # Query 3: LinkedIn / C-Levels
+        # Query 3: LinkedIn / Decidores de Cobranza y Pagos (Evitar CEOs/dueños, apuntar a perfiles operativos y mandos medios)
         if hl == "pt":
-            q3 = f'site:linkedin.com/in/ "{empresa}" (CFO OR "Diretor" OR "Pagamentos" OR "Financeiro") {nombre_pais}'
+            q3 = f'site:linkedin.com/in/ "{empresa}" ("Gerente" OR "Head" OR "Diretor" OR "Coordenador" OR "Supervisor" OR "CFO") ("Cobrança" OR "Tesouraria" OR "Pagamentos" OR "Financeiro") {nombre_pais}'
         else:
-            q3 = f'site:linkedin.com/in/ "{empresa}" (CFO OR "Director" OR "Pagos" OR "Finanzas") {nombre_pais}'
+            q3 = f'site:linkedin.com/in/ "{empresa}" ("Gerente" OR "Head" OR "Director" OR "Coordinador" OR "Supervisor" OR "CFO") ("Cobranza" OR "Tesorería" OR "Pagos" OR "Finanzas" OR "Crédito") {nombre_pais}'
 
         # Query 4: Noticias Recientes
         q4 = f'"{empresa}" noticias 2024 2025 {nombre_pais}'
