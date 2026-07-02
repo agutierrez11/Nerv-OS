@@ -31,7 +31,15 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 # Cargar entorno local
-load_dotenv()
+import argparse
+parser = argparse.ArgumentParser(description="NERV OS Telegram Bot Receiver")
+parser.add_argument("--env", type=str, default=".env", help="Ruta al archivo .env")
+args, unknown = parser.parse_known_args()
+
+if os.path.exists(args.env):
+    load_dotenv(args.env)
+else:
+    load_dotenv()
 
 from src.toku_radar.crew import NervCrew
 from core.logger import logger
@@ -157,9 +165,8 @@ def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vende
 # --- METODOS DE NERV AGENT BOT MERGED ---
 def search_company_file(name):
     name_clean = clean_filename(name).lower()
-    vaults = [
-        Path("/home/antonio/Desktop/Boveda_Prueba/Judaísmo")
-    ]
+    vault_str = os.getenv("OBSIDIAN_VAULTS", "/home/antonio/Desktop/Boveda_Prueba/Judaísmo")
+    vaults = [Path(v.strip()) for v in vault_str.split(",") if v.strip()]
     for vault_path in vaults:
         if not vault_path.exists():
             continue
@@ -343,9 +350,8 @@ def run_general_chat(chat_id, query):
             return "".join([c for c in nfkd if not unicodedata.combining(c)]).lower().strip()
             
         context_pieces = []
-        vaults = [
-            Path("/home/antonio/Desktop/Boveda_Prueba/Judaísmo")
-        ]
+        vault_str = os.getenv("OBSIDIAN_VAULTS", "/home/antonio/Desktop/Boveda_Prueba/Judaísmo")
+        vaults = [Path(v.strip()) for v in vault_str.split(",") if v.strip()]
         
         # Normalize and strip accents from search keywords
         query_words = [clean_accents(w) for w in re.split(r'\W+', query) if len(w.strip()) > 3]
@@ -402,8 +408,9 @@ CONTEXTO LOCAL DISPONIBLE:
 PREGUNTA DEL USUARIO:
 {query}
 """
+        system_prompt = os.getenv("SYSTEM_PROMPT", "Eres el Core de Inteligencia de NERV OS, un asistente experto que responde preguntas de forma concisa y estructurada basándose en tu base de conocimientos.")
         messages = [
-            {"role": "system", "content": "Eres el Core de Inteligencia de NERV OS, un asistente experto que responde preguntas de forma concisa y estructurada basándose en tu base de conocimientos (que abarca fintech, prevención de fraude, así como judaísmo, teología, negocios y desarrollo personal)."},
+            {"role": "system", "content": system_prompt},
             {"role": "user", "content": prompt}
         ]
         
