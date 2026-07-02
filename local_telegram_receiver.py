@@ -339,60 +339,80 @@ def handle_buscar(chat_id, query):
 
 def run_general_chat(chat_id, query):
     """Busca contexto en las bóvedas de Obsidian y responde la consulta usando DeepSeek."""
-    send_telegram_message(chat_id, "🔍 *NERV OS:* Analizando tu consulta y buscando en la base de conocimientos...")
+    # Detectar URLs
+    urls = re.findall(r'(https?://\S+)', query)
+    
+    if urls:
+        send_telegram_message(chat_id, "🔍 *NERV OS:* Detecté un enlace web. Extrayendo contenido en tiempo real...")
+    else:
+        send_telegram_message(chat_id, "🔍 *NERV OS:* Analizando tu consulta y buscando en la base de conocimientos...")
+        
     try:
         import unicodedata
-        
-        def clean_accents(text):
-            if not text:
-                return ""
-            nfkd = unicodedata.normalize('NFKD', text)
-            return "".join([c for c in nfkd if not unicodedata.combining(c)]).lower().strip()
-            
         context_pieces = []
-        vault_str = os.getenv("OBSIDIAN_VAULTS", "/home/antonio/Desktop/Boveda_Prueba/Judaísmo")
-        vaults = [Path(v.strip()) for v in vault_str.split(",") if v.strip()]
         
-        # Normalize and strip accents from search keywords
-        query_words = [clean_accents(w) for w in re.split(r'\W+', query) if len(w.strip()) > 3]
-        if not query_words:
-            query_words = [clean_accents(query)]
-            
-        matched_files = set()
-        for vault in vaults:
-            if not vault.exists():
-                continue
-            for md_file in vault.rglob("*.md"):
-                if md_file.name.startswith('.') or "Archivado" in str(md_file):
-                    continue
-                
-                # Check match against normalized file stem
-                file_stem_clean = clean_accents(md_file.stem)
-                if any(word in file_stem_clean for word in query_words):
-                    matched_files.add(md_file)
-                    continue
-                try:
-                    content = md_file.read_text(encoding="utf-8", errors="ignore")
-                    content_clean = clean_accents(content)
-                    if any(word in content_clean for word in query_words):
-                        matched_files.add(md_file)
-                except Exception:
-                    pass
-                    
-        list_matched = list(matched_files)[:5]
-        
-        if list_matched:
-            context_pieces.append("Aquí tienes información relevante de tu base de conocimientos local:")
-            for mf in list_matched:
-                try:
-                    content = mf.read_text(encoding="utf-8", errors="ignore")
-                    content_clean = re.sub(r'^---\s*\n(.*?)\n---', '', content, flags=re.DOTALL)
-                    content_clean = re.sub(r'<thought>.*?</thought>', '', content_clean, flags=re.DOTALL)
-                    context_pieces.append(f"--- Fichero: {mf.name} ---\n{content_clean.strip()[:1500]}")
-                except Exception:
-                    pass
+        if urls:
+            from src.toku_radar.tools.firecrawl_tool import FirecrawlTool
+            scraper = FirecrawlTool()
+            for url in urls:
+                # Quitar caracteres especiales finales que puedan pegarse al link
+                url_clean = url.rstrip(').,;!?')
+                send_telegram_message(chat_id, f"🌐 *Scraper:* Analizando {url_clean}...")
+                markdown_content = scraper.scrape_url(url_clean)
+                if "[ERROR" in markdown_content or "[Error" in markdown_content or "[Exception" in markdown_content:
+                    context_pieces.append(f"--- Enlace: {url_clean} (Error de extracción) ---\nNo se pudo extraer contenido. Detalle: {markdown_content}")
+                else:
+                    context_pieces.append(f"--- Enlace: {url_clean} (Contenido Web) ---\n{markdown_content.strip()[:4000]}")
         else:
-            context_pieces.append("No se encontró información directa en los archivos de la bóveda local.")
+            def clean_accents(text):
+                if not text:
+                    return ""
+                nfkd = unicodedata.normalize('NFKD', text)
+                return "".join([c for c in nfkd if not unicodedata.combining(c)]).lower().strip()
+                
+            vault_str = os.getenv("OBSIDIAN_VAULTS", "/home/antonio/Desktop/Boveda_Prueba/Judaísmo")
+            vaults = [Path(v.strip()) for v in vault_str.split(",") if v.strip()]
+            
+            # Normalize and strip accents from search keywords
+            query_words = [clean_accents(w) for w in re.split(r'\W+', query) if len(w.strip()) > 3]
+            if not query_words:
+                query_words = [clean_accents(query)]
+                
+            matched_files = set()
+            for vault in vaults:
+                if not vault.exists():
+                    continue
+                for md_file in vault.rglob("*.md"):
+                    if md_file.name.startswith('.') or "Archivado" in str(md_file):
+                        continue
+                    
+                    # Check match against normalized file stem
+                    file_stem_clean = clean_accents(md_file.stem)
+                    if any(word in file_stem_clean for word in query_words):
+                        matched_files.add(md_file)
+                        continue
+                    try:
+                        content = md_file.read_text(encoding="utf-8", errors="ignore")
+                        content_clean = clean_accents(content)
+                        if any(word in content_clean for word in query_words):
+                            matched_files.add(md_file)
+                    except Exception:
+                        pass
+                        
+            list_matched = list(matched_files)[:5]
+            
+            if list_matched:
+                context_pieces.append("Aquí tienes información relevante de tu base de conocimientos local:")
+                for mf in list_matched:
+                    try:
+                        content = mf.read_text(encoding="utf-8", errors="ignore")
+                        content_clean = re.sub(r'^---\s*\n(.*?)\n---', '', content, flags=re.DOTALL)
+                        content_clean = re.sub(r'<thought>.*?</thought>', '', content_clean, flags=re.DOTALL)
+                        context_pieces.append(f"--- Fichero: {mf.name} ---\n{content_clean.strip()[:1500]}")
+                    except Exception:
+                        pass
+            else:
+                context_pieces.append("No se encontró información directa en los archivos de la bóveda local.")
             
         context_str = "\n\n".join(context_pieces)
         
