@@ -1,18 +1,5 @@
 # 🚀 NERV Intelligence Report: Coca Cola Femsa
-<thought>
-El usuario me indica "Sin resultados" como observación. Esto significa que no hay nueva información adicional que integrar más allá de lo que ya tengo. Debo proceder a generar el entregable final consolidando toda la inteligencia que ya he recopilado y analizado en los pasos anteriores.
 
-Revisando mi trabajo previo, ya tengo un dossier completo y bien estructurado. Debo asegurarme de que el entregable final cumpla con todas las reglas:
-
-1. L01_AGNOSTICISMO: No menciono a Toku. Me refiero a "nuestra solución" o "la plataforma".
-2. L02_EVIDENCIA_HARD: Incluyo enlaces a datos financieros y vacantes.
-3. L03_ANTI_FLUFF: Lenguaje técnico, forense, directo.
-4. L04_DISC_CONSISTENCY: Los correos y el plan están alineados al perfil D/C.
-5. L05_NO_HALLUCINATION_DATA: No invento nombres. Uso placeholder [Nombre] donde corresponde.
-6. L06_NO_TECHNICAL_FLUFF: No incluyo metadatos técnicos.
-
-El entregable final debe ser limpio, profesional y accionable para el vendedor. Voy a presentarlo en el formato solicitado.
-</thought>
 
 ---
 
@@ -201,43 +188,3 @@ Si prefiere, podemos hacer que su equipo de arquitectura revise nuestra document
 **Resumen ejecutivo:** Manuel R. Amaro es un perfil D/C que necesita datos duros, ROI explícito y riesgo mínimo. Las vacantes de KOF revelan dolores operativos que conectan directamente con su presión financiera. Nuestra solución no solo digitaliza cobranza, sino que convierte cada transacción en un dato de segmentación que hoy están pagando para obtener. El piloto de 500 tenderos es la puerta de entrada — sin riesgo, medible, escalable.
 
 ---
-## 🛡️ Protocolo de Veracidad
-**INFORME DE AUDITORÍA DEL PROTOCOLO DE VERACIDAD**
-
-**Auditor Jefe:** [Nombre del Auditor]
-**Dossier Auditado:** Dossier Estratégico de Prospección - Coca-Cola FEMSA (KOF)
-**Fecha de Auditoría:** [Fecha Actual]
-
----
-
-### 1. Índice de Alucinación (0-10): **0**
-
-**Justificación:** El dossier no contiene información inventada. Todos los datos financieros, nombres de personas, vacantes y enlaces provienen directamente del contexto de investigación proporcionado por el usuario o de fuentes verificables citadas. No se han creado perfiles ficticios ni se han inventado métricas.
-
----
-
-### 2. Violaciones de Normas:
-
-| Ley | Estado | Detalle de la Violación |
-| :--- | :--- | :--- |
-| **L01_AGNOSTICISMO** | **APROBADO** | El dossier no menciona a 'Toku' en ningún momento. Se refiere correctamente a "nuestra plataforma" o "nuestra solución". |
-| **L02_EVIDENCIA_HARD** | **APROBADO** | Todos los datos financieros (caída de volumen, emisión de deuda) y las vacantes están respaldados por enlaces URL funcionales y citas textuales del contexto de investigación. |
-| **L03_ANTI_FLUFF** | **APROBADO** | El lenguaje es técnico, forense y directo. Se evitan frases de marketing genérico. Se utilizan términos como "DSO", "BNPL", "capital de trabajo", "morosidad". |
-| **L04_DISC_CONSISTENCY** | **APROBADO** | Las variantes de correo y el plan de contacto están claramente alineados con el perfil D/C detectado. Se ofrecen opciones directas (D), analíticas (C) y relacionales (I/S) según el contexto. |
-| **L05_NO_HALLUCINATION_DATA** | **APROBADO** | No se inventan nombres de personas. Se utiliza el nombre real del CFO (Manuel R. Amaro) proporcionado en el contexto. Se usa el placeholder `[Nombre]` donde corresponde. |
-| **L06_NO_TECHNICAL_FLUFF** | **APROBADO** | El dossier es 100% comercial y limpio. No contiene metadatos técnicos, referencias a "Swarm", "Readiness Score", "Data Engineers" ni ningún otro elemento de depuración técnica. |
-
----
-
-### 3. Veredicto Final: **APROBADO**
-
----
-
-### 4. Notas del Auditor:
-
-- **Cumplimiento Ejemplar:** El dossier demuestra un cumplimiento riguroso de todas las leyes del Protocolo de Veracidad. La estructura, el lenguaje y el contenido están perfectamente alineados con los requisitos de un entregable comercial de alta calidad.
-- **Uso Efectivo de Señales Débiles:** La integración de las vacantes de LinkedIn como "señales débiles" es un excelente ejemplo de cómo convertir datos de investigación en argumentos de venta concretos y dolorosos para el prospecto.
-- **Estrategia de Contacto Robusta:** El plan de contacto multicanal y el manejo de objeciones están diseñados con precisión quirúrgica para el perfil D/C de Manuel R. Amaro, maximizando las probabilidades de éxito.
-- **Sin Riesgo de Alucinación:** El dossier se mantiene dentro de los límites de la evidencia proporcionada, lo que garantiza su veracidad y credibilidad ante el cliente.
-
-**Conclusión:** El dossier está listo para ser entregado al vendedor. Es un documento accionable, veraz y altamente efectivo.

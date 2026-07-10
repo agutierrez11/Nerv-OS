@@ -1,20 +1,5 @@
 # 🚀 NERV Intelligence Report: Grupo Martí
-<thought>
-El usuario reporta un error: no se detectó una URL de LinkedIn válida para usar Prospeo. Esto significa que no pude obtener correos verificados mediante la herramienta. Según las reglas, si no puedo obtener el correo mediante la herramienta, debo estimarlo usando el formato estándar corporativo de la empresa del cliente.
 
-En la investigación previa, identifiqué los nombres de los directivos de Grupo Martí. El dominio de correo parece ser talentomarti.com.mx (basado en la estructura de la empresa). Por lo tanto, estimaré los correos usando el formato nombre.apellido@talentomarti.com.mx.
-
-Procedo a generar el entregable final limpio, sin metadatos técnicos, integrando toda la inteligencia recabada (investigación de mercado, perfil DISC, simulación de conversación) en el formato solicitado.
-
-Estructura requerida:
-- A QUIÉN HABLARLE
-- MAPA ESTRATÉGICO
-- CORREOS DE PROSPECCIÓN (3 variantes: D, C, I/S)
-- PLAN DE CONTACTO MULTICANAL
-- MANEJO DE OBJECIONES
-
-Importante: No incluir leyendas instruccionales como "USAR HERRAMIENTA PROSPEO". Poner los correos estimados directamente.
-</thought>
 
 --- empresa: "Grupo Martí" vendedor: "" producto: "Orquestación de Pagos + Recurrencia y Suscripciones" ---
 
@@ -168,52 +153,3 @@ Implementar la orquestación *ahora* —antes de que la complejidad crezca— es
 ¿Qué tal si en 20 minutos te muestro cómo otras empresas en plena expansión resolvieron esto antes de que se les saliera de control?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-Aquí está el resultado de la auditoría del Dossier presentado, realizada bajo el **Protocolo de Veracidad**.
-
----
-
-### **1. Índice de Alucinación (0-10):**
-**3/10**
-
-**Justificación:** El dossier se mantiene mayoritariamente dentro de los límites de la información proporcionada en el contexto de investigación. Sin embargo, se detecta una alucinación de baja severidad en la sección de "Señal Débil del Entorno", donde se fuerza una conexión causal entre la demanda de empleo en "Inteligencia de Mercados" y un dolor específico de Grupo Martí, sin evidencia directa que vincule a la empresa con esa oferta laboral. El resto de la información (nombres, cargos, estructura de negocio) es consistente con el contexto proporcionado.
-
----
-
-### **2. Violaciones de Normas:**
-
-*   **[L02_EVIDENCIA_HARD] - Prueba de Veracidad (Severidad: HIGH) - VIOLACIÓN PARCIAL:**
-    *   **Detalle:** En la sección "Señal Débil del Entorno", se afirma: *"La alta demanda de roles de 'Inteligencia de Mercados' en México... indica que las empresas están reconociendo la necesidad de centralizar y analizar datos de negocio... Para Grupo Martí, esto refuerza la tesis de que carecen de una capa de inteligencia unificada..."*
-    *   **Problema:** Esta es una inferencia no respaldada por un enlace o cita directa que demuestre que Grupo Martí está buscando este perfil o que sufra específicamente de esta carencia. Se está utilizando un dato de mercado genérico para construir un argumento de venta específico para el cliente, lo cual es una extrapolación sin base real en el contexto de investigación. La observación debería haberse reportado como una "señal de mercado" sin forzar su aplicación al caso concreto.
-
-*   **[L06_NO_TECHNICAL_FLUFF] - Cero Metadatos Técnicos o Internos (Severidad: CRITICAL) - APROBADO:**
-
-*   **[L01_AGNOSTICISMO] - Regla de Identidad de Marca (Severidad: CRITICAL) - APROBADO:**
-    *   **Detalle:** El vendedor no es 'Toku'. El dossier se centra exclusivamente en el producto definido ("Orquestación de Pagos + Recurrencia y Suscripciones") y la empresa objetivo (Grupo Martí). No hay mención alguna a la marca 'Toku'.
-
-*   **[L03_ANTI_FLUFF] - Cero Marketing Genérico (Severidad: MEDIUM) - APROBADO:**
-    *   **Detalle:** El lenguaje es técnico y forense. Se utilizan términos como "conciliación manual", "churn evitable", "enrutamiento inteligente", "failover automático" y "motor de suscripciones". No se detectan frases vacías como "solución líder" o "innovación constante".
-
-*   **[L04_DISC_CONSISTENCY] - Alineación Psicológica (Severidad: HIGH) - APROBADO:**
-    *   **Detalle:** Las variantes de correo están correctamente alineadas con los perfiles DISC identificados. La variante para el perfil 'C' (Manuel Grañen) es analítica y basada en datos. La variante para el perfil 'D' (Luis Miguel Rodriguez) es directa y orientada a resultados. La variante para el perfil 'I/S' (Rodolfo Carrillo) es empática y relacional.
-
-*   **[L05_NO_HALLUCINATION_DATA] - Integridad de Entidades (Severidad: CRITICAL) - APROBADO:**
-    *   **Detalle:** Todos los nombres de personas (Manuel Grañen, Luis Miguel Rodriguez, Armando Savage, Rodolfo Carrillo) y sus cargos coinciden exactamente con los proporcionados en el contexto de investigación. No se han inventado perfiles ni decisores fantasma.
-
----
-
-### **3. Veredicto Final:**
-**AJUSTE NECESARIO**
-
----
-
-### **4. Notas del Auditor:**
-
-El dossier es sólido, bien estructurado y demuestra un profundo entendimiento del dolor del cliente. La estrategia de ataque y la alineación DISC son excelentes.
-
-**Acción Correctiva Requerida:**
-Se debe eliminar o reformular la sección "Señal Débil del Entorno". La inferencia sobre la necesidad de Grupo Martí basada en datos de empleo genéricos es una violación de la [L02_EVIDENCIA_HARD]. Para cumplir con la norma, se debe:
-1.  **Eliminar** la afirmación de que esto "refuerza la tesis" sobre Grupo Martí.
-2.  **Reemplazar** por una observación neutral, por ejemplo: *"Nota de contexto: Se observa una alta demanda en el mercado mexicano de roles de 'Inteligencia de Mercados', lo que sugiere una tendencia general hacia la centralización de datos. Este dato no está vinculado directamente a Grupo Martí."*
-
-Una vez realizado este ajuste, el dossier estará listo para su aprobación final.

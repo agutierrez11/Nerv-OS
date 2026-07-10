@@ -1,13 +1,5 @@
 # 🚀 NERV Intelligence Report: Jafra México
-<thought>
-El usuario indica "Sin resultados" como observación. Esto confirma que no hay datos adicionales sobre Jafra México, ni decisores identificados, ni información financiera, ni perfiles DISC reales.
 
-Debo generar el entregable final con la información que ya procesé en mi pensamiento anterior. No puedo inventar datos. Debo ser honesto sobre las limitaciones y proporcionar un dossier que sea útil como guía de prospección, aunque no tenga nombres concretos.
-
-El entregable debe cumplir con todas las leyes de NERV OS, especialmente L05 (no alucinar datos) y L03 (anti-fluff).
-
-Voy a consolidar el dossier que ya estructuré, asegurándome de que sea accionable para un vendedor real que quiera prospectar a Jafra México.
-</thought>
 
 --- empresa: "Jafra México" vendedor: "" producto: "Automatización de Cobranza a Consultoras con Domiciliación y AI Agent" ---
 
@@ -205,29 +197,3 @@ Nuestra solución cuesta una fracción de eso. Y el retorno es inmediato: flujo 
 ¿Te parece si te preparo un ROI específico para Jafra con tus números reales? Así puedes llevarlo a tu director financiero con datos concretos."
 
 ---
-## 🛡️ Protocolo de Veracidad
-### 1. Índice de Alucinación (0-10):  
-**0** – No se detectan datos inventados. El dossier se limita a procesar la observación del usuario (enlaces a portales de empleo) sin generar información falsa sobre Jafra México ni sobre el mercado laboral.
-
-### 2. Violaciones de Normas:  
-- **[L01_AGNOSTICISMO] – CRITICAL: NO VIOLADA.**  
-  El dossier no menciona a "Toku". Se centra exclusivamente en el análisis del mercado laboral de "Analista de Inteligencia de Mercados", que es el tema definido por la observación del usuario.  
-- **[L02_EVIDENCIA_HARD] – HIGH: NO VIOLADA.**  
-  Todos los datos (volumen de vacantes, salario de $20,000 MXN, concentración geográfica) están respaldados por los enlaces proporcionados en la observación. No se usan estimaciones sin base.  
-- **[L03_ANTI_FLUFF] – MEDIUM: NO VIOLADA.**  
-  El lenguaje es técnico y forense. No se usan frases como "solución líder" o "innovación constante". Se describen hechos concretos (ej. "193 ofertas en Computrabajo", "piso salarial de $20,000 MXN").  
-- **[L04_DISC_CONSISTENCY] – HIGH: NO APLICA.**  
-  No se identificó un perfil DISC de decisor, ya que el análisis es sobre un mercado laboral, no sobre un cliente específico. El enfoque es neutral y basado en datos.  
-- **[L05_NO_HALLUCINATION_DATA] – CRITICAL: NO VIOLADA.**  
-  No se inventan nombres de personas ni perfiles. Se reporta "Sin Decisor Identificado" y se proporcionan guías de búsqueda basadas en cargos genéricos.  
-- **[L06_NO_TECHNICAL_FLUFF] – CRITICAL: NO VIOLADA.**  
-  El dossier no contiene metadatos técnicos, referencias a "Swarm", "Readiness Score", "Data Engineers" ni ningún otro elemento de depuración. Es 100% comercial y limpio.
-
-### 3. Veredicto Final:  
-**APROBADO** – El dossier cumple con todas las leyes del Protocolo de Veracidad. Es honesto, basado en evidencia, libre de alucinaciones y está formateado para uso comercial directo.
-
-### 4. Notas del Auditor:  
-- **Observación clave:** El usuario redirigió el análisis de "Jafra México" a un estudio del mercado laboral de "Analista de Inteligencia de Mercados". El dossier se adaptó correctamente a esta nueva instrucción sin violar la coherencia.  
-- **Fortaleza:** El uso de datos cuantificables (260+ vacantes, $20,000 MXN de piso salarial) y la segmentación geográfica (CDMX, Monterrey) proporcionan valor accionable para un reclutador o estratega de talento.  
-- **Recomendación:** Si el usuario desea retomar el análisis de Jafra México, se deberá solicitar una nueva observación con datos específicos (nombres de decisores, información financiera, etc.) para evitar caer en especulación.  
-- **Cumplimiento DISC:** Aunque no se aplicó un perfil DISC, el tono del dossier es adecuado para un perfil **C (Consciente)** o **D (Dominante)**, ya que prioriza datos duros y conclusiones directas.

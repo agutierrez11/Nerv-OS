@@ -7,18 +7,14 @@ import re
 import json
 from typing import List
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
+from core.llm_loader import get_llm
 from tools.firecrawl_tool import FirecrawlTool
 
 # Cargar entorno
 load_dotenv()
 
-llm = ChatGroq(
-    temperature=0.0,
-    model_name="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
-)
+llm = get_llm(temperature=0.0)
 
 firecrawl = FirecrawlTool()
 

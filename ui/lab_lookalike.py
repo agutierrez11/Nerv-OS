@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import re
+import unicodedata
 from pathlib import Path
 from core.lookalike_engine import LookalikeCrew
 from core.icp_store import icp_store
@@ -8,6 +9,13 @@ from src.toku_radar.crew import NervCrew
 from core.database import db
 from core.telegram_logger import send_telegram_notification
 from core.logger import logger
+
+def clean_filename(text):
+    if not text:
+        return ""
+    nfkd_form = unicodedata.normalize('NFKD', text)
+    only_ascii = nfkd_form.encode('ASCII', 'ignore').decode('utf-8')
+    return re.sub(r'[^\w\-]', '_', only_ascii).strip('_')
 
 def render_lookalike_tab(user_active=None):
     st.subheader("// Motor de Prospectos y Lookalikes (NERV Lookalike)")
@@ -228,11 +236,26 @@ def render_lookalike_tab(user_active=None):
                                     st.session_state[f"dossier_{selected_prospect}"] = dossier_limpio
                                     
                                     # Guardar en local
-                                    safe_name = re.sub(r'[^\w\-]', '_', selected_prospect).strip('_')
+                                    safe_name = clean_filename(selected_prospect)
                                     (output_dir / f"{safe_name}.md").write_text(dossier_limpio, encoding="utf-8")
                                     
+                                    # Guardar automáticamente en la bóveda de Obsidian
+                                    vault_path = Path("/home/antonio/Desktop/Toku_WarRoom_Vault")
+                                    if vault_path.exists():
+                                        try:
+                                            from core.obsidian_linker import link_dossier
+                                            dossier_linked = link_dossier(dossier_limpio, str(vault_path))
+                                        except Exception as le:
+                                            logger.error(f"Error running obsidian linker during lookalike auto-save: {le}")
+                                            dossier_linked = dossier_limpio
+                                        try:
+                                            (vault_path / f"{safe_name}.md").write_text(dossier_linked, encoding="utf-8")
+                                            st.toast(f"📂 Dossier auto-guardado en Obsidian.")
+                                        except Exception as ve:
+                                            logger.error(f"Error guardando automático desde lookalike en bóveda Obsidian: {ve}")
+                                    
                                     status.update(label="✅ Dossier Generado Exitosamente", state="complete")
-                                    st.toast("El Dossier se ha guardado en la carpeta output.")
+                                    st.toast("El Dossier se ha guardado en la carpeta output / Obsidian.")
                                     st.rerun()
                                 except Exception as e:
                                     logger.error(f"Error generando dossier desde Lookalike: {e}")

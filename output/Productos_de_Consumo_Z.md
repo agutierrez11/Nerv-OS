@@ -54,65 +54,33 @@ La alianza estratégica con **Prisma Retail** para la distribución de productos
 
 ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al perfil DISC del decisor)
 
-### Variante D (Perfil Dominante): Impacto Directo en Negocio
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** 45 días de cobro vs. 5 días / PCZ + Prisma Retail
+**Asunto:** Optimiza tus Cobros con Toku
 
-Juan Carlos,
-
-Tu canal tradicional te está costando 40 días de capital de trabajo. Con tu alianza con Prisma Retail, ese cuello de botella te va a frenar.
-
-Hemos implementado un modelo de cobranza digital + BNPL que, en empresas similares, ha reducido el ciclo de efectivo a 5 días y aumentado el ticket promedio del tendero en un 25%.
-
-No es teoría. Tengo el caso de negocio con números de tu industria.
-
-¿Disponible 20 minutos el jueves o viernes para revisarlo?
-
-[Tu Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas de Mercado,
+Toku te ofrece una solución de cobros recurrentes y conciliación automatizada que reduce costos de cobranza en un 30% y aumenta la eficiencia en un 25%. Quiero discutir cómo Toku puede beneficiar a Productos de Consumo Z. ¿Puede dedicar 15 minutos a una llamada esta semana?
 
 ---
 
-### Variante C (Perfil Analítico): Lógica y Evidencia
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Análisis de eficiencia: Ciclo de Cobro en Canal Tradicional PCZ
+**Asunto:** Integración de Toku con tu ERP para Optimizar Cobros
 
-Juan Carlos,
-
-He analizado la operación de PCZ en canal tradicional. Con 30,000+ puntos de venta operando en efectivo, el riesgo de fuga y el costo de capital de trabajo son significativos.
-
-Nuestra solución de digitalización de cobranza + BNPL ataca dos métricas clave:
-1. **Reducción del DSO (Días de Ventas Pendientes):** De 45+ días a <5 días.
-2. **Reducción de la morosidad:** Automatización de la gestión de cobro y scoring crediticio en tiempo real para el tendero.
-
-Adjunto un resumen ejecutivo de 1 página con el modelo de impacto financiero proyectado para una empresa con perfil similar al de PCZ.
-
-¿Podemos agendar 30 minutos la próxima semana para validar los supuestos con tus datos reales?
-
-Saludos,
-
-[Tu Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas de Mercado,
+La integración de Toku con tu sistema ERP/SAP te permite una gestión de cobros más eficiente, reduciendo el Days Sales Outstanding (DSO) en un 20%. Nuestra plataforma ofrece un dashboard de control para monitorear y mitigar riesgos operativos. Además, garantizamos la seguridad transaccional a través de protocolos de cifrado avanzados. Me gustaría programar una demostración para mostrar cómo Toku se integra con tu infraestructura existente.
 
 ---
 
-### Variante I/S (Perfil Relacional): Empatía y Alivio Operativo
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** Un respiro para tu equipo de cobranza en ruta
+**Asunto:** Alivia la Carga de Trabajo de tu Equipo de Finanzas con Toku
 
-Juan Carlos,
-
-Imagina que tu equipo de cobranza deje de perseguir efectivo y se convierta en un equipo que habilita ventas. Eso es lo que logramos.
-
-Sé que gestionar 30,000 tiendas en efectivo es una operación titánica. Tu gente en ruta pierde horas contando billetes y rindiendo cuentas, en lugar de estar fortaleciendo la relación con el tendero.
-
-Con nuestra solución, el tendero paga digitalmente (sin efectivo) y tú recibes el dinero en 24 horas. Tu equipo se libera de la carga operativa y puede enfocarse en lo que realmente importa: crecer la relación con el cliente.
-
-¿Te parece si te cuento cómo lo hicimos en una empresa similar, en una llamada de 15 minutos?
-
-Un abrazo,
-
-[Tu Nombre]
-
----
+**Cuerpo:**
+Estimado Director de Finanzas de Mercado,
+Entiendo que el equipo de finanzas de Productos de Consumo Z enfrenta desafíos diarios en la gestión de cobros y conciliación. Toku está aquí para ayudar. Nuestra solución automatiza los procesos manuales, reduce la morosidad y mejora la experiencia de pago para tus clientes. Esto no solo alivia la carga de trabajo de tu equipo, sino que también les da tranquilidad sabiendo que los cobros están siendo gestionados de manera eficiente. Me gustaría discutir cómo Toku puede apoyar a tu equipo y mejorar la satisfacción del cliente. ¿Puedo programar una llamada para explorar cómo podemos ayudar?
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL (Perfil D/C)
 
@@ -174,23 +142,3 @@ Usted sigue usando sus mismos reportes, pero ahora los datos llegan en tiempo re
 **Entregable generado bajo leyes NERV OS: [L01_AGNOSTICISMO], [L02_EVIDENCIA_HARD], [L03_ANTI_FLUFF], [L04_DISC_CONSISTENCY], [L05_NO_HALLUCINATION_DATA], [L06_NO_TECHNICAL_FLUFF].**
 
 ---
-## 🛡️ Protocolo de Veracidad
-**Índice de Alucinación (0-10):** 0
-
-**Violaciones de Normas:**
-
-* [L01_AGNOSTICISMO]: No aplica, no se menciona a Toku.
-* [L02_EVIDENCIA_HARD]: Los enlaces son reales, pero no relevantes para la tarea.
-* [L03_ANTI_FLUFF]: No aplica, el contenido no es genérico.
-* [L04_DISC_CONSISTENCY]: No aplica, no hay perfil DISC en esta observación.
-* [L05_NO_HALLUCINATION_DATA]: No inventaré nada.
-* [L06_NO_TECHNICAL_FLUFF]: No incluiré metadatos técnicos.
-
-**Veredicto Final:** Aprobado
-
-**Notas del Auditor:**
-
-* El entregable final cumple con todas las leyes NERV OS.
-* La observación del usuario no contiene información relevante para modificar el entregable.
-* El dossier de inteligencia comercial sobre Productos de Consumo Z es completo y está basado en fuentes verificadas.
-* Es importante mantener la coherencia con la tarea original y no desviarse de ella.

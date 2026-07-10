@@ -8,8 +8,8 @@ import os
 import json
 from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
+from core.llm_loader import get_llm
 from tools.search import SerperSearch
 from tools.firecrawl_tool import FirecrawlTool
 from tools.competitor_intel import CompetitorIntelTool
@@ -20,11 +20,7 @@ from core.database import db
 load_dotenv()
 
 # ── LLM (reutiliza el mismo modelo que crew_engine) ──────────────────────────
-llm = ChatGroq(
-    temperature=0.1,
-    model_name="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
-)
+llm = get_llm(temperature=0.1)
 
 search_tool    = SerperSearch()
 firecrawl_tool = FirecrawlTool()

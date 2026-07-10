@@ -79,18 +79,18 @@ def send_telegram_message(chat_id: str, text: str):
         except Exception as e:
             logger.error(f"Fallo al enviar mensaje a Telegram: {e}")
 
-def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vendedor: str, prior_knowledge: str, pais: str = "México"):
+def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vendedor: str, prior_knowledge: str, pais: str = "México", engine: str = "deepseek"):
     """Ejecuta el enjambre de agentes en segundo plano, guarda el dossier y notifica éxito/falla."""
     send_telegram_message(
         chat_id, 
-        f"🧠 *NERV OS:* Iniciando análisis forense ({'Modo Toku 🟢' if vendedor.lower() == 'toku' else 'Modo Agnóstico 🔵'}) de *{empresa}* en *{pais}*...\n"
+        f"🧠 *NERV OS:* Iniciando análisis forense ({'Modo Toku 🟢' if vendedor.lower() == 'toku' else 'Modo Agnóstico 🔵'}) de *{empresa}* en *{pais}* usando *{engine.upper()}*...\n"
         f"Esto puede tardar entre 1 y 2 minutos mientras el enjambre de agentes debate y audita las fuentes."
     )
     
     def log_progress(msg):
         if "[ AGENT:" in msg:
             send_telegram_message(chat_id, f"⚙️ *Swarm:* {msg.strip()}")
-
+ 
     try:
         crew = NervCrew(
             empresa=empresa,
@@ -99,7 +99,8 @@ def run_nerv_analysis(chat_id: str, empresa: str, sector: str, pitch: str, vende
             vendedor=vendedor,
             prior_knowledge=prior_knowledge,
             log_callback=log_progress,
-            pais=pais
+            pais=pais,
+            engine=engine
         )
         
         dossier = crew.kickoff()
@@ -530,14 +531,23 @@ def process_message(chat_id: str, text: str):
             pitch = "Solución de Pagos + Recurrencia B2B"
             vendedor = "Toku"
             pais = parts[2] if len(parts) > 2 else "México"
+            engine = parts[3].lower().strip() if len(parts) > 3 else "deepseek"
         elif is_incode:
             pitch = "Identidad digital y Biometría facial anti-fraude"
             vendedor = "Incode"
             pais = parts[2] if len(parts) > 2 else "México"
+            engine = parts[3].lower().strip() if len(parts) > 3 else "deepseek"
         else:
             pitch = parts[2] if len(parts) > 2 else "Software SaaS B2B"
             vendedor = "Agnóstico"
             pais = parts[3] if len(parts) > 3 else "México"
+            engine = parts[4].lower().strip() if len(parts) > 4 else "deepseek"
+            
+        # Validate engine value
+        valid_engines = ["deepseek", "gemini", "claude", "groq", "hermes"]
+        if engine not in valid_engines:
+            # Fallback to deepseek if an invalid engine is entered
+            engine = "deepseek"
         
         thread = threading.Thread(
             target=run_nerv_analysis,
@@ -548,7 +558,8 @@ def process_message(chat_id: str, text: str):
                 "pitch": pitch,
                 "vendedor": vendedor,
                 "prior_knowledge": "",
-                "pais": pais
+                "pais": pais,
+                "engine": engine
             }
         )
         thread.daemon = True
@@ -560,14 +571,15 @@ def process_message(chat_id: str, text: str):
             "Soy el Swarm Intelligence Core de NERV OS. Puedo realizar un dossier estratégico forense de cualquier prospecto en modo Toku, Incode o Agnóstico.\n\n"
             "👉 *¿Cómo usarme?*\n\n"
             "🟢 **Modo Toku (Propuesta de Pagos):**\n"
-            "`/toku [Nombre Empresa], [Sector], [País (Opcional)]`\n"
-            "Ej: `/toku Walmart, Retail, México` o `/toku Walmart, Retail, Brasil`\n\n"
+            "`/toku [Nombre Empresa], [Sector], [País (Opcional)], [Motor (Opcional)]`\n"
+            "Ej: `/toku Walmart, Retail, México, claude` o `/toku Walmart, Retail, Brasil, gemini`\n\n"
             "🔴 **Modo Incode (Propuesta de Biometría):**\n"
-            "`/incode [Nombre Empresa], [Sector], [País (Opcional)]`\n"
-            "Ej: `/incode Nu, Fintech, México` o `/incode Itaú, Finanzas, Brasil`\n\n"
+            "`/incode [Nombre Empresa], [Sector], [País (Opcional)], [Motor (Opcional)]`\n"
+            "Ej: `/incode Nu, Fintech, México, claude` o `/incode Itaú, Finanzas, Brasil, gemini`\n\n"
             "🔵 **Modo Agnóstico (Cualquier Producto/Empresa):**\n"
-            "`/radar [Nombre Empresa], [Sector], [Propuesta], [País (Opcional)]`\n"
-            "Ej: `/radar Nike, Ecommerce, Orquestación de Pagos, México`\n\n"
+            "`/radar [Nombre Empresa], [Sector], [Propuesta], [País (Opcional)], [Motor (Opcional)]`\n"
+            "Ej: `/radar Nike, Ecommerce, Orquestación de Pagos, México, claude`\n\n"
+            "⚡ *Motores de IA disponibles:* `deepseek` (default), `claude` (Sonnet 3.5), `gemini` (Gemini Pro/Flash), `groq` (Llama-3), `hermes`.\n\n"
             "🔍 **Consultas de Bóveda y Competencia (Incode + Ecosistema):**\n"
             "• `/perfil [Nombre]` -> Ver pains, hook y UVP de una fintech. Ej: `/perfil Under Armour`\n"
             "• `/battlecard [Competidor]` -> Ver fortalezas y debilidades. Ej: `/battlecard Sumsub`\n"

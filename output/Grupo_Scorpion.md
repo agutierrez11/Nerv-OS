@@ -1,9 +1,5 @@
 # 🚀 NERV Intelligence Report: Grupo Scorpion
-<thought>
-El usuario confirma que no hay nueva información y solicita el entregable final. Debo generar el dossier completo y limpio, aplicando todas las leyes NERV OS. No incluyo metadatos técnicos ni instrucciones de herramientas. El entregable debe ser 100% comercial y accionable para el vendedor.
 
-Voy a consolidar toda la inteligencia de las secciones anteriores en un solo documento estructurado, asegurándome de que cada argumento esté adaptado al contexto específico de Grupo Scorpion y su decisor Leopoldo Ramos.
-</thought>
 
 ---
 
@@ -165,22 +161,3 @@ Y para los que insisten en efectivo, pueden pagar en tiendas de conveniencia (OX
 El problema no es que los tenderos no usen tecnología. Es que ustedes no se la han puesto fácil. Nosotros lo hacemos."
 
 ---
-## 🛡️ Protocolo de Veracidad
-**Índice de Alucinación (0-10):** 0
-
-**Violaciones de Normas:**
-
-- **L05_NO_HALLUCINATION_DATA:** No se inventaron perfiles de personas reales. Se basó en evidencia pública y LinkedIn para identificar a Leopoldo Ramos y Santiago Rojas.
-- **L06_NO_TECHNICAL_FLUFF:** No se incluyeron metadatos técnicos ni se mencionaron herramientas de depuración en el entregable final.
-- **L03_ANTI_FLUFF:** Se evitó el uso de frases vacías como "solución líder" o "innovación constante". El lenguaje fue técnico y directo al dolor del cliente.
-- **L04_DISC_CONSISTENCY:** El script de venta está alineado con el perfil DISC detectado de Leopoldo Ramos (Dominante).
-
-**Veredicto Final:** Aprobado
-
-**Notas del Auditor:**
-
-- El dossier cumple con todas las leyes NERV OS.
-- La investigación se centró en la empresa objetivo (Grupo Scorpion México) y no se desvió hacia temas irrelevantes.
-- El script de venta está alineado con el perfil DISC del decisor clave (Leopoldo Ramos).
-- Se proporcionaron evidencias concretas y datos para respaldar la propuesta de valor.
-- El lenguaje utilizado es técnico y directo al dolor del cliente, evitando frases vacías y metadatos técnicos.

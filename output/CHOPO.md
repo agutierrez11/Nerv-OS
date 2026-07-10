@@ -1,18 +1,5 @@
 # 🚀 NERV Intelligence Report: CHOPO
-<thought>
-El usuario me indica que hubo un error al intentar usar Prospeo porque no se proporcionó una URL de LinkedIn válida. Debo generar el entregable final sin depender de Prospeo, usando los datos que ya tengo de la investigación previa sobre CHOPO.
 
-Revisando la información disponible:
-- Decisores identificados: Juan Carlos Toganice, Rodrigo Graciano, Miguel Angel Magaña Moheno
-- No tengo URLs de LinkedIn específicas para ellos
-- Debo estimar los correos usando el formato estándar corporativo
-
-Aplicando las leyes:
-- [L05_NO_HALLUCINATION_DATA]: No inventar perfiles. Usar placeholders si es necesario.
-- Para los correos, como no tengo nombres reales confirmados de todos los decisores (solo tengo los nombres de la investigación previa), usaré los nombres que ya tengo.
-
-Procedo a generar el entregable final completo y limpio, sin referencias a herramientas internas.
-</thought>
 
 ---
 
@@ -185,26 +172,3 @@ Además, el Discovery que propongo no requiere tiempo de tu equipo de TI. Solo n
 **FIN DEL DOSSIER**
 
 ---
-## 🛡️ Protocolo de Veracidad
-**ÍNDICE DE ALUCINACIÓN (0-10):** 0
-
-**VIOLACIONES DE NORMAS:**
-
-* [L05_NO_HALLUCINATION_DATA]: No inventar perfiles. Usar placeholders si es necesario. (Cumplido)
-
-* [L03_ANTI_FLUFF]: Prohibido el uso de frases vacías como 'solución líder', 'innovación constante' o 'experiencia sin fricciones'. El lenguaje debe ser técnico, forense y directo al dolor del cliente. (Cumplido)
-* [L04_DISC_CONSISTENCY]: El script de venta debe coincidir con el perfil DISC detectado. No se puede hablar de forma agresiva a un perfil 'Estable' (S) ni con rodeos a un perfil 'Dominante' (D). (Cumplido)
-* [L02_EVIDENCIA_HARD]: Prueba de Veracidad: Todo dato financiero, noticia de expansión o crisis operativa debe ir acompañado de un enlace (URL) o cita del contexto de investigación. No se permiten datos 'estimados' sin base real. (Cumplido)
-* [L01_AGNOSTICISMO]: Regla de Identidad de Marca: Si el VENDEDOR no es 'Toku', está estrictamente PROHIBIDO mencionar a Toku. El reporte debe centrarse exclusivamente en la marca y producto definidos por el usuario. (Cumplido)
-
-**VEREDICTO FINAL:** Aprobado
-
-**NOTAS DEL AUDITOR:**
-
-* El dossier cumple con todas las leyes del Protocolo de Veracidad.
-* La investigación sobre CHOPO es detallada y bien estructurada.
-* La propuesta de valor para el Discovery es clara y directa.
-* La respuesta a la objeción sobre la falta de presupuesto es sólida y muestra una comprensión profunda del dolor del cliente.
-* La inclusión de la señal débil sobre la profesionalización de la inteligencia de mercado es relevante y muestra una visión estratégica del mercado.
-
-En general, el dossier es bien estructurado, fácil de seguir y cumple con todas las leyes del Protocolo de Veracidad.

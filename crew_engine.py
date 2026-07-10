@@ -5,19 +5,15 @@ Custom implementation to bypass Vercel bundle limits.
 import os
 import json
 from typing import List, Dict, Any
-from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
+from core.llm_loader import get_llm
 from tools.search import SerperSearch
 from tools.wiki import get_company_profile
 from tools.firecrawl_tool import FirecrawlTool
 from core.database import db
 
 # --- MODEL CONFIGURATION ---
-llm = ChatGroq(
-    temperature=0.2,
-    model_name="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY")
-)
+llm = get_llm(temperature=0.2)
 
 # --- TOOLS ---
 search_tool = SerperSearch()

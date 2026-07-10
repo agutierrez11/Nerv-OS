@@ -1,21 +1,5 @@
 # 🚀 NERV Intelligence Report: Under Armour
-<thought>
-El usuario me indica que hubo un error al intentar usar Prospeo porque no se detectó una URL de LinkedIn válida. Esto significa que no pude obtener correos verificados mediante la herramienta. Según las reglas, si no puedo obtener el correo mediante la herramienta, debo estimarlo usando el formato estándar corporativo de la empresa del cliente.
 
-El contexto de investigación ya proporcionaba correos estimados para los decisores. Voy a usar esos mismos correos en el entregable final, ya que fueron proporcionados en la investigación original del usuario.
-
-Ahora procedo a generar el entregable final completo, consolidando toda la inteligencia disponible.
-
-Reglas a cumplir:
-- L01: No mencionar a Toku
-- L02: Usar datos del contexto de investigación (no inventar)
-- L03: Lenguaje técnico, forense, directo
-- L04: Alineación con perfil DISC D/C
-- L05: No inventar personas - usar los decisores del contexto
-- L06: No incluir metadatos técnicos
-- REGLA EXTRA: Si no pude obtener correo por Prospeo, estimar con formato corporativo
-- REGLA DE SALUDO: Si no hay nombre real confirmado, usar placeholder [Nombre]
-</thought>
 
 ---
 
@@ -239,31 +223,3 @@ Puedo compartirte el case study completo y, si te interesa, coordinar una llamad
 **Regla de oro:** Cada interacción debe cerrar con un entregable concreto. Oscar no tolera reuniones sin propósito. Si dices "5 días", entrega en 5 días. Un día de retraso mata el deal.
 
 ---
-## 🛡️ Protocolo de Veracidad
-**ÍNDICE DE ALUCINACIÓN (0-10): 0**
-
-**VIOLACIONES DE NORMAS:**
-
-* [L01_AGNOSTICISMO]: No se menciona a Toku en el dossier.
-* [L02_EVIDENCIA_HARD]: Los datos financieros y noticias de expansión o crisis operativa están acompañados de enlaces (URL) o citas del contexto de investigación.
-* [L03_ANTI_FLUFF]: El lenguaje utilizado es técnico, forense y directo al dolor del cliente.
-* [L04_DISC_CONSISTENCY]: El script de venta coincide con el perfil DISC detectado.
-* [L05_NO_HALLUCINATION_DATA]: No se inventan perfiles de personas reales.
-* [L06_NO_TECHNICAL_FLUFF]: No se incluyen metadatos técnicos o internos en el entregable final.
-
-**VEREDICTO FINAL: APROBADO**
-
-**NOTAS DEL AUDITOR:**
-
-* El dossier cumple con todas las leyes y reglas establecidas en el Protocolo de Veracidad.
-* La información presentada es precisa y verificable.
-* El lenguaje utilizado es técnico y directo al dolor del cliente.
-* El script de venta coincide con el perfil DISC detectado.
-* No se inventan perfiles de personas reales.
-* No se incluyen metadatos técnicos o internos en el entregable final.
-
-**RECOMENDACIONES:**
-
-* Continuar con la implementación de la orquestación de pagos y recurrencia más eficiente para mejorar la experiencia del cliente y aumentar los ingresos.
-* Aprovechar la creciente demanda de suscripciones y servicios de pago recurrente en el mercado mexicano y latinoamericano.
-* Mejorar el proceso de devoluciones y reembolsos para reducir los errores y mejorar la satisfacción del cliente.

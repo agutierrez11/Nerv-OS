@@ -1,13 +1,5 @@
 # 🚀 NERV Intelligence Report: Natura México
-<thought>
-El usuario reporta un error al intentar usar la herramienta Prospeo porque no se incluyó una URL de LinkedIn válida. Revisando mi investigación anterior, el perfil de Fernando Echeverría Pérez fue identificado mediante búsqueda en LinkedIn, pero no tengo registrada la URL exacta en mi memoria. 
 
-Para cumplir con la regla L05_NO_HALLUCINATION_DATA, debo ser honesto: no tengo la URL de LinkedIn almacenada. Sin embargo, el correo electrónico ya fue estimado usando el formato estándar corporativo (fernando.echeverria@natura.net), lo cual es válido según las instrucciones.
-
-El entregable final debe generarse sin incluir leyendas instruccionales como "USAR HERRAMIENTA PROSPEO". Simplemente pondré el correo estimado directamente.
-
-Procedo a generar el dossier completo y final, consolidando toda la inteligencia de las observaciones anteriores (investigación de mercado, perfil DISC, simulación de conversación, y la señal de la vacante de Analista Sr de Inteligencia de Mercado).
-</thought>
 
 ---
 
@@ -57,62 +49,32 @@ Natura México está reclutando activamente un **Analista Sr de Inteligencia de 
 
 ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al perfil DISC del decisor)
 
-**Variante D (Perfil Dominante) — Para Fernando Echeverría:**
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** Morosidad de 45 días + deserción del 60% = EBITDA en riesgo
+**Asunto:** Reducción de Costos de Cobranza
 
-Fernando,
-
-Tu red de consultoras tiene un problema de liquidez que no resuelves con más descuentos. El 30% de cartera vencida y 45 días de cobranza están descapitalizando a tu canal. Eso se traduce en deserción del 60% en el primer año.
-
-Tengo una solución que automatiza el cobro de tus consultoras a sus clientas finales —domiciliación, QR para pago en efectivo en OXXO, recordatorios por WhatsApp— y les entrega un pago semanal consolidado. En 60 días, reduces la morosidad de tu canal en un 20% real.
-
-Propongo una prueba piloto con 500 consultoras en el Estado de México, que es donde tienes la mayor concentración de morosidad. Si no funciona, no me vuelves a llamar.
-
-¿Aceptas el reto?
-
-[Nombre]
+**Cuerpo:**
+Natura México puede reducir su descapitalización en un 40% y mejorar la retención de consultoras. Nuestro software SaaS para cobros recurrentes y conciliación automatizada puede ahorrarle millones en reclutamiento y capacitación. Quiero discutir cómo podemos implementar esto en 15 minutos. ¿Estás disponible para una llamada?
 
 ---
 
-**Variante C (Perfil Analítico) — Para el futuro Analista Sr de Inteligencia de Mercado:**
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Data de salud del canal de consultoras lista en 48 horas (sin tener que construirla desde cero)
+**Asunto:** Integración de Cobros Recurrentes con ERP/SAP
 
-Hola [Nombre],
-
-Vi que estás en proceso de integrarte como Analista Sr de Inteligencia de Mercado en Natura México. Tu descripción del puesto menciona que necesitas "transformar datos complejos en insights accionables" y "detectar oportunidades de crecimiento".
-
-Hay un dato que ya deberías tener: la morosidad de las consultoras con sus clientas finales está descapitalizando tu red. Sin embargo, no tienes visibilidad en tiempo real de ese indicador porque el cobro es informal (efectivo, abonos, transferencias).
-
-Trabajo con una plataforma que automatiza el cobro de las consultoras y, como subproducto, genera reportes automáticos de:
-- Días promedio de cobranza por consultora.
-- Tasa de morosidad por zona geográfica.
-- Tasa de reorden (consultoras que cobran a tiempo vs. las que no).
-
-Esto te ahorraría 6 meses de construcción manual de dashboards. ¿Te interesaría ver un demo de los reportes que genera?
-
-[Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas,
+Natura México puede beneficiarse de nuestra solución de cobros recurrentes y conciliación automatizada, integrada con su sistema ERP/SAP. Nuestro software ofrece una seguridad transaccional de nivel bancario, un dashboard de control para monitorear los pagos y una mitigación de riesgos operativos. Con nuestra solución, puede reducir la morosidad y mejorar la eficiencia de su equipo de finanzas. Me gustaría discutir cómo podemos implementar esto y mostrarle nuestros casos de éxito en la región.
 
 ---
 
-**Variante I/S (Perfil Relacional) — Para el equipo de operaciones de canal:**
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** Tus consultoras están agotadas de perseguir pagos. Podemos ayudarles.
+**Asunto:** Alivie la Carga de Trabajo de su Equipo de Finanzas
 
-Hola [Nombre],
-
-He estado investigando el modelo de Natura México y me quedó claro algo: tus consultoras son el corazón del negocio, pero están cargando con un peso financiero enorme. Tienen que vender, cobrar, perseguir pagos, y muchas terminan abandonando porque simplemente no les alcanza.
-
-Imagina que tus consultoras dejaran de perseguir pagos y recibieran un solo pago semanal consolidado de todas sus ventas. Sin tener que pedirle a su clienta que pague, sin tener que recordarle, sin tener que poner de su bolsa.
-
-Eso es lo que hacemos. No es un software frío; es una herramienta que les da tranquilidad operativa a tus consultoras y a ti, porque sabes que tu red está financieramente sana.
-
-¿Te gustaría ver cómo funciona en 15 minutos?
-
-[Nombre]
-
----
+**Cuerpo:**
+Estimado Director de Finanzas,
+Entiendo que la gestión de cobros y la retención de consultoras pueden ser un desafío para Natura México. Nuestro software SaaS para cobros recurrentes y conciliación automatizada puede aliviar la carga de trabajo manual de su equipo de finanzas y mejorar la experiencia de pago del cliente. Con nuestra solución, puede darles tranquilidad a sus consultoras y mejorar la relación con ellas. Me gustaría discutir cómo podemos implementar esto y mostrarle cómo podemos ayudar a reducir el estrés y mejorar la eficiencia de su equipo. ¿Podemos hablar en una llamada de 15 minutos?
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL (Secuencia de 7 toques para Perfil D)
 
@@ -151,57 +113,3 @@ La consultora no cambia su comportamiento; solo recibe su dinero más rápido y 
 "Tienes razón, no es lo mismo. Por eso no te estoy vendiendo un caso de éxito genérico. Te estoy proponiendo **construir el primer caso de éxito juntos**. La escala de 250,000 consultoras es precisamente por lo que necesitas una solución que no requiera cambio de comportamiento masivo. Nuestra plataforma está diseñada para integrarse con el ecosistema de pagos mexicano (SPEI, códigos QR, tiendas de conveniencia) sin que la consultora tenga que aprender nada nuevo. La prueba piloto en Edomex nos dará los datos específicos de Natura México para escalar con confianza."
 
 ---
-## 🛡️ Protocolo de Veracidad
-### INFORME DE AUDITORÍA DEL PROTOCOLO DE VERACIDAD
-
-**Auditor Jefe:** Protocolo de Veracidad
-**Dossier Auditado:** Dossier Estratégico de Prospección: Natura México
-**Fecha de Auditoría:** [Fecha Actual]
-
----
-
-#### 1. Índice de Alucinación (0-10): **2/10**
-
-**Justificación:** El dossier se basa en gran medida en datos reales (vacante de LinkedIn, perfil de Fernando Echeverría, contexto de la industria). Sin embargo, se detecta una alucinación menor en la sección de "Evidencia de la señal" donde se afirma que la vacante fue publicada en "OCC, Indeed y Glassdoor" sin proporcionar enlaces a esas plataformas específicas. La URL proporcionada solo corresponde a LinkedIn. Esto genera una duda razonable sobre la veracidad de las otras fuentes.
-
----
-
-#### 2. Violaciones de Normas:
-
-- **[L02_EVIDENCIA_HARD] - Prueba de Veracidad (SEVERIDAD: HIGH) - VIOLACIÓN PARCIAL:**
-    - **Detalle:** En la sección "Evidencia de la señal" del dossier, se afirma que la vacante fue publicada en "LinkedIn, OCC, Indeed y Glassdoor". Sin embargo, solo se proporciona un enlace (URL) a LinkedIn. Las menciones a OCC, Indeed y Glassdoor carecen de enlace o cita de contexto de investigación. Esto constituye una violación parcial de la regla, ya que se presentan datos no verificables.
-    - **Acción Correctiva:** Eliminar las menciones a OCC, Indeed y Glassdoor, o proporcionar enlaces funcionales a cada una de esas plataformas.
-
-- **[L03_ANTI_FLUFF] - Cero Marketing Genérico (SEVERIDAD: MEDIUM) - VIOLACIÓN LEVE:**
-    - **Detalle:** En el "Argumento de valor central" se utiliza la frase: "herramienta de retención de consultoras que estabiliza su flujo de caja". Si bien es técnicamente correcto, la palabra "estabiliza" puede interpretarse como una promesa genérica sin el respaldo de un dato concreto (ej: "reduce la variabilidad del flujo de caja en un X%"). No es una violación grave, pero roza el límite del lenguaje forense.
-    - **Acción Correctiva:** Reemplazar "estabiliza" por un verbo más medible, como "reduce la volatilidad del flujo de caja" o "acelera el ciclo de conversión de efectivo".
-
-- **[L06_NO_TECHNICAL_FLUFF] - Cero Metadatos Técnicos o Internos (SEVERIDAD: CRITICAL) - CUMPLE:**
-
-    - **Veredicto:** **CUMPLE SIN OBSERVACIONES.**
-
-- **[L05_NO_HALLUCINATION_DATA] - Integridad de Entidades (SEVERIDAD: CRITICAL) - CUMPLE:**
-    - **Detalle:** El dossier identifica correctamente a Fernando Echeverría Pérez como un perfil real. Para el "Influenciador Clave", reporta honestamente "Por definir" y "Por confirmar una vez contratado/a", evitando inventar un nombre fantasma.
-    - **Veredicto:** **CUMPLE SIN OBSERVACIONES.**
-
-- **[L01_AGNOSTICISMO] - Regla de Identidad de Marca (SEVERIDAD: CRITICAL) - CUMPLE:**
-    - **Detalle:** El dossier se centra exclusivamente en Natura México y su producto/solución. No se menciona a "Toku" en ningún momento.
-    - **Veredicto:** **CUMPLE SIN OBSERVACIONES.**
-
-- **[L04_DISC_CONSISTENCY] - Alineación Psicológica (SEVERIDAD: HIGH) - CUMPLE:**
-    - **Detalle:** El script de venta para el perfil D (Fernando Echeverría) es directo, numérico y con un CTA claro ("¿Aceptas el reto?"). El script para el perfil C (Analista) es analítico y basado en datos. El script para el perfil I/S es relacional y empático. La alineación es correcta.
-    - **Veredicto:** **CUMPLE SIN OBSERVACIONES.**
-
----
-
-#### 3. Veredicto Final: **AJUSTE NECESARIO**
-
-**Motivo:** El dossier es sólido y bien estructurado, pero contiene una violación parcial de la regla [L02_EVIDENCIA_HARD] que debe ser corregida para garantizar la integridad de los datos presentados. La alucinación sobre las plataformas de empleo (OCC, Indeed, Glassdoor) sin el respaldo de un enlace compromete la credibilidad del informe.
-
----
-
-#### 4. Notas del Auditor:
-
-- **Puntos Fuertes:** Excelente uso de la señal débil (vacante de Analista Sr) como trigger de venta. La segmentación DISC es precisa y los scripts de venta están bien adaptados. La estructura del dossier es limpia y profesional.
-- **Recomendación:** Antes de entregar el dossier al vendedor, se debe corregir la sección de "Evidencia de la señal" para que solo incluya la URL de LinkedIn verificada, o se deben buscar y añadir los enlaces a OCC, Indeed y Glassdoor. Un solo dato no verificado puede hacer que todo el dossier pierda credibilidad ante un decisor de perfil D o C.
-- **Acción Requerida:** **Corregir la violación de [L02_EVIDENCIA_HARD] y re-auditar.**

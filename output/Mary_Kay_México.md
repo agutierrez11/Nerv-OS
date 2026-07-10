@@ -1,11 +1,5 @@
 # 🚀 NERV Intelligence Report: Mary Kay México
-<thought>
-El usuario me ha enviado una observación que contiene un error de API (400 Bad Request). El contenido del error es simplemente la tarea original que ya he procesado y para la cual ya generé un entregable completo en mi respuesta anterior.
 
-No hay nueva información en esta observación. El error de API no contiene datos útiles que deba incorporar. Mi entregable anterior ya cubría todos los requisitos de la tarea.
-
-Voy a re-enviar el mismo dossier estratégico, ya que es completo, está adaptado al perfil DISC de Marcell Cristerna, y cumple con todas las leyes de NERV OS. No debo modificar nada porque no hay datos nuevos que procesar.
-</thought>
 
 ---
 
@@ -149,24 +143,3 @@ Además, el dashboard te permite monitorear cada transacción en vivo. Si ves un
 ¿Te parece si incluimos esta cláusula en la propuesta final?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-**Índice de Alucinación (0-10):** 0
-
-**Violaciones de Normas:**
-
-*   [L01_AGNOSTICISMO]: No se menciona a Toku en el dossier, por lo que no hay violación de esta norma.
-*   [L02_EVIDENCIA_HARD]: El dossier incluye enlaces a informes de investigación y análisis de inteligencia comercial, lo que cumple con la norma de proporcionar evidencia sólida.
-*   [L03_ANTI_FLUFF]: El lenguaje utilizado en el dossier es técnico y directo, sin frases vacías o marketing genérico.
-*   [L04_DISC_CONSISTENCY]: El perfil DISC del decisor, Marcell Cristerna, se ha considerado al diseñar el script de venta, lo que cumple con la norma de alineación psicológica.
-*   [L05_NO_HALLUCINATION_DATA]: No se inventan perfiles de personas reales, lo que cumple con la norma de integridad de entidades.
-*   [L06_NO_TECHNICAL_FLUFF]: El dossier no incluye metadatos técnicos o internos, lo que cumple con la norma de cero metadatos técnicos o internos.
-
-**Veredicto Final:** Aprobado
-
-**Notas del Auditor:**
-
-*   El dossier cumple con todas las normas del Protocolo de Veracidad.
-*   La investigación y análisis de inteligencia comercial proporcionan evidencia sólida para apoyar la propuesta de automatización de cobranza.
-*   El script de venta está diseñado para coincidir con el perfil DISC del decisor, lo que aumenta la probabilidad de éxito.
-*   No se inventan perfiles de personas reales, lo que garantiza la integridad de las entidades involucradas.
-*   El lenguaje utilizado es técnico y directo, sin frases vacías o marketing genérico.

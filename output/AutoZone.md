@@ -1,27 +1,5 @@
 # 🚀 NERV Intelligence Report: AutoZone
-<thought>
-El usuario me indica que hubo un error al intentar usar la herramienta Prospeo porque no se incluyó una URL de LinkedIn válida. Esto significa que no pude obtener correos electrónicos verificados de los decisores.
 
-Según las reglas:
-- [L05_NO_HALLUCINATION_DATA]: Si no se encuentran nombres de personas reales, no inventar perfiles. Es preferible reportar 'Sin Decisor Identificado' que crear un fantasma.
-- La regla extra dice: "Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico."
-- La instrucción final dice: "Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente."
-
-Dado que no tengo URLs de LinkedIn verificadas de estos directivos (la investigación no las proporcionó), y la herramienta Prospeo falló por falta de URL, debo estimar los correos usando el formato estándar corporativo de AutoZone.
-
-El dominio de AutoZone México es autozone.com.mx o autozone.com. Revisando la investigación, los correos que estimé anteriormente usaban @autozone.com. Mantendré ese formato como estimación.
-
-Ahora, procedo a generar el entregable final completo, incorporando toda la inteligencia de las observaciones anteriores (caída del 10% en bolsa, contratación activa, dolores identificados) y aplicando todas las leyes inviolables.
-
-Estructura requerida:
-1. A QUIÉN HABLARLE
-2. MAPA ESTRATÉGICO
-3. CORREOS DE PROSPECCIÓN (3 variantes DISC)
-4. PLAN DE CONTACTO MULTICANAL
-5. MANEJO DE OBJECIONES
-
-Importante: No incluir metadatos técnicos. Lenguaje forense y directo.
-</thought>
 
 ---
 
@@ -155,23 +133,3 @@ Nuestra plataforma de pagos lo hace posible sin fricción. ¿Te parece si te cue
 "Ivan, sé que tu equipo está al límite. Por eso nuestra solución está diseñada para **no tocar tu core transaccional**. No reemplazamos tu gateway actual, lo orquestamos. Una sola integración API y ya puedes empezar a facturar suscripciones. No necesitas cambiar tu POS ni tu e-commerce. Además, te doy acceso al sandbox hoy para que valides la seguridad en 24 horas. Si no te convence la arquitectura, no perdiste nada. ¿Te parece si te comparto el diagrama de integración para que lo revises con tu equipo?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-**RESULTADO DE LA AUDITORÍA DEL PROTOCOLO DE VERACIDAD**
-
-**1. Índice de Alucinación (0-10):** **0**
-
-**2. Violaciones de Normas:**
-- **[L01_AGNOSTICISMO]:** **No violada.** El vendedor está vacío (`""`). No se menciona a 'Toku' en ningún punto del dossier. El reporte se centra exclusivamente en el producto ("Orquestación de Pagos + Recurrencia y Suscripciones") y la empresa objetivo (AutoZone). **CUMPLE.**
-- **[L02_EVIDENCIA_HARD]:** **No violada.** El dossier incluye un enlace URL directo a un video de YouTube que documenta la caída del 10% en bolsa. También incluye un enlace a una vacante de LinkedIn. Los datos financieros y las señales débiles están respaldados por fuentes. **CUMPLE.**
-- **[L03_ANTI_FLUFF]:** **No violada.** El lenguaje es técnico, forense y directo. Se utilizan términos como "dependencia del modelo transaccional", "fragmentación de la experiencia de pago", "orquestación de pagos". No se detectan frases vacías de marketing genérico. **CUMPLE.**
-- **[L04_DISC_CONSISTENCY]:** **No violada.** Los scripts de venta están claramente alineados con los perfiles DISC detectados:
-    - **Alejandra Alfaro (D):** Mensaje directo, centrado en el resultado financiero ("Tu acción cayó 10%... ¿Te parece si te presento el business case?").
-    - **Alejandro Gómez (I):** Mensaje visionario y centrado en la innovación y el reconocimiento ("imagina lanzar la primera membresía... Tus clientes te van a aplaudir").
-    - **Belinda Alanis (D/C):** Mensaje centrado en datos, control y eficiencia ("necesitas mostrar un flujo de efectivo más predecible... un solo dashboard").
-    - **Ivan Venegas (C):** Mensaje técnico, detallado y centrado en la seguridad y la validación ("Te doy acceso al sandbox para que valides la seguridad"). **CUMPLE.**
-- **[L05_NO_HALLUCINATION_DATA]:** **No violada.** El dossier reporta explícitamente que el perfil de LinkedIn de Alejandra Alfaro "No identificado en fuentes públicas abiertas". No se inventan perfiles de personas. Los correos se presentan como "estimados" basados en un formato estándar. **CUMPLE.**
-
-**3. Veredicto Final:** **APROBADO**
-
-**4. Notas del Auditor:**
-El dossier cumple con todos los artículos de la Constitución de NERV OS. La estructura es sólida, la evidencia está correctamente citada y el lenguaje está perfectamente adaptado al perfil del cliente y los decisores. No se detectan alucinaciones ni violaciones de las normas de integridad y estilo. El entregable es apto para su uso comercial inmediato.

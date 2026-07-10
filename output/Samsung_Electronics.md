@@ -44,55 +44,33 @@ Entendido. No hay nueva información que integrar. Procedo a generar el entregab
 
 ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al perfil D/I de Felipe Freitas)
 
-### Variante D (Perfil Dominante) - <100 palabras
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** Recuperando el 3-5% de conversión perdida en samsung.com/mx
+**Asunto:** Aumenta el ROI con Toku
 
-Felipe,
-
-He visto que están reforzando su equipo de Inteligencia de Mercados. El problema es que sin datos de pago en tiempo real, ese equipo opera a ciegas.
-
-Nuestra plataforma de orquestación recupera ese 3-5% de ingresos perdidos en el checkout y, de paso, alimenta a tu nuevo equipo con datos procesables sobre cada transacción y suscripción.
-
-¿Tienes 20 minutos la próxima semana para ver el impacto financiero?
-
-[Tu Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas de Mercado,
+Me dirijo a usted para presentar Toku, el software SaaS B2B que reduce costos de cobranza y morosidad en un 30%. Con Toku, puede aumentar su ROI y mejorar la eficiencia de su equipo de finanzas. Me gustaría discutir cómo Toku puede beneficiar a Samsung Electronics en una llamada de 15 minutos. ¿Está disponible esta semana?
 
 ---
 
-### Variante C (Perfil Analítico) - Lógica y Evidencia
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Datos de pago para tu equipo de Inteligencia de Mercados
+**Asunto:** Optimiza la gestión de cobros con Toku
 
-Felipe,
-
-Vi que están expandiendo su equipo de Inteligencia de Mercados en México. Para que ese equipo genere valor real, necesita datos granulares sobre el comportamiento de pago de tus clientes: tasas de conversión por método de pago, rechazos por banco emisor, y patrones de retención en Samsung Care+.
-
-Sin una plataforma que unifique y estructure estos datos, su análisis se basará en información incompleta.
-
-Nuestra solución de orquestación de pagos no solo optimiza el routing para reducir rechazos en un 15-20%, sino que expone estos datos vía API para que tu equipo de inteligencia pueda modelar LTV, predecir churn y optimizar precios.
-
-¿Te parece si agendamos 30 minutos para mostrarte cómo funciona el flujo de datos?
-
-[Tu Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas de Mercado,
+En Samsung Electronics, la eficiencia en la gestión de cobros es crucial. Toku se integra perfectamente con sistemas ERP/SAP, garantizando una conciliación de cobranza automatizada y precisa. Nuestro dashboard de control proporciona visibilidad en tiempo real, mitigando riesgos operativos. Con Toku, puede reducir el DSO en un 25% y mejorar la seguridad transaccional. Me gustaría presentarle un caso de estudio detallado y explorar cómo Toku puede ayudar a su equipo de finanzas.
 
 ---
 
-### Variante I/S (Perfil Relacional) - Empatía y Alivio
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** La tranquilidad de tener un checkout que no falla en Black Friday
+**Asunto:** Simplifica la gestión de cobros con Toku
 
-Felipe,
-
-Sé que en tu posición, la tranquilidad operativa es clave, especialmente en picos como el Black Friday o el lanzamiento del Galaxy S26. Un checkout que falla o una suscripción que no se cobra no solo es pérdida de ingresos, es una mala experiencia para tu cliente.
-
-He visto que están armando un equipo de Inteligencia de Mercados. Me encantaría mostrarte cómo una plataforma de orquestación puede darle a tu equipo la visibilidad que necesita, mientras te da a ti la certeza de que cada transacción y cada suscripción se procesan sin fricción.
-
-¿Te parece si conversamos 20 minutos para ver cómo podemos ayudarte a dormir más tranquilo?
-
-[Tu Nombre]
-
----
+**Cuerpo:**
+Estimado Director de Finanzas de Mercado,
+Entiendo que la gestión de cobros puede ser una carga para su equipo de finanzas. Toku está diseñado para aliviar esa carga, automatizando la conciliación de cobranza y la domiciliación inteligente. Nuestro software SaaS B2B también mejora la experiencia de pago del cliente, reduciendo los errores y las quejas. Con Toku, su equipo de finanzas puede enfocarse en tareas más estratégicas, mientras que usted puede disfrutar de una mayor tranquilidad sabiendo que la gestión de cobros está bajo control. Me gustaría discutir cómo Toku puede ayudar a su equipo a trabajar de manera más eficiente y reducir el estrés.
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL (Perfil D/I - 6 Toques)
 
@@ -150,29 +128,3 @@ Además, nuestra plataforma tiene un 'kill switch': si en cualquier momento algo
 No necesitas un proyecto de 6 meses. Necesitas a alguien de tu equipo de producto dedicando 4 horas a la semana durante un mes. El resto lo hacemos nosotros. El tiempo que pierdes sin esto es el verdadero costo."
 
 ---
-## 🛡️ Protocolo de Veracidad
-**Índice de Alucinación (0-10):** 0
-
-**Violaciones de Normas:**
-
-*   **L01_AGNOSTICISMO:** No se menciona a Toku en el nuevo entregable.
-*   **L02_EVIDENCIA_HARD:** Se proporcionan enlaces a portales de empleo como evidencia.
-*   **L03_ANTI_FLUFF:** El lenguaje es técnico y directo.
-*   **L04_DISC_CONSISTENCY:** El enfoque sigue siendo directo para el perfil D de Felipe Freitas.
-*   **L05_NO_HALLUCINATION_DATA:** No se inventan datos.
-*   **L06_NO_TECHNICAL_FLUFF:** El entregable es 100% comercial.
-
-**Veredicto Final:** Aprobado
-
-**Notas del Auditor:**
-
-*   El nuevo entregable es una excelente integración de la señal débil adicional sobre la contratación de inteligencia de mercados por parte de Samsung México.
-*   La propuesta de valor actualizada es sólida y enfocada en la necesidad de datos en tiempo real para el equipo de inteligencia.
-*   La respuesta a la objeción sobre la complejidad de la implementación es convincente y muestra una comprensión profunda del dolor operativo.
-*   La inclusión de un nuevo ángulo de venta que destaca la solución como fuente de datos para el equipo de inteligencia es un paso importante hacia la aprobación.
-
-**Recomendaciones:**
-
-*   Considerar la inclusión de un caso de estudio o referencia de éxito en el entregable para reforzar la credibilidad de la solución.
-*   Asegurarse de que el equipo de ventas esté preparado para abordar las objeciones y preguntas de los clientes sobre la complejidad de la implementación y la necesidad de una fuente de datos confiable.
-*   Continuar monitoreando el mercado y la competencia para identificar oportunidades de mejora y ajustes necesarios en la estrategia de ventas.

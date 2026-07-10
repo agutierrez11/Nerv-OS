@@ -1,9 +1,5 @@
 # 🚀 NERV Intelligence Report: Ben&Frank
-<thought>
-El usuario me indica que hubo un error al intentar usar la herramienta Prospeo porque no se incluyó una URL de LinkedIn válida. Esto es consistente con mi análisis anterior: los perfiles de LinkedIn de los decisores de Ben&Frank (Mariana Castillo, Daniel Mercado, MARIA ANDREA P.) no están disponibles públicamente. Por lo tanto, bajo la **L05_NO_HALLUCINATION_DATA**, no debo inventar URLs de LinkedIn.
 
-Procedo a generar el entregable final completo, basándome en toda la evidencia recopilada hasta ahora (video de Mariana Castillo, ofertas de empleo de BI, Reporte de Impacto 2023) y aplicando todas las leyes de NERV OS. El entregable debe ser 100% comercial, sin metadatos técnicos, y adaptado al perfil DISC de los decisores.
-</thought>
 
 ---
 
@@ -139,46 +135,3 @@ Saludos,
 "María Andrea, el riesgo real es no hacer nada. Cada día que pasa sin un sistema de pagos unificado, pierden dinero y datos. Nuestra implementación es incremental: primero orquestamos los pagos en efectivo (sin tocar su sistema actual), y en paralelo preparamos el lanzamiento de suscripciones. Su equipo de operaciones no tendrá que aprender nada nuevo. Y si algo sale mal, tenemos un equipo de soporte dedicado que resuelve en horas, no en días. La tranquilidad operativa que buscas empieza con una llamada de 20 minutos."
 
 ---
-## 🛡️ Protocolo de Veracidad
-### INFORME DE AUDITORÍA DEL PROTOCOLO DE VERACIDAD
-
-**Auditor:** Jefe del Protocolo de Veracidad
-**Dossier Auditado:** Ben&Frank (ENTREGABLE FINAL)
-**Fecha de Auditoría:** Octubre 2025
-
----
-
-#### 1. Índice de Alucinación (0-10):
-**0/10**
-
-**Justificación:** El dossier no contiene datos inventados. Todos los nombres de decisores (Mariana Castillo, Daniel Mercado, MARIA ANDREA P.) provienen del contexto de investigación original. Las URLs proporcionadas (video de YouTube, ofertas de empleo, PDF de Reporte de Impacto) son reales y verificables. No se han creado perfiles falsos ni se han atribuido citas inexistentes.
-
----
-
-#### 2. Violaciones de Normas:
-
-| Ley | Estado | Detalle de la Violación |
-| :--- | :--- | :--- |
-| **L01_AGNOSTICISMO** | ✅ **CUMPLE** | El vendedor es 'Toku' (por defecto del sistema). No se menciona a Toku en ningún lugar del dossier. El reporte se centra exclusivamente en Ben&Frank y la solución de orquestación de pagos + recurrencia. |
-| **L02_EVIDENCIA_HARD** | ✅ **CUMPLE** | Todos los datos financieros y señales de dolor están respaldados por enlaces verificables: video de YouTube, ofertas de empleo en Indeed/LinkedIn/Glassdoor, y PDF de Reporte de Impacto 2023. No hay datos "estimados" sin base real. |
-| **L03_ANTI_FLUFF** | ✅ **CUMPLE** | El lenguaje es técnico y forense. Frases como "fuga de caja no contabilizada", "reconciliación manual", "ROI de promociones bancarias" son directas y específicas. No se utilizan frases vacías como "solución líder" o "innovación constante". |
-| **L04_DISC_CONSISTENCY** | ✅ **CUMPLE** | Los scripts de venta están perfectamente alineados con los perfiles DISC detectados: <br>- **Mariana Castillo (D Extremo):** Lenguaje directo, apelación al control y la supervivencia ("cierra la fuga", "control de caja").<br>- **Daniel Mercado (D):** Enfoque en datos, ROI y riesgo operativo.<br>- **MARIA ANDREA P. (D/I):** Equilibrio entre resultados y relación ("tranquilidad operativa", "escalar suscripciones"). |
-| **L05_NO_HALLUCINATION_DATA** | ✅ **CUMPLE** | No se inventan perfiles. Se reporta explícitamente que los perfiles de LinkedIn de los decisores "no están disponibles públicamente". No se crean "fantasmas" ni se atribuyen cargos o datos falsos. |
-
----
-
-#### 3. Veredicto Final:
-**APROBADO**
-
-El dossier cumple con todas las leyes del Protocolo de Veracidad. Es un entregable de alta calidad, basado en evidencia sólida, con un lenguaje forense y una estrategia de venta perfectamente alineada al perfil psicológico de los decisores.
-
----
-
-#### 4. Notas del Auditor:
-
-- **Punto Fuerte Destacado:** La integración del video de Mariana Castillo como "evidencia de dolor nuclear" es una jugada maestra de inteligencia comercial. Convierte un recurso público en una palanca de venta personalizada y emocionalmente resonante.
-- **Mejora Potencial (No Crítica):** El dossier asume que el vendedor es 'Toku' por defecto. Si en el futuro el vendedor fuera otra entidad, se debería verificar estrictamente la **L01_AGNOSTICISMO** para evitar cualquier mención indebida.
-- **Recomendación:** El plan de contacto multicanal (7 toques) es sólido. Se sugiere al vendedor priorizar el **Toque 1 (Email Variante D)** y el **Toque 7 (Video Loom)** como los de mayor impacto, dado el perfil Dominante de la fundadora.
-
-**Firma del Auditor:**
-*Protocolo de Veracidad - Auditoría Superada*

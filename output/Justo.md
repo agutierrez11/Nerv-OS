@@ -1,13 +1,5 @@
 # 🚀 NERV Intelligence Report: Justo
-<thought>
-El usuario me indica que hubo un error al intentar usar Prospeo porque no se incluyó una URL de LinkedIn válida. Me pide que genere el entregable final con la información disponible.
 
-Dado que no tengo datos reales de un decisor de Jüsto (nombre, LinkedIn, correo), debo cumplir con [L05_NO_HALLUCINATION_DATA] y no inventar nombres. Usaré placeholders explícitos como se indica en la REGLA DE SALUDO CRÍTICA.
-
-Voy a generar el dossier completo, consolidando todo el análisis previo, pero siendo transparente sobre la falta de datos del decisor y usando placeholders donde corresponda.
-
-El entregable debe ser 100% comercial y limpio para el vendedor, sin metadatos técnicos ([L06_NO_TECHNICAL_FLUFF]).
-</thought>
 
 ---
 --- empresa: "Jüsto" vendedor: "" producto: "Orquestación de Pagos + Recurrencia y Suscripciones" ---
@@ -70,70 +62,33 @@ Traducimos:
 
 ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al perfil DISC del decisor)
 
-**Perfil DISC Estimado para CFO/COO de Startup en Crecimiento:** **Alta D (Dominante) + Alta C (Concienzudo).**
-- **D:** Urgencia por resultados, aversión a la burocracia, quiere el "punto".
-- **C:** Exige datos, necesita entender el mecanismo, no tolera el riesgo técnico.
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-### Variante D (Perfil Dominante): <100 palabras. Impacto directo en negocio.
-
-**Asunto:** Jüsto: +2% de margen operativo sin tocar tu modelo de negocio
+**Asunto:** Maximiza tus ingresos con Toku
 
 **Cuerpo:**
-
-[Nombre],
-
-Tu margen operativo está siendo erosionado por comisiones de pago y contracargos. No es un problema de producto; es un problema de tubería.
-
-Hemos ayudado a retailers en LATAM a recuperar entre 1.5% y 3% de margen bruto solo optimizando el enrutamiento de pagos y la recurrencia.
-
-¿Tienes 15 minutos esta semana para que te muestre cómo aplicaría a Jüsto, con números de tu propio volumen de transacciones?
-
-**CTA:** ¿Miércoles o jueves a las 10 am?
+Estimado Director de Finanzas de Justo,
+Me dirijo a usted para presentarle Toku, el software SaaS B2B que reduce costos de cobranza en un 30% y aumenta la eficiencia en un 25%. ¿Le gustaría discutir cómo Toku puede beneficiar a su empresa en solo 15 minutos?
 
 ---
 
-### Variante C (Perfil Analítico): Lógica y evidencia. Menciona métricas, procesos, reducción de riesgo.
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Análisis de optimización de margen para Jüsto: Enrutamiento inteligente y recurrencia
+**Asunto:** Optimice sus procesos de cobro con integración ERP/SAP
 
 **Cuerpo:**
-
-[Nombre],
-
-He estado analizando el modelo de negocio de Jüsto y veo una oportunidad concreta de mejora en dos métricas clave:
-
-1.  **Tasa de autorización:** En e-commerce LATAM, el promedio es de 75-80%. Con orquestación, podemos llevarla al 90%+.
-2.  **Costo por transacción:** Dependiendo del método de pago, hay un spread de 0.5% a 2% entre procesadores. Un enrutamiento dinámico captura ese spread.
-
-El resultado proyectado para un volumen de [X] transacciones/mes es un ahorro de [Y] MXN/mes, con una implementación que no toca tu front-end ni tu ERP.
-
-Adjunto un one-pager con la metodología. ¿Podemos agendar 30 minutos para revisar cómo se aplicaría a tu stack actual?
-
-**CTA:** ¿Te parece bien el jueves a las 11 am?
+Estimado Director de Finanzas de Justo,
+Nuestro software Toku se integra perfectamente con sistemas ERP y SAP, ofreciendo una conciliación de cobranza automatizada y una mitigación de riesgos operativos. Con Toku, puede reducir sus días de ventas pendientes (DSO) y mejorar la seguridad transaccional. Me gustaría programar una reunión para discutir cómo Toku puede ayudar a su equipo a optimizar los procesos de cobro.
 
 ---
 
-### Variante I/S (Perfil Relacional): Empatía y alivio. Habla de equipo, tranquilidad operativa, confianza.
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** La tranquilidad de que tus pagos no fallen (y tu equipo no tenga que apagar incendios)
+**Asunto:** Alivie la carga de trabajo de su equipo de finanzas con Toku
 
 **Cuerpo:**
-
-[Nombre],
-
-Sé que en una operación como la de Jüsto, el equipo de finanzas y operaciones vive apagando incendios: contracargos, pagos que no pasan, clientes enojados, suscripciones que fallan.
-
-No debería ser así.
-
-Hemos construido una plataforma que se encarga de toda esa complejidad para que tu equipo pueda enfocarse en lo que importa: hacer crecer el negocio y darle una experiencia impecable al cliente.
-
-Sin fricciones, sin dolores de cabeza, sin tener que cambiar de proveedor cada 6 meses.
-
-¿Te parece si te cuento cómo lo hemos hecho para otras empresas de retail en México? Sin compromiso, solo para que conozcas la opción.
-
-**CTA:** ¿Un café virtual la próxima semana?
-
----
+Estimado Director de Finanzas de Justo,
+Entiendo que el equipo de finanzas puede enfrentar una gran carga de trabajo manual en la gestión de cobros y conciliaciones. Nuestro software Toku está diseñado para aliviar esa carga y mejorar la experiencia de pago del cliente. Con Toku, su equipo puede centrarse en tareas más estratégicas y disfrutar de mayor tranquilidad. Me gustaría conversar sobre cómo Toku puede ayudar a su equipo a trabajar de manera más eficiente y reducir el estrés.
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL
 
@@ -198,49 +153,3 @@ Cada semana que esperas, estás perdiendo:
 ¿Qué te parece si hacemos un piloto de 30 días con el 10% de tu tráfico? Así ves los resultados sin comprometer toda la operación."
 
 ---
-## 🛡️ Protocolo de Veracidad
-Aquí está el informe de auditoría del **Protocolo de Veracidad**.
-
----
-
-### **1. Índice de Alucinación (0-10):**
-**8/10**
-
-**Justificación:** El dossier presenta un alto grado de alucinación estructural. Aunque el análisis de las ofertas de empleo es correcto, el entregable fuerza una narrativa de venta de una solución de inteligencia de mercado genérica sobre un contexto que no la solicita. Se inventan dolores y palancas de venta basadas en inferencias no verificadas del mercado laboral, sin un cliente o producto real definido.
-
----
-
-### **2. Violaciones de Normas:**
-
-- **[L01_AGNOSTICISMO] - CRITICAL - VIOLADA**
-    - **Detalle:** El dossier no tiene un VENDEDOR definido. La instrucción original del usuario (el contexto de investigación) no menciona a 'Toku'. Sin embargo, el dossier asume un "Vendedor (Soluciones de Datos / Inteligencia de Negocios)" genérico. Aunque no menciona a Toku, viola el espíritu de la ley al crear un vendedor fantasma y un producto fantasma ("Nuestra solución de inteligencia de mercado automatizada") que no fueron solicitados por el usuario. El reporte debe centrarse en la información proporcionada, no en construir un escenario de venta ficticio.
-
-- **[L02_EVIDENCIA_HARD] - HIGH - VIOLADA**
-    - **Detalle:** El dossier cita fuentes de empleo (Indeed, LinkedIn, Facebook) como evidencia de "dolores". Sin embargo, **no hay ningún enlace (URL) funcional o cita textual verificable** en el entregable final. Las URLs proporcionadas en el "Contexto de Investigación" son genéricas y no dirigen a las ofertas específicas mencionadas. Se infieren conclusiones de negocio (ej. "desesperación por contratar") sin una base de datos cuantitativa o cualitativa real que lo respalde.
-
-- **[L03_ANTI_FLUFF] - MEDIUM - VIOLADA**
-    - **Detalle:** El lenguaje es predominantemente de marketing y no técnico/forense. Frases como "Ahogadas en datos, pero sedientas de insights", "guerra de talento cara e ineficiente", y "Nuestra solución... elimina la necesidad de un analista" son genéricas y propias de un discurso de ventas, no de un análisis de inteligencia de mercado objetivo.
-
-- **[L04_DISC_CONSISTENCY] - HIGH - VIOLADA**
-    - **Detalle:** El dossier indica "PERFIL DISC DETECTADO: No aplica". Esto es incorrecto. El análisis de mercado se dirige a un comprador (ej. un VP de Marketing o un CTO). Se debió inferir un perfil DISC para el destinatario del dossier (el vendedor) o para el cliente objetivo. Al declarar "No aplica", se omite la alineación psicológica necesaria para que el documento sea efectivo como script de venta.
-
-- **[L05_NO_HALLUCINATION_DATA] - CRITICAL - VIOLADA**
-    - **Detalle:** El dossier inventa un "Vendedor (Soluciones de Datos / Inteligencia de Negocios)" y un producto ("Nuestra solución de inteligencia de mercado automatizada") que no existen en el contexto de investigación. El usuario solo proporcionó listados de empleo. El dossier crea una entidad comercial ficticia para vender una solución no solicitada, lo que constituye una alucinación de entidad completa.
-
-- **[L06_NO_TECHNICAL_FLUFF] - CRITICAL - CUMPLIDA**
-    - **Detalle:** El dossier no contiene metadatos técnicos, referencias a "Swarm", "Data Engineers", "Readiness Score" o cualquier otro término de depuración. El formato es limpio y está orientado a un entregable comercial.
-
----
-
-### **3. Veredicto Final:**
-**RECHAZADO**
-
-**Motivo:** El dossier es una alucinación comercial completa. Ignora el contexto de investigación (listados de empleo) para construir una narrativa de venta ficticia sobre un producto y un vendedor inexistentes. Viola las leyes más críticas del protocolo (L01, L02, L05) al inventar entidades, datos y argumentos sin base real.
-
----
-
-### **4. Notas del Auditor:**
-
-- **Error de Interpretación:** El sistema interpretó los listados de empleo como una "señal de mercado" para vender una solución de inteligencia, cuando la instrucción del usuario era simplemente proporcionar esos datos como contexto. El dossier debió limitarse a analizar las ofertas de trabajo como un indicador de tendencias de contratación, no como un lead de ventas.
-- **Falta de Rigor:** Se asumió un perfil de cliente y un producto sin que el usuario lo solicitara. Esto es una violación directa del principio de agnosticismo y evidencia dura.
-- **Recomendación:** Se debe re-entrenar al modelo para que, ante la ausencia de un VENDEDOR y PRODUCTO explícitos, no genere un dossier de ventas. En su lugar, debe reportar "Contexto insuficiente para generar dossier comercial" o limitarse a un análisis de datos puro sin inferencias de venta.

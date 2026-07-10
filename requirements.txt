@@ -12,3 +12,6 @@ langchain-core
 streamlit
 wikipedia
 openai
+langchain-openai
+python-docx
+

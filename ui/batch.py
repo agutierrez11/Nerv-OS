@@ -72,6 +72,26 @@ def render_batch_tab(companies_data, output_dir, user_active=None):
             st.rerun()
 
     st.divider()
+    
+    # Botón para exportar a Word en lotes
+    if st.button("📁 CONVERTIR DOSSIERS GENERADOS A WORD (.docx)", use_container_width=True):
+        existing_mds = list(output_dir.glob("*.md"))
+        if not existing_mds:
+            st.error("⚠️ No hay dossiers generados en la caché local para convertir. Por favor, ejecuta primero el análisis batch.")
+        else:
+            with st.status("📝 Convirtiendo dossiers a documentos Word...", expanded=True) as status:
+                from core.docx_exporter import convert_dossier_to_docx
+                converted_files = []
+                for md_file in existing_mds:
+                    try:
+                        docx_path = convert_dossier_to_docx(md_file, "/home/antonio/Desktop/Correos_Prospeccion")
+                        converted_files.append(docx_path)
+                    except Exception as e:
+                        logger.error(f"Error convirtiendo {md_file.name} a docx: {e}")
+                        st.warning(f"No se pudo convertir {md_file.name}: {e}")
+                status.update(label=f"✅ ¡Conversión Completada! Se generaron {len(converted_files)} archivos de Word en el Escritorio del VPS (`/home/antonio/Desktop/Correos_Prospeccion/`).", state="complete")
+
+    st.divider()
     # Listado de empresas con visualización inline y descarga
     for row in companies_data:
         safe = re.sub(r'[^\w\-]', '_', row['empresa']).strip('_')

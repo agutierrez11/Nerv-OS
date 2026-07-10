@@ -27,6 +27,7 @@ from ui.individual import render_individual_tab
 from ui.batch import render_batch_tab
 from ui.lab import render_lab_tab
 from ui.lab_lookalike import render_lookalike_tab
+from ui.objections_matrix import render_objections_matrix_tab
 from core.logger import logger
 
 # Cargar entorno opcionalmente
@@ -71,8 +72,37 @@ USER_REGISTRY_FILE = BASE_DIR / "user_registry.json"
 # Carga de datos
 companies_data = []
 if COMPANIES_CSV.exists():
-    with open(COMPANIES_CSV, encoding="utf-8") as f:
-        companies_data = list(csv.DictReader(f))
+    try:
+        with open(COMPANIES_CSV, encoding="utf-8") as f:
+            companies_data = list(csv.DictReader(f))
+        # Lógica de puntuación y priorización
+        sector_weights = {
+            "ecommerce": 95, "retail": 95, "catalog": 90,
+            "fintech": 85, "bienes de consumo": 80,
+            "courier": 65, "logística": 65,
+            "salud": 55, "hospitales": 55, "general": 45
+        }
+        user_brands = ["nike", "pandora", "ben&frank", "samsung", "under armour", "decathlon"]
+        for r in companies_data:
+            name = r.get("empresa", "")
+            sector = r.get("sector", "General")
+            sector_lower = sector.lower()
+            score = 45
+            for sec_key, weight in sector_weights.items():
+                if sec_key in sector_lower:
+                    score = weight
+                    break
+            for brand in user_brands:
+                if brand in name.lower():
+                    score = 98
+                    break
+            r["score"] = score
+        companies_data.sort(key=lambda x: -x["score"])
+        for idx, r in enumerate(companies_data, 1):
+            r["rank"] = idx
+    except Exception as e:
+        logger.error(f"Error cargando y procesando companies.csv: {e}")
+        st.error(f"Error procesando companies.csv: {e}")
 else:
     logger.error("No se encontro companies.csv")
     st.error("Archivo companies.csv no encontrado.")
@@ -130,6 +160,7 @@ ROLES_COMERCIALES = [
     "Customer Success Manager",
     "Channel / Partnerships",
     "Founder / CEO",
+    "Business Analyst",
     "Otro",
 ]
 
@@ -246,11 +277,12 @@ else:
     # Mostrar la interfaz correspondiente
     if is_admin or is_toku:
         # Mostrar todas las pestañas para el administrador y modo Toku
-        tab_ind, tab_batch, tab_lab, tab_lookalike = st.tabs([
+        tab_ind, tab_batch, tab_lab, tab_lookalike, tab_obj = st.tabs([
             "🎯 Analisis Individual", 
             "📦 Procesamiento Batch", 
             "🧪 NERV Lab",
-            "🧠 NERV Lookalike"
+            "🧠 NERV Lookalike",
+            "🎯 Matriz de Objeciones"
         ])
         
         with tab_ind:
@@ -264,6 +296,9 @@ else:
             
         with tab_lookalike:
             render_lookalike_tab(user_active=user_active)
+
+        with tab_obj:
+            render_objections_matrix_tab(user_active=user_active)
             
     else:
         # Modo agnóstico / invitado

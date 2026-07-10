@@ -1,4 +1,5 @@
 import yaml
+import re
 import os
 import sys
 import time
@@ -32,6 +33,8 @@ from toku_radar.tools.memory import NervMemory
 from toku_radar.tools.groq_rotator import GroqRotator
 from toku_radar.tools.deepseek_client import DeepSeekClient
 from toku_radar.tools.hermes_client import HermesClient
+from toku_radar.tools.gemini_client import GeminiClient
+from toku_radar.tools.claude_client import ClaudeClient
 from toku_radar.tools.google_suite import google_suite
 
 # Cargar .env opcionalmente (para desarrollo local)
@@ -62,6 +65,14 @@ class Agent:
             self.rotator = HermesClient(log_callback=self._log)
             self.model_planning = "nousresearch/hermes-4-70b"
             self.model_final = "nousresearch/hermes-4-70b"
+        elif self.engine == "claude":
+            self.rotator = ClaudeClient(log_callback=self._log)
+            self.model_planning = "claude-3-5-sonnet-20240620"
+            self.model_final = "claude-3-5-sonnet-20240620"
+        elif self.engine == "gemini":
+            self.rotator = GeminiClient(log_callback=self._log)
+            self.model_planning = "gemini-1.5-pro"
+            self.model_final = "gemini-1.5-flash"
         else:
             self.rotator = GroqRotator(log_callback=self._log)
             self.model_planning = "llama-3.3-70b-versatile"
@@ -148,7 +159,27 @@ class Agent:
                         else:
                             res = f"Prospeo: {res_prospeo} | FullEnrich: {res_fullenrich}"
             else:
-                res = "Error: No se detectó una URL de LinkedIn válida en tu petición para usar las herramientas de enriquecimiento. Asegúrate de incluir la URL completa (ej. https://www.linkedin.com/in/...) al solicitar el correo."
+                # Fallback: Intenta buscar por Nombre + Dominio
+                match = re.search(r'(?:prospeo|fullenrich|correo|email):\s*([a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s\.\-]+?)(?:\s+@\s+|\s+en\s+|\s*,\s*|\s*\()([a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,})', plan_text, re.IGNORECASE)
+                if match:
+                    name = match.group(1).strip()
+                    domain = match.group(2).strip()
+                    name_parts = name.split()
+                    if len(name_parts) >= 2:
+                        first_name = name_parts[0]
+                        last_name = " ".join(name_parts[1:])
+                    else:
+                        first_name = name
+                        last_name = ""
+                    
+                    from toku_radar.tools.prospeo_client import prospeo_enrich_person
+                    try:
+                        res = prospeo_enrich_person.func(first_name=first_name, last_name=last_name, company_website=domain)
+                    except Exception as e:
+                        logger.error(f"Error calling prospeo.func directly: {e}")
+                        res = prospeo_enrich_person.run({"first_name": first_name, "last_name": last_name, "company_website": domain})
+                else:
+                    res = "Error: No se detectó una URL de LinkedIn válida ni el formato 'prospeo: Nombre Completo en dominio.com' en tu petición para buscar el correo."
         else:
             msg = "## Action: Standard Search (Serper)"
             res = self.search_tool._query(task_desc, gl=self.gl, hl=self.hl)
@@ -173,7 +204,8 @@ REGLAS DE OPERACION:
 1. Empieza con <thought> para planificar tus pasos.
 2. Si necesitas datos de contacto, menciona 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' y el tipo (Search/Prospeo/FullEnrich).
 3. Analiza la observacion y genera el entregable final.
-EXTRA: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
+EXTRA 1: Si identificas el perfil de LinkedIn de un directivo, DEBES usar 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' e incluir la URL de LinkedIn en tu pensamiento para obtener su correo electrónico.
+EXTRA 2: Si no encuentras el perfil de LinkedIn pero conoces el nombre completo del directivo y el dominio de la empresa, DEBES usar la herramienta Prospeo escribiendo exactamente: 'prospeo: Nombre Completo en dominio.com' (ej: 'prospeo: Marcell Cristerna en marykay.com.mx') en tu pensamiento para intentar obtener su correo electrónico.
 IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como 'USAR HERRAMIENTA PROSPEO' o 'USAR HERRAMIENTA FULLENRICH' o similares. Si obtuviste el correo mediante la herramienta, ponlo directamente. Si no pudiste obtenerlo o la herramienta no está disponible (o no encontró coincidencia), escribe estrictamente 'No detectado'. Está ESTRICTAMENTE PROHIBIDO estimar, calcular o inventar correos electrónicos que no hayan sido verificados por las herramientas.
             """},
             {"role": "user", "content": f"Tarea: {task_desc}\nContexto: {context}\nMemoria: {past_intelligence}"}
@@ -210,7 +242,7 @@ IMPORTANTE: En tu entregable final, NUNCA escribas leyendas instruccionales como
 TokuCrew = None  # se define al final del archivo
 
 class NervCrew:
-    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None, pais="México", detect_payment_provider=False):
+    def __init__(self, empresa, sector, pitch="Tu Solución", vendedor="", url_cliente="", prior_knowledge="", vendor_kb="", log_callback=None, pais="México", detect_payment_provider=False, engine="deepseek"):
         self.empresa = empresa
         self.sector = sector
         self.vendedor = vendedor
@@ -222,6 +254,7 @@ class NervCrew:
         self.base_path = os.path.dirname(__file__)
         self.memory = NervMemory()
         self.detect_payment_provider = detect_payment_provider
+        self.engine = engine
         
         # Detección automática de país basada en url_cliente si existe
         self.pais = pais
@@ -581,12 +614,11 @@ NO copies ni cites este bloque literalmente en el output.
         if experience_context:
             logger.info("🧠 RLHF: Inyectando ejemplos de dossiers aprobados por el usuario.")
             initial_context = f"{experience_context}\n\n{initial_context}"
-
         if self.prior_knowledge:
             initial_context = f"{initial_context}\n\nCONTEXTO PREVIO/OBJECIONES:\n{self.prior_knowledge}"
             
         # 2. Ejecucion del Enjambre (todos los agentes reciben la Constitution)
-        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
+        investigador = Agent(self.agents_config['investigador'], log_callback=self.log_callback, engine=self.engine, constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_investigacion = investigador.execute(
             self.tasks_config['tarea_investigacion']['description'].format(
                 empresa=self.empresa, 
@@ -598,7 +630,7 @@ NO copies ni cites este bloque literalmente en el output.
             context=initial_context
         )
         
-        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
+        psicologo = Agent(self.agents_config['psicologo'], log_callback=self.log_callback, engine=self.engine, constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_psicologia = psicologo.execute(
             self.tasks_config['tarea_psicologia']['description'].format(
                 empresa=self.empresa,
@@ -612,8 +644,8 @@ NO copies ni cites este bloque literalmente en el output.
         gemelo_context = f"PERFIL DISC DEL DECISOR:\n{res_psicologia}\n\nINVESTIGACION DE MERCADO:\n{res_investigacion}"
         if active_kb:
             gemelo_context = f"{active_kb}\n\n{gemelo_context}"
-
-        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
+ 
+        gemelo = Agent(self.agents_config['gemelo_digital'], log_callback=self.log_callback, engine=self.engine, constitution=self.constitution, gl=self.gl, hl=self.hl)
         res_gemelo = gemelo.execute(
             self.tasks_config['tarea_simulacion_gemelo']['description'].format(
                 empresa=self.empresa,
@@ -627,7 +659,8 @@ NO copies ni cites este bloque literalmente en el output.
         estratega_context = f"INVESTIGACION:\n{res_investigacion}\n\nPERFIL DISC:\n{res_psicologia}\n\nSIMULACION GEMELO:\n{res_gemelo}"
         if active_kb:
             estratega_context = f"{active_kb}\n\n{estratega_context}"
-
+ 
+        estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine=self.engine, constitution=self.constitution, gl=self.gl, hl=self.hl)
         estratega = Agent(self.agents_config['estratega'], log_callback=self.log_callback, engine="deepseek", constitution=self.constitution, gl=self.gl, hl=self.hl)
         
         # --- BUCLE DE AUTO-CORRECCIÓN CON EL AUDITOR (GALILEO SELF-CORRECTION) ---

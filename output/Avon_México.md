@@ -1,21 +1,5 @@
 # 🚀 NERV Intelligence Report: Avon México
-<thought>
-La observación del usuario es un error de API (400 Bad Request) de una herramienta de scraping de Google Trends. No contiene datos útiles. Sin embargo, el usuario me está pidiendo explícitamente que genere el entregable final a pesar del error. Esto significa que debo proceder con la información que ya tengo del contexto de la conversación.
 
-Tengo suficiente inteligencia de las interacciones anteriores para construir un dossier completo y accionable. No necesito datos de tendencias de Google para esto. El dossier se basará en:
-
-1. La investigación de mercado ya realizada (canibalización de canales, rotación de consultoras, proceso manual de cobro).
-2. Los perfiles DISC de los tres decisores identificados (Francisco Demesa - D, Miguel Ángel Azuara - C, Ana Menéndez - I).
-3. La simulación de venta con Francisco Demesa.
-
-Procedo a generar el entregable final, asegurándome de cumplir con todas las leyes de NERV OS, especialmente:
-- L01: No mencionar a Toku.
-- L02: Incluir evidencia con URLs cuando sea posible.
-- L03: Lenguaje técnico y forense, sin frases de marketing genérico.
-- L04: Alinear el contenido con los perfiles DISC.
-- L05: No inventar personas.
-- L06: No incluir metadatos técnicos en el entregable final.
-</thought>
 
 ---
 
@@ -149,28 +133,3 @@ Un abrazo,
 "Me alegra que estés en ese proceso. Eso significa que el dolor es real. La pregunta es: ¿esas soluciones se integran con SAP en tiempo real? ¿Tienen un AI Agent predictivo que detecta morosidad antes de que ocurra? ¿Ofrecen una cláusula de responsabilidad civil por errores? Si la respuesta a alguna de estas es 'no', entonces vale la pena que me des 20 minutos para mostrarte cómo nosotros sí lo hacemos. **No te pido que me compres, te pido que me compares.** "
 
 ---
-## 🛡️ Protocolo de Veracidad
-**Índice de Alucinación (0-10):** 0
-
-**Violaciones de Normas:**
-
-*   L01_AGNOSTICISMO: No se menciona a Toku en el documento.
-*   L06_NO_TECHNICAL_FLUFF: El documento no incluye metadatos técnicos o internos.
-*   L05_NO_HALLUCINATION_DATA: No se inventan perfiles de personas reales.
-
-**Veredicto Final:** Aprobado
-
-**Notas del Auditor:**
-
-*   El documento cumple con todas las leyes de NERV OS.
-*   La estructura y presentación son claras y fáciles de seguir.
-*   La información proporcionada es precisa y relevante para la oferta de automatización de cobranza.
-*   El plan de ataque comercial es sólido y bien estructurado.
-*   La respuesta al dolor operativo de la alta rotación de consultoras es convincente.
-*   La propuesta de valor es clara y bien articulada.
-
-**Recomendaciones:**
-
-*   Considerar la inclusión de un resumen ejecutivo más detallado para el vendedor.
-*   Asegurarse de que el plan de ataque comercial esté alineado con las prioridades y objetivos del cliente.
-*   Considerar la inclusión de un caso de estudio o ejemplo de éxito para ilustrar la efectividad de la solución.

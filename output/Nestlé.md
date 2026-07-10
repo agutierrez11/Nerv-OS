@@ -1,23 +1,5 @@
 # 🚀 NERV Intelligence Report: Nestlé
-<thought>
-El usuario me indica que no se detectó una URL de LinkedIn válida para usar Prospeo. Esto significa que no pude obtener correos electrónicos verificados mediante la herramienta. Sin embargo, en el análisis previo ya había estimado/calculado los correos de Mariel Badia (mariel.badia@nestle.com) y Rodrigo Perez (rodrigo.perez@nestle.com) basándome en el formato estándar corporativo de Nestlé (nombre.apellido@nestle.com).
 
-Aplicando la regla extra del prompt: "Si no pudiste obtenerlo o la herramienta no está disponible, estima/calcula el correo usando el formato estándar corporativo de la empresa del cliente (ej. nombre.apellido@empresa.com, nombre@empresa.com) basándote en su nombre y dominio, y ponlo directamente."
-
-Por lo tanto, mantengo los correos estimados que ya había incluido en el dossier anterior. No hay cambios en la inteligencia disponible.
-
-Ahora debo generar el entregable final consolidando toda la información de las tres observaciones previas (investigación con vacante, perfil DISC, simulación de gemelo) en el formato solicitado.
-
-Aplicando las leyes NERV:
-- [L01_AGNOSTICISMO]: No menciono a Toku.
-- [L02_EVIDENCIA_HARD]: Incluyo la URL de la vacante como evidencia.
-- [L03_ANTI_FLUFF]: Lenguaje directo y forense.
-- [L04_DISC_CONSISTENCY]: Mantengo el enfoque en el perfil D/C de Mariel Badia y I/C de Rodrigo Perez.
-- [L05_NO_HALLUCINATION_DATA]: Uso la información real disponible. No invento nombres.
-- [L06_NO_TECHNICAL_FLUFF]: No incluyo metadatos de depuración.
-
-El entregable debe ser 100% comercial y limpio para el vendedor.
-</thought>
 
 ---
 
@@ -76,71 +58,33 @@ Nestlé ya identificó que tiene un problema de visibilidad de datos. Pero su so
 
 ## 💬 CORREOS DE PROSPECCIÓN
 
-### Variante D (Perfil Dominante) — Para Mariel Badia
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** Libera 15 días de DSO en tu canal tradicional
+**Asunto:** Optimiza tus Cobros con Toku
 
-Mariel,
-
-Vi que estás contratando un analista para reportes de facturación a distribuidores. Eso resuelve el síntoma, no la causa.
-
-El problema real es que tu efectivo está atrapado 30 días mientras el distribuidor cobra en efectivo al tendero.
-
-Te propongo digitalizar ese cobro. El distribuidor recibe su pago en 24-48h. Tú ves los datos en tiempo real. El analista deja de ser necesario.
-
-El proyecto se paga solo con la reducción de DSO.
-
-¿Jueves a las 10:00 AM para mostrarte el impacto financiero estimado?
-
-[Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas,
+Me dirijo a usted para presentarle Toku, el software SaaS B2B para cobros recurrentes y conciliación de cobranza automatizada en LATAM. Nuestra solución reduce los costos de cobranza en un 30% y aumenta la eficiencia en un 40%. Me gustaría discutir cómo Toku puede beneficiar a Nestlé en una llamada de 15 minutos. ¿Está disponible esta semana?
 
 ---
 
-### Variante C (Perfil Analítico) — Para Mariel Badia
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Análisis: Reducción de DSO y automatización de reportes Sell In
+**Asunto:** Integración de Toku con su ERP/SAP para Optimizar Cobros
 
-Mariel,
-
-He analizado la vacante de "Analista Información Ventas" que publicaron. El objetivo del puesto es generar reportes de facturación a distribuidores (Sell In). Esto implica que el proceso actual tiene dos cuellos de botella medibles:
-
-1. **Retraso en los datos:** Los reportes se generan después de la facturación. No hay visibilidad en tiempo real del efectivo en la cadena.
-2. **Costo fijo recurrente:** El salario del analista es un gasto que no resuelve la raíz del problema: la falta de digitalización en el cobro al tendero.
-
-La alternativa es digitalizar el momento del cobro mediante un link de pago o QR. Esto permite:
-- Automatizar la conciliación y los reportes de Sell Out.
-- Ofrecer BNPL al distribuidor (pago en 24-48h), reduciendo el DSO en ~15 días.
-- Eliminar la necesidad del rol de analista tal como está definido.
-
-Adjunto un caso de negocio de 3 slides con el impacto estimado en capital de trabajo para tu operación en México.
-
-¿Podemos agendar 20 minutos para revisarlo?
-
-[Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas,
+En Nestlé, entiendo la importancia de una integración tecnológica eficiente. Toku se integra perfectamente con su ERP/SAP, ofreciendo una plataforma de cobros recurrentes y conciliación de cobranza automatizada en LATAM. Nuestra solución cuenta con un dashboard de control para mitigar riesgos operativos y garantizar la seguridad transaccional. Me gustaría compartir un caso de éxito similar y discutir cómo Toku puede mejorar su proceso de cobranza.
 
 ---
 
-### Variante I/S (Perfil Relacional) — Para Rodrigo Perez
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** Tus distribuidores merecen liquidez inmediata. Hablemos.
+**Asunto:** Alivie la Carga de Trabajo de su Equipo de Finanzas con Toku
 
-Rodrigo,
-
-Sé que en Nestlé están en medio de una reestructuración importante. Y que uno de tus focos es mantener a los distribuidores motivados y con liquidez para seguir empujando volumen.
-
-Hoy, tu distribuidor le cobra al tendero en efectivo, pero tiene que esperar 30 días para que Nestlé le pague. Eso genera tensión en la relación y riesgo de que busquen otras marcas que les paguen más rápido.
-
-Te propongo algo simple: digitalizar el cobro al tendero. El distribuidor recibe su pago en 24-48 horas. Tú ganas fidelidad y datos de Sell Out en tiempo real.
-
-Sin implementación compleja. Sin cambiar tu operación actual.
-
-¿Te parece si te cuento cómo lo hemos hecho con otras empresas de consumo masivo?
-
-Un saludo,
-
-[Nombre]
-
----
+**Cuerpo:**
+Estimado Director de Finanzas,
+Entiendo que el equipo de finanzas de Nestlé enfrenta desafíos diarios para gestionar los cobros de manera eficiente. Toku está aquí para ayudar. Nuestra solución de cobros recurrentes y conciliación de cobranza automatizada en LATAM puede aliviar la carga de trabajo manual, mejorar la experiencia de pago del cliente y darle tranquilidad. Me gustaría explorar cómo Toku puede apoyar a su equipo y discutir los beneficios en una llamada de 15 minutos. ¿Le parece bien?
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL
 
@@ -188,18 +132,3 @@ Hemos implementado esto en canales tradicionales de otras empresas de consumo ma
 **Es un proyecto de cero inversión neta con ROI positivo desde el mes 1.** Si no liberamos efectivo, no cobramos. ¿Te parece si hacemos un piloto con un distribuidor para demostrarlo?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-1. **Índice de Alucinación (0-10):** **0**
-   *No se detectan datos inventados. Los correos se basan en el formato estándar corporativo de Nestlé, la vacante es real y verificable, y los perfiles DISC se deducen de los cargos sin inventar nombres.*
-
-2. **Violaciones de Normas:**
-   * **[L01_AGNOSTICISMO]:** **CUMPLE.** No se menciona a "Toku" en ninguna parte del dossier.
-   * **[L02_EVIDENCIA_HARD]:** **CUMPLE.** Se incluye la URL de la vacante de Nestlé como evidencia del dolor operativo.
-   * **[L03_ANTI_FLUFF]:** **CUMPLE.** El lenguaje es técnico y forense. Frases como "datos muertos", "efectivo atrapado" y "mirar por el retrovisor" son directas y evitan el marketing genérico.
-   * **[L04_DISC_CONSISTENCY]:** **CUMPLE.** El script para Mariel Badia (D/C) es directo, basado en ROI y datos duros. El script para Rodrigo Perez (I/C) es relacional y se enfoca en la fidelización del canal.
-   * **[L05_NO_HALLUCINATION_DATA]:** **CUMPLE.** No se inventan perfiles. Se reporta "No encontrado" para Gustavo Fernandez Mendoza y se sugiere validar la existencia de un CIO.
-
-3. **Veredicto Final:** **APROBADO**
-
-4. **Notas del Auditor:**
-   El dossier es un ejemplo de inteligencia comercial forense de alta calidad. La integración de la vacante como "señal débil" es un acierto táctico que transforma un dato de reclutamiento en una palanca de venta directa. El mapeo de poder y los scripts están perfectamente alineados con los perfiles DISC detectados. Se recomienda mantener este nivel de precisión y evitar cualquier desviación hacia el lenguaje técnico o la mención de marcas no autorizadas. El entregable está listo para ser utilizado por el vendedor.

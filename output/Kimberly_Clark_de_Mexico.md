@@ -122,17 +122,3 @@ Aquí está el dossier final, 100% accionable y sin datos ficticios.
 - **Respuesta Estratégica (Perfil C/D):** "Con respeto, la cobranza ES el dato que necesita para hacer pricing y mix de producto. Sin saber qué distribuidor paga rápido y cuál es un riesgo, no puede ofrecer condiciones comerciales dinámicas. Sin saber cómo responde la demanda a una oferta de BNPL, no puede optimizar el mix. Toku no es solo una herramienta de cobranza; es el sensor que le da a su equipo de Revenue Management la visibilidad que necesita para tomar decisiones de pricing basadas en datos reales de su canal, no en suposiciones. ¿Podemos mostrarle cómo un cliente nuestro uso nuestros datos para rediseñar su estructura de descuentos por pronto pago?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-**ÍNDICE DE ALUCINACIÓN (0-10):** 0
-
-**VIOLACIONES DE NORMAS:**
-
-*   **L01_AGNOSTICISMO:** No se menciona a Toku en el cuerpo del mensaje, solo en el título.
-*   **L06_NO_TECHNICAL_FLUFF:** Se incluye una sección de "Conexión con la Solución Toku" que podría considerarse como metadatos técnicos.
-
-**VEREDICTO FINAL:** Aprobado con ajustes menores.
-
-**NOTAS DEL AUDITOR:**
-
-*   **L01_AGNOSTICISMO:** Asegúrate de mencionar a Toku en el cuerpo del mensaje, no solo en el título.
-*   **L06_NO_TECHNICAL_FLUFF:** Revisa la sección de "Conexión con la Solución Toku" para asegurarte de que no incluye metadatos técnicos innecesarios.

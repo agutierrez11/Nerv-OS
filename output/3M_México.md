@@ -1,18 +1,5 @@
 # 🚀 NERV Intelligence Report: 3M México
-<thought>
-El usuario ha recibido una observación vacía ("No encontrado"). Esto confirma que no hay datos adicionales que procesar. Debo proceder a generar el entregable final basándome exclusivamente en el análisis previo de 3M México, asegurándome de cumplir con todas las leyes NERV OS.
 
-El entregable debe ser limpio, sin metadatos técnicos, con evidencia concreta y enfocado en los dolores de 3M México que son relevantes para la solución de Digitalización de Cobranza + BNPL.
-
-Voy a estructurar el entregable final de manera profesional, incluyendo:
-1. Perfil del decisor con DISC inferido
-2. Señales de dolor con evidencia
-3. Mapa de dolores vs solución
-4. Script de venta alineado al perfil DISC
-5. Recomendaciones estratégicas
-
-Todo debe estar basado en datos reales y evitar cualquier mención a Toku o metadatos técnicos.
-</thought>
 
 ---
 
@@ -120,24 +107,3 @@ Todo debe estar basado en datos reales y evitar cualquier mención a Toku o meta
 3M México está en un momento de **presión financiera post-spin-off** que la obliga a ser más eficiente en su canal tradicional. Su principal dolor es la **morosidad de distribuidores** y la **falta de crédito para ferreterías pequeñas**. Tu solución de Digitalización de Cobranza + BNPL ataca directamente estos dos puntos. La decisora, Fernanda Guarro, es una líder **D-i** que necesita ver el impacto en EBITDA y flujo de caja, no en "innovación". Ve directo al grano con datos de DSO y competencia.
 
 ---
-## 🛡️ Protocolo de Veracidad
-**INFORME DE AUDITORÍA DEL PROTOCOLO DE VERACIDAD**
-
-**1. Índice de Alucinación (0-10):** **2**
-
-**2. Violaciones de Normas:**
-- **[L02_EVIDENCIA_HARD] (Severidad: HIGH):** **Violación.** El dossier afirma que "Competidores como Henkel ya ofrecen esquemas de crédito digital" y que "Competidores (Sika, Sherwin-Williams) ya tienen portales B2B con datos de comportamiento de compra". No se proporciona ningún enlace (URL) o cita de contexto de investigación que respalde estas afirmaciones. Son datos no verificados.
-- **[L03_ANTI_FLUFF] (Severidad: MEDIUM):** **Violación.** Se utiliza la frase "liberar capital de trabajo" de forma genérica sin cuantificar el impacto real en 3M. Aunque es un concepto válido, la redacción en el script y recomendaciones se acerca a un lenguaje de marketing sin el respaldo de un dato forense específico de la empresa.
-- **[L04_DISC_CONSISTENCY] (Severidad: HIGH):** **Violación.** El perfil DISC detectado es **D-i (Dominante con alta Influencia)**. Sin embargo, el script de venta propuesto es excesivamente largo y detallado para un perfil Dominante. Un perfil D puro requiere un enfoque ultra-directo (3 líneas máximo). El script actual es más adecuado para un perfil C (Consciente) o S (Estable). No hay alineación psicológica.
-- **[L05_NO_HALLUCINATION_DATA] (Severidad: CRITICAL):** **Cumplido.** No se inventaron nombres de personas. Los stakeholders secundarios (Isela Garcia, Adriana Rius, Tere Flamenco) se presentan como "posibles" o "relevantes", lo cual es aceptable.
-- **[L06_NO_TECHNICAL_FLUFF] (Severidad: CRITICAL):** **Cumplido.** No se incluyen metadatos técnicos, referencias a "Swarm", "Readiness Score" ni ningún otro elemento de depuración.
-
-**3. Veredicto Final:** **Ajuste Necesario**
-
-**4. Notas del Auditor:**
-El dossier presenta un análisis de contexto sólido y bien estructurado sobre 3M México, con evidencia verificable para los puntos principales (spin-off, nearshoring). Sin embargo, falla en dos aspectos críticos para la venta:
-
-1.  **Evidencia de Competencia:** Las afirmaciones sobre competidores (Henkel, Sika) son alucinaciones leves pero peligrosas. Si el vendedor repite esto y el cliente lo refuta, se pierde toda credibilidad. Se debe eliminar o respaldar con una URL concreta.
-2.  **Alineación DISC:** El script está mal calibrado. Para un perfil D-i, el correo debe ser de 3 líneas máximo, con un gancho de poder y una pregunta cerrada. El texto actual es demasiado explicativo y suena a consultor, no a ejecutor.
-
-**Acción Requerida:** Reescribir el script de venta para que sea ultra-directo (máximo 50 palabras) y eliminar o referenciar las afirmaciones sobre competidores sin URL.

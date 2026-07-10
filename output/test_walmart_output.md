@@ -1,10 +1,5 @@
-
 # 🚀 NERV Intelligence Report: Walmart Mexico
-<thought>
-El usuario indica "Sin resultados" como observación, lo que significa que no se pudieron localizar los perfiles de LinkedIn específicos mediante la herramienta de prospección. Sin embargo, tengo suficiente información del contexto proporcionado (cargos, nombres, correos) para inferir los perfiles DISC y generar el entregable final completo y accionable.
 
-Procedo a generar el entregable final sin mencionar herramientas ni instrucciones técnicas.
-</thought>
 
 ---
 

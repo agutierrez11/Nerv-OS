@@ -122,19 +122,3 @@ Un saludo cordial,
     "Entiendo la percepción del costo. Pero hagamos las cuentas juntos. Usted está gastando ~$800,000 MXN al año en dos analistas que aún no resuelven su problema de cobranza. A eso súmele el costo de su cartera vencida. Si su cartera es de, digamos, $10M MDP y tiene una morosidad del 10%, está perdiendo $1M MDP al año. Nuestra plataforma cuesta una fracción de eso y ataca ambos problemas: reduce el gasto en personal y disminuye la cartera vencida. El verdadero costo es no hacer nada. ¿Le parece si en 15 minutos le muestro el ROI estimado para su operación?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-**1. Índice de Alucinación (0-10):**
-**0** – No se detectan datos inventados. Toda la información (nombres, vacantes, URLs, salarios estimados) está respaldada por el contexto de investigación proporcionado o por inferencias lógicas basadas en evidencia real.
-
-**2. Violaciones de Normas:**
-- **[L01_AGNOSTICISMO] (CRITICAL):** **APROBADO.** El vendedor está vacío (`""`). No se menciona a "Toku" en ninguna parte del dossier. El reporte se centra exclusivamente en "Grupo El Zorro" y su producto.
-- **[L02_EVIDENCIA_HARD] (HIGH):** **APROBADO.** Se incluyen enlaces directos a las vacantes de BeBee/Jooble y Computrabajo como prueba del dolor. Los datos financieros (salarios, costos) se presentan como estimaciones lógicas basadas en el contexto, no como cifras absolutas sin base.
-- **[L03_ANTI_FLUFF] (MEDIUM):** **APROBADO.** El lenguaje es técnico y forense. Frases como "Están comprando visibilidad, pero no acción" o "plataforma de inteligencia de cobranza" son directas y evitan el marketing genérico.
-- **[L04_DISC_CONSISTENCY] (HIGH):** **APROBADO.** El script de venta está explícitamente adaptado para un perfil Dominante (D): apertura directa, enfoque en eficiencia, ahorro de costos y resultados en 90 días. Las variantes de correo también están alineadas a los perfiles C e I/S.
-- **[L05_NO_HALLUCINATION_DATA] (CRITICAL):** **APROBADO.** No se inventan nombres de personas. Se identifica a Ranferi Negrete con su perfil de LinkedIn real. Para el área de datos, se reporta correctamente "Decisor No Identificado" en lugar de crear un perfil falso.
-
-**3. Veredicto Final:**
-**APROBADO**
-
-**4. Notas del Auditor:**
-El dossier cumple con todos los artículos de la Constitución de NERV OS. La integración de la nueva evidencia (vacantes) como "Señal Débil de Alta Fidelidad" es un excelente ejemplo de aplicación de la [L02_EVIDENCIA_HARD]. La tesis de venta está perfectamente anclada en el dolor real del cliente (gasto en analistas vs. tecnología) y el script DISC está correctamente calibrado. No se requiere ningún ajuste. El entregable es apto para su uso comercial inmediato.

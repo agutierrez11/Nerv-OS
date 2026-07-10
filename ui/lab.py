@@ -279,14 +279,13 @@ def render_lab_tab(companies_data=None, user_active=None, toku_mode=False):
         except:
             pass
 
-        with st.status(f"🧬 Iniciando Protocolos NERV para {empresa_nombre}...", expanded=is_admin_user) as sim_status:
+        with st.status(f"🧬 Iniciando Protocolos NERV para {empresa_nombre}...", expanded=True) as sim_status:
             log_container = st.empty()
 
             def sim_logger(msg):
                 from core.logger import logger
                 logger.info(msg)
-                if is_admin_user:
-                    log_container.markdown(f"`{msg}`")
+                log_container.markdown(f"`{msg}`")
 
             # 1. Extraer Inteligencia Automáticamente
             try:

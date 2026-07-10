@@ -1,29 +1,5 @@
 # 🚀 NERV Intelligence Report: Pandora
-<thought>
-El usuario ha recibido la observación "Sin resultados." Esto indica que la fase de investigación no arrojó nuevos datos adicionales a los que ya habíamos consolidado en los pensamientos anteriores. Por lo tanto, debo proceder a generar el entregable final basándome exclusivamente en la inteligencia ya procesada: el perfil de Alan Gonzalez, la noticia de Fashion Network sobre la desaceleración de Pandora, y la señal débil de contrataciones tech.
 
-Debo asegurarme de cumplir con todas las Leyes Inviolables de NERV OS:
-- L01: El vendedor no es Toku, no mencionarlo.
-- L02: Incluir la URL de la noticia de Fashion Network como evidencia dura.
-- L03: Lenguaje forense, sin frases vacías.
-- L04: El perfil DISC es D/I, los correos y el plan deben ser directos, basados en datos y orientados a resultados.
-- L05: No inventar nombres. Usar el nombre real de Alan Gonzalez.
-- L06: El entregable debe ser 100% comercial, sin metadatos técnicos de depuración.
-
-Estructura requerida:
-- Empresa: Pandora
-- Vendedor: (vacío, no debo inventar)
-- Producto: Orquestación de Pagos + Recurrencia y Suscripciones
-
-Secciones:
-1. A QUIÉN HABLARLE: Decisor, cargo, LinkedIn, correo estimado, justificación.
-2. MAPA ESTRATÉGICO: Dolor crítico, argumento de valor, trigger.
-3. CORREOS DE PROSPECCIÓN: 3 variantes (D, C, I/S). Como tengo el nombre real de Alan, lo uso directamente. No necesito placeholder.
-4. PLAN DE CONTACTO MULTICANAL: 7 toques adaptados a perfil D/I.
-5. MANEJO DE OBJECIONES: 3 objeciones con respuestas estratégicas.
-
-Todo debe sonar a un vendedor Top 1% que entiende el negocio del cliente mejor que el cliente mismo. Manos a la obra.
-</thought>
 
 ---
 
@@ -147,40 +123,3 @@ Saludos,
     "Eso es lo que pensaban las marcas de cosméticos y café antes de lanzar sus suscripciones. La joyería de Pandora es el producto perfecto para recurrencia: tienes un 'hardware' (el brazalete) y un 'software' (los charms). El cliente que compra un brazalete ya está enganchado. No se trata de vender una suscripción, se trata de vender una 'experiencia de descubrimiento'. Un 'Charm del Mes' no es una suscripción, es una sorpresa recurrente. El riesgo no es que el cliente no esté listo; el riesgo es que tu competencia (o una DTC) lance el programa antes que tú y te robe a esos clientes de alto valor."
 
 ---
-## 🛡️ Protocolo de Veracidad
-**RESPUESTA DEL AUDITOR JEFE DEL PROTOCOLO DE VERACIDAD**
-
----
-
-### 1. Índice de Alucinación (0-10):
-**0/10** – No se detectan datos inventados. Todos los nombres, cargos, enlaces y señales de mercado son verificables o están claramente etiquetados como estimaciones (ej: correo electrónico).
-
----
-
-### 2. Violaciones de Normas:
-
-| Ley | Estado | Detalle |
-| :--- | :--- | :--- |
-| **L01_AGNOSTICISMO** | ✅ **CUMPLE** | No se menciona a 'Toku'. El dossier se centra exclusivamente en Pandora y el producto definido. |
-| **L02_EVIDENCIA_HARD** | ✅ **CUMPLE** | Se incluye URL verificable de Fashion Network. Los datos financieros (crecimiento del 9%, desaceleración 2025) están respaldados por la fuente. |
-| **L03_ANTI_FLUFF** | ✅ **CUMPLE** | Lenguaje forense y técnico. Frases como "suavizar el cash flow", "reducir decline rate" y "aumentar LTV" son directas y medibles. Sin marketing genérico. |
-| **L04_DISC_CONSISTENCY** | ✅ **CUMPLE** | El perfil DISC identificado es D/I. Los correos y el plan de contacto son directos, basados en datos y orientados a resultados, alineados con un perfil Dominante/Influyente. |
-| **L05_NO_HALLUCINATION_DATA** | ✅ **CUMPLE** | No se inventan personas. Se usa el nombre real de Alan Gonzalez. Los stakeholders (Carlos Aritzmendi, Virginie Dubray) son mencionados como "a considerar", no como confirmados. |
-| **L06_NO_TECHNICAL_FLUFF** | ✅ **CUMPLE** | El dossier es 100% comercial. No contiene metadatos técnicos, secciones de depuración, ni referencias a 'Swarm', 'Readiness Score' o 'Data Engineers'. |
-
----
-
-### 3. Veredicto Final:
-**APROBADO**
-
-El dossier cumple con todas las Leyes Inviolables del Protocolo de Veracidad. Es un entregable limpio, forense y accionable para el vendedor.
-
----
-
-### 4. Notas del Auditor:
-
-- **Punto Fuerte:** La integración de la noticia de Fashion Network como evidencia dura (L02) y el uso del perfil real de Alan Gonzalez (L05) elevan la credibilidad del dossier.
-- **Mejora Potencial (No Crítica):** El correo electrónico estimado (`agonzalez@pandora.com`) está correctamente etiquetado como "Estimado". Se recomienda verificar con herramientas de enriquecimiento de datos antes del envío para evitar rebotes.
-- **Observación:** El dossier mantiene un tono de "vendedor Top 1%" sin caer en exageraciones. La estructura de objeciones está bien alineada con el perfil D/I del decisor.
-
-**Conclusión del Auditor:** El dossier está listo para ser entregado al equipo de ventas. No se requieren ajustes.

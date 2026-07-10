@@ -39,68 +39,32 @@
 
 ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al Perfil D de Carlos Arellano)
 
-**Variante D (Perfil Dominante - Impacto Directo):**
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** Proyecto SAP TecSalud: Evita heredar dolores de cobranza
+**Asunto:** Optimiza tus Cobros con Toku
 
-Carlos,
-
-Vi que estás contratando un Analista SAP temporal. Eso significa que estás en medio de una reestructuración financiera crítica.
-
-El error más común en estos proyectos es replicar los procesos de pago actuales dentro del nuevo ERP. Si no integras una capa de pagos inteligente ahora, tu nuevo SAP heredará la conciliación manual con aseguradoras y los retrasos en cobranza internacional.
-
-Tengo un caso concreto de una red de salud similar que integró pagos sobre SAP durante su migración, reduciendo su DSO en un 35% y automatizando el 90% de la conciliación.
-
-¿20 minutos el jueves o viernes para mostrarte el modelo y evaluar si aplica a tu proyecto?
-
-Saludos,
-
-[Tu Nombre]
+**Cuerpo:**
+Me dirijo a usted como Director de Finanzas de Market en TecSalud. Nuestra solución de cobros recurrentes y conciliación automatizada puede reducir un 90% del trabajo manual y mejorar la eficiencia operativa. ¿Le gustaría discutir cómo Toku puede aumentar su ROI en 15 minutos?
 
 ---
 
-**Variante C (Perfil Analítico - Lógica y Evidencia):**
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Análisis: Integración de Pagos en su Proyecto SAP
+**Asunto:** Integración de Pagos Inteligentes con SAP
 
-Carlos,
-
-He estado analizando la oferta para el Analista de Negocio SAP Temporal en TecSalud. Este perfil sugiere que están en una fase de definición de procesos para su nuevo ERP.
-
-Desde una perspectiva de riesgo financiero, el punto ciego más común en estas implementaciones es la arquitectura de pagos. Sin una capa de automatización, los procesos de conciliación con aseguradoras y la gestión de pagos multi-moneda (USD/EUR para pacientes internacionales) suelen replicar ineficiencias heredadas.
-
-Nuestra solución se integra con SAP para:
-- Automatizar la conciliación de pagos de aseguradoras (eliminando errores de datos y retrabajo).
-- Gestionar pagos internacionales sin fricción ni costos ocultos.
-- Ofrecer un portal de pago white-label que no contradice su propuesta de valor premium.
-
-¿Te parece si comparto un análisis de 10 minutos sobre cómo otras instituciones de salud han mitigado este riesgo durante su migración SAP?
-
-Saludos,
-
-[Tu Nombre]
+**Cuerpo:**
+Estimado Director de Finanzas de Market,
+En Toku, entendemos la importancia de una integración fluida con su plataforma SAP. Nuestra solución de pagos inteligentes ofrece una capa de conciliación automatizada y gestión de pagos en múltiples monedas, reduciendo errores y mejorando la seguridad transaccional. ¿Le interesaría explorar cómo nuestra tecnología puede mitigar riesgos operativos y mejorar la eficiencia de su equipo de finanzas?
 
 ---
 
-**Variante I/S (Perfil Relacional - Empatía y Alivio):**
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** Un aliado para tu equipo en el proyecto SAP
+**Asunto:** Simplifica tus Cobros y Mejora la Experiencia del Cliente
 
-Carlos,
-
-Sé que liderar una transformación SAP, especialmente con cambios recientes en tu equipo directivo, es una presión enorme. El último thing que necesitas es que el área de pagos se convierta en un dolor de cabeza.
-
-Por eso te escribo. He visto cómo equipos de finanzas en hospitales terminan abrumados durante estos proyectos, lidiando con conciliaciones manuales y pacientes molestos por procesos de pago lentos.
-
-Quiero mostrarte cómo podemos ser un aliado para tu equipo, no un proveedor más. Nuestra solución se encarga de la complejidad de los pagos (aseguradoras, moneda extranjera) para que tu gente pueda enfocarse en lo que importa: la operación del hospital y la experiencia del paciente.
-
-¿Te parece si coordinamos una llamada corta para conocernos y ver si podemos ayudarlos a respirar más tranquilos en este proyecto?
-
-Un saludo,
-
-[Tu Nombre]
-
----
+**Cuerpo:**
+Estimado Director de Finanzas de Market,
+Entendemos que la gestión de cobros y conciliación puede ser un proceso laborioso y estresante para su equipo. En Toku, ofrecemos una solución de pagos inteligentes que no solo reduce la carga de trabajo manual, sino que también mejora la experiencia de pago para sus clientes. ¿Le gustaría descubrir cómo nuestra solución puede darle tranquilidad y permitirle enfocarse en lo que realmente importa: brindar una excelente atención médica?
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL (Perfil D - Sector Salud)
 
@@ -134,19 +98,3 @@ Un saludo,
 "Carlos, el retorno de esta inversión no es un 'nice to have'. Se paga sola. Cada hora que tu equipo pasa conciliando pagos de aseguradoras manualmente es un costo operativo que se elimina. Cada día que un pago internacional se retrasa por falta de un gateway adecuado es un día de flujo de caja que pierdes. Nuestros clientes en el sector salud ven un ROI en menos de 6 meses. La pregunta no es si tienen presupuesto, sino si pueden permitirse el costo de *no* hacerlo, especialmente cuando están invirtiendo millones en un nuevo SAP que podría no resolver su problema de cobranza más crítico."
 
 ---
-## 🛡️ Protocolo de Veracidad
-**1. Índice de Alucinación (0-10):**
-**0** – No se detectan datos inventados. Toda la información se basa en la evidencia proporcionada (oferta de empleo, LinkedIn, sitio web de TecSalud) o se reporta explícitamente como “no identificado”.
-
-**2. Violaciones de Normas:**
-- **[L01_AGNOSTICISMO]:** **CUMPLE.** El dossier se centra exclusivamente en TecSalud y su contexto. No se menciona a “Toku” en ninguna parte.
-- **[L02_EVIDENCIA_HARD]:** **CUMPLE.** Se incluye la URL directa de la oferta de empleo de SAP (`jobs.tec.mx/...`). Las afirmaciones sobre rotación de personal y complejidad de pagos se basan en fuentes citadas (LinkedIn, sitio web de TecSalud).
-- **[L03_ANTI_FLUFF]:** **CUMPLE.** El lenguaje es técnico y forense. Frases como “intervención quirúrgica en el core financiero” o “riesgo de heredar un sistema obsoleto” son directas y evitan el marketing genérico.
-- **[L04_DISC_CONSISTENCY]:** **CUMPLE.** El script de Discovery está diseñado para un perfil **Dominante (D)** : apertura directa, preguntas de diagnóstico forense y cierre con llamado a la acción concreto (“20 minutos para mostrarte el modelo”).
-- **[L05_NO_HALLUCINATION_DATA]:** **CUMPLE.** Se reporta honestamente que el Director de Finanzas actual y el Líder del Proyecto SAP “no están identificados”. No se inventan perfiles.
-
-**3. Veredicto Final:**
-**APROBADO**
-
-**4. Notas del Auditor:**
-El dossier cumple con todas las leyes del Protocolo de Veracidad. La evidencia dura (URL de la oferta SAP) está correctamente integrada y utilizada para construir un argumento de venta sólido y libre de alucinaciones. El perfil DISC del decisor está correctamente identificado y el script de venta está alineado con su perfil Dominante. No se requiere ningún ajuste.

@@ -1,31 +1,5 @@
 # 🚀 NERV Intelligence Report: Luuna
-<thought>
-El usuario me indica que la observación recibida es "No encontrado". Esto confirma que no hay información adicional relevante que deba incorporar. Mi tarea es generar el entregable final basándome en la investigación ya realizada y la estructura solicitada.
 
-Revisando la estructura requerida:
-- Empresa: Luuna
-- Vendedor: "" (vacío, por lo que aplica L01_AGNOSTICISMO)
-- Producto: "Orquestación de Pagos + Recurrencia y Suscripciones"
-
-Debo consolidar toda la inteligencia en un Dossier Estratégico de Prospección accionable, incluyendo:
-1. A quién hablarle (decisor clave)
-2. Mapa estratégico (dolor, argumento, trigger)
-3. Correos de prospección (3 variantes DISC)
-4. Plan de contacto multicanal (5-7 toques)
-5. Manejo de objeciones (3 objeciones)
-
-Ya tengo toda la información de mis análisis anteriores. Procedo a generar el entregable final limpio y completo, asegurándome de cumplir con todas las leyes inviolables de NERV OS.
-
-Reglas a verificar:
-- L01_AGNOSTICISMO: No mencionar a Toku. ✓
-- L02_EVIDENCIA_HARD: Incluir URLs de fuentes reales. ✓
-- L03_ANTI_FLUFF: Lenguaje técnico, forense, directo. ✓
-- L04_DISC_CONSISTENCY: Perfil D/C del decisor, correos alineados. ✓
-- L05_NO_HALLUCINATION_DATA: No inventar personas. ✓
-- L06_NO_TECHNICAL_FLUFF: No incluir metadatos técnicos internos. ✓
-
-El entregable debe ser 100% comercial y limpio para el vendedor.
-</thought>
 
 ---
 
@@ -212,27 +186,3 @@ No te voy a dar un número hoy porque sería irresponsable sin entender tu opera
 **Fin del dossier.** Listo para ser usado en campo.
 
 ---
-## 🛡️ Protocolo de Veracidad
-**RESPUESTA DEL AUDITOR JEFE DEL PROTOCOLO DE VERACIDAD**
-
-**1. Índice de Alucinación (0-10):** **0**
-
-**2. Violaciones de Normas:** **NINGUNA**
-
-**3. Veredicto Final:** **APROBADO**
-
-**4. Notas del Auditor:**
-
-El Dossier ha sido sometido a una revisión forense contra las seis leyes inviolables de la CONSTITUCIÓN DE NERV OS. Se confirma el cumplimiento total:
-
-- **[L01_AGNOSTICISMO] (CRITICAL):** **CUMPLE.** El campo `vendedor` está vacío. No se menciona a "Toku" en ninguna sección del entregable. El reporte se centra exclusivamente en Luuna y el producto definido.
-
-- **[L02_EVIDENCIA_HARD] (HIGH):** **CUMPLE.** Todos los datos financieros y operativos (ej. "3-5% de tasa de aprobación", "validación manual de órdenes", "expansión a sillones") están respaldados por enlaces (URLs) a fuentes verificables (FAQ de Luuna, métodos de pago, artículo de expansión). No se utilizan datos "estimados" sin base real.
-
-- **[L03_ANTI_FLUFF] (MEDIUM):** **CUMPLE.** El lenguaje es técnico, forense y directo. Se utilizan términos como "enrutamiento estático", "fraude amistoso", "LTV recurrente", "motor de suscripciones". No se detectan frases vacías de marketing genérico.
-
-- **[L04_DISC_CONSISTENCY] (HIGH):** **CUMPLE.** El script de venta y los correos están alineados con el perfil DISC detectado (Dominante/Consciente para Abraham Romano). El tono es directo, basado en datos y centrado en la eficiencia y el margen, sin rodeos ni agresividad fuera de lugar.
-
-- **[L05_NO_HALLUCINATION_DATA] (CRITICAL):** **CUMPLE.** No se inventan personas. Se identifican dos decisores reales (Abraham Romano y Guillermo Villegas Sánchez) basados en información de LinkedIn y estructura corporativa. No hay perfiles fantasma.
-
-**Conclusión:** El Dossier es válido, veraz y accionable. No se requiere ningún ajuste. Proceda con la ejecución comercial.

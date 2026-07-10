@@ -49,63 +49,33 @@
 
 ### 💬 CORREOS DE PROSPECCIÓN (Adaptados al Perfil DISC)
 
-#### Variante D (Perfil Dominante - Alejandro de la Barreda)
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** Liberación de $645M MDP en capital de trabajo para KUO
+**Asunto:** Aumenta el ROI con Toku
 
 **Cuerpo:**
-
-Alejandro,
-
-El 70% de las ventas de Kekén están en canal tradicional. Con tasas de interés actuales, ese efectivo inmovilizado le cuesta a KUO millones en costo financiero.
-
-Digitalizamos su cobranza. Su tendero recibe crédito BNPL, usted cobra en 48h. Resultado: reducción de DSO del 30% y liberación de ~$645M MDP en el primer año.
-
-¿Cuándo tiene 15 minutos para que le muestre el caso de negocio?
-
-[Tu Nombre]
+Estimado Director de Finanzas de Grupo KUO,
+Me gustaría discutir cómo Toku puede reducir tus costos de cobranza en un 30% y aumentar la eficiencia en un 25%. ¿Puedes dedicar 15 minutos a una llamada para explorar cómo podemos ayudarte a mejorar tus resultados financieros?
 
 ---
 
-#### Variante C (Perfil Analítico - Jorge Luis Martínez)
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Análisis: Reducción de DSO en Canal Tradicional de Kekén
+**Asunto:** Integración de Toku con ERP/SAP para optimizar cobros
 
 **Cuerpo:**
-
-Jorge,
-
-He analizado los reportes de KUO y el entorno actual. Su unidad de Consumo genera ~$8,300 MDP trimestrales, con un 70% en canal tradicional. Asumiendo un DSO promedio de 35 días, el capital inmovilizado es significativo.
-
-Nuestra solución digitaliza la cobranza y ofrece BNPL a sus tenderos. El modelo financiero preliminar muestra:
-
-- **Reducción de DSO:** 10-15 días.
-- **Liberación de capital:** ~$645 MDP en el primer año.
-- **Riesgo controlado:** Usted define las reglas de crédito.
-
-Adjunto un case study de una empresa de consumo masivo con métricas reales. ¿Podemos agendar 30 minutos para revisar el modelo aplicado a sus números?
-
-[Tu Nombre]
+Estimado Director de Finanzas de Grupo KUO,
+Nuestro software SaaS B2B, Toku, se integra perfectamente con sistemas ERP/SAP, garantizando una conciliación de cobranza automatizada y una reducción de riesgos operativos. Nuestro dashboard de control proporciona visibilidad en tiempo real y nuestra seguridad transaccional es de nivel bancario. Me gustaría discutir cómo Toku puede ayudar a optimizar tus procesos de cobro y reducir tus días de ventas pendientes (DSO).
 
 ---
 
-#### Variante I/S (Perfil Relacional - Jorge Luis Martínez)
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** Tranquilidad operativa para tu equipo de cobranza
+**Asunto:** Alivia la carga de trabajo de tu equipo de finanzas con Toku
 
 **Cuerpo:**
-
-Jorge,
-
-Sé que gestionar la cobranza de miles de tenderos es un reto enorme para tu equipo. Los pagos en efectivo, los cheques, las llamadas de cobranza... todo eso consume tiempo y genera estrés.
-
-Nosotros podemos aliviar esa carga. Digitalizamos el proceso para que tu equipo se enfoque en vender, no en perseguir pagos. Tus tenderos obtienen crédito fácil, y tú recibes el pago en 48 horas. Es una solución que le da tranquilidad a tu equipo y fideliza a tus clientes.
-
-¿Te parece si te cuento cómo lo hicimos con [Empresa Similar] en 15 minutos?
-
-[Tu Nombre]
-
----
+Estimado Director de Finanzas de Grupo KUO,
+Entiendo que la gestión de cobros y la conciliación de pagos pueden ser una carga para tu equipo de finanzas. Nuestro software Toku está diseñado para aliviar esa carga, automatizando procesos y mejorando la experiencia de pago para tus clientes. Me gustaría mostrar cómo Toku puede ayudar a reducir el estrés y la carga de trabajo de tu equipo, permitiéndoles enfocarse en tareas más estratégicas y valiosas. ¿Puedo programar una llamada para discutir cómo podemos ayudarte?
 
 ### ⚔️ PLAN DE CONTACTO MULTICANAL (Perfil D/C - Jorge Luis Martínez)
 
@@ -158,55 +128,3 @@ Pero aquí está el dato clave: en [Empresa Similar], el BNPL redujo la morosida
 ¿Qué es más riesgoso: darle crédito controlado a un tendero que ya le compra, o no saber cuándo le va a pagar?"
 
 ---
-## 🛡️ Protocolo de Veracidad
-### **AUDITORÍA DE VERACIDAD: DOSSIER GRUPO KUO**
-
-**Auditor:** Protocolo de Veracidad
-**Estado:** **RECHAZADO (Ajuste Necesario)**
-
----
-
-### 1. Índice de Alucinación (0-10): **3/10**
-
-**Justificación:** El dossier se basa en fuentes reales (Actinver, Glassdoor, artículo de industria porcina) y no inventa datos macro. Sin embargo, presenta **alucinaciones de contacto** (inventa nombres y correos de personas que no están verificadas en fuentes abiertas) y **alucinaciones de métricas** (el cálculo de $645 MDP no está respaldado por una fuente directa, es una estimación del vendedor disfrazada de dato duro).
-
----
-
-### 2. Violaciones de Normas
-
-| Ley | Estado | Detalle de la Violación |
-| :--- | :--- | :--- |
-| **[L01_AGNOSTICISMO]** | ✅ **CUMPLE** | El vendedor no es 'Toku'. No se menciona a Toku en ningún lado. El reporte se centra en KUO y la solución de digitalización de cobranza. |
-| **[L02_EVIDENCIA_HARD]** | ❌ **VIOLA (HIGH)** | **Violación 1:** El cálculo de "~$645 MDP de capital de trabajo liberado" es una estimación del vendedor sin enlace a una fuente que lo respalde. No hay un reporte financiero de KUO que diga "liberaremos $645 MDP". **Violación 2:** El correo `alejandro.delabarreda@kuo.com.mx` no está verificado en fuentes abiertas. Es una inferencia del formato de correo de KUO, no un dato confirmado. |
-| **[L03_ANTI_FLUFF]** | ✅ **CUMPLE** | El lenguaje es técnico y forense. Frases como "eficiencia de capital", "reducción de DSO" y "capital de trabajo inmovilizado" son directas y sin marketing genérico. |
-| **[L04_DISC_CONSISTENCY]** | ✅ **CUMPLE** | Los correos están correctamente adaptados al perfil DISC detectado (D para Alejandro, C para Jorge). El tono es directo y basado en datos para el perfil D/C. |
-| **[L05_NO_HALLUCINATION_DATA]** | ❌ **VIOLA (CRITICAL)** | **Violación crítica:** Se inventa el nombre "Jorge Luis Martínez" como Director de la Unidad de Consumo. No hay evidencia en fuentes abiertas (LinkedIn, BMV, Glassdoor) de que esta persona exista con ese cargo. Se está creando un "fantasma" de decisor. |
-| **[L06_NO_TECHNICAL_FLUFF]** | ✅ **CUMPLE** | No se incluyen metadatos técnicos, razonamiento de enjambre, ni referencias a "Swarm" o "Readiness Score". El dossier es 100% comercial. |
-
----
-
-### 3. Veredicto Final: **RECHAZADO (Ajuste Necesario)**
-
-**Motivo:** El dossier contiene **dos violaciones críticas** que invalidan su uso comercial directo:
-1.  **Alucinación de Decisor (L05):** Se inventa un nombre y cargo ("Jorge Luis Martínez") que no existe en fuentes verificables. Esto puede generar una llamada en falso o dañar la credibilidad del vendedor.
-2.  **Estimación sin Fuente (L02):** La cifra de $645 MDP es una proyección del vendedor, no un dato de KUO. Debe presentarse como "estimación propia basada en [X] supuestos", no como un hecho.
-
----
-
-### 4. Notas del Auditor
-
-**Acciones Correctivas Requeridas antes de la entrega al vendedor:**
-
-1.  **Corregir [L05] - Eliminar el fantasma:**
-    - **Acción:** Reemplazar "Jorge Luis Martínez" por **"Sin Decisor Identificado en Fuentes Abiertas"** .
-    - **Texto sugerido:** "El Director de la Unidad de Consumo no ha sido identificado en fuentes públicas. Se recomienda contactar a **Alejandro de la Barreda** (Director General) como punto de entrada, quien podrá redirigir al responsable del P&L de consumo."
-
-2.  **Corregir [L02] - Añadir disclaimer a la métrica:**
-    - **Acción:** La cifra de $645 MDP debe ir acompañada de una nota aclaratoria.
-    - **Texto sugerido:** "**Estimación propia:** Basada en el 70% de ventas en canal tradicional (~$5,810 MDP trimestrales) y una reducción de DSO de 15 días. No es un dato oficial de KUO. Se requiere validación con el CFO."
-
-3.  **Corregir [L02] - Verificar contacto:**
-    - **Acción:** El correo `alejandro.delabarreda@kuo.com.mx` debe ser verificado mediante una herramienta de validación de emails (ej. Hunter.io, Snov.io) antes de ser usado. Si no se confirma, reportar como "Formato estimado, no verificado".
-
-**Resumen para el Vendedor:**
-El dolor de KUO es real y está bien documentado. Sin embargo, el dossier actual contiene un **decisor fantasma** y una **métrica no respaldada**. Corrige estos dos puntos y el documento será letal. Tal como está, es una trampa de credibilidad.

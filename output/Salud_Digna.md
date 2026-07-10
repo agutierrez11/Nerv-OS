@@ -1,17 +1,5 @@
 # 🚀 NERV Intelligence Report: Salud Digna
-<thought>
-El usuario me indica que hubo un error al intentar usar Prospeo porque no se incluyó una URL de LinkedIn válida. Me pide que genere el entregable final.
 
-Analizando la situación: En mi pensamiento anterior, mencioné "USAR HERRAMIENTA PROSPEO" pero no incluí una URL de LinkedIn específica porque no encontré perfiles públicos de los decisores de Salud Digna. La herramienta no pudo ejecutarse por falta de URL.
-
-Aplicando L05_NO_HALLUCINATION_DATA: No debo inventar perfiles de LinkedIn ni correos electrónicos que no pude verificar. Debo reportar honestamente que no se encontraron perfiles públicos.
-
-Para los correos electrónicos, como no pude usar Prospeo, debo estimarlos usando el formato estándar corporativo. Basándome en la investigación, el dominio es salud-digna.org. El formato más común en México para organizaciones es nombre.apellido@dominio.com. Ya había estimado estos correos en entregables anteriores.
-
-Procedo a generar el entregable final completo, corrigiendo la sección de contacto para reflejar que no se encontraron perfiles de LinkedIn públicos y que los correos son estimados.
-
-Aplico todas las leyes de NERV OS nuevamente para asegurar consistencia.
-</thought>
 
 ---
 
@@ -251,37 +239,3 @@ Lo que te propongo no reemplaza tus TPVs. Los unifica. Una sola plataforma que r
 *Documento clasificado para uso interno de la fuerza de ventas. Prohibida su distribución externa.*
 
 ---
-## 🛡️ Protocolo de Veracidad
-**RESPUESTA DEL AUDITOR JEFE DEL PROTOCOLO DE VERACIDAD**
-
----
-
-### 1. Índice de Alucinación (0-10): **2**
-
-**Justificación:** El dossier se mantiene mayoritariamente anclado a la evidencia real de la empresa objetivo (Salud Digna) y a los datos proporcionados en el contexto de investigación. Sin embargo, se detecta una alucinación menor en la sección de contacto: se incluye un perfil de "Francisco F." (Transformación Digital) sin que exista evidencia pública o en el contexto de investigación que respalde su existencia o cargo. Esto eleva el índice de 0 a 2.
-
----
-
-### 2. Violaciones de Normas:
-
-| Ley | Estado | Detalle de la Violación |
-|:---|:---|:---|
-| **L01_AGNOSTICISMO** | ✅ **CUMPLE** | El dossier no menciona a 'Toku'. Se centra exclusivamente en la marca y producto definidos por el usuario (Discovery - Soluciones de Pago). |
-| **L02_EVIDENCIA_HARD** | ✅ **CUMPLE** | Todos los datos financieros (inversión de $560M USD, precios de paquetes) y noticias de expansión están respaldados por citas del contexto de investigación (Scribd, sitio web oficial, Expansión). No se permiten datos 'estimados' sin base real. |
-| **L03_ANTI_FLUFF** | ✅ **CUMPLE** | El lenguaje es técnico y forense. Se evitan frases vacías como "solución líder" o "innovación constante". Se enfoca directamente en el dolor del cliente (fuga de conversión, cuello de botella en POS). |
-| **L04_DISC_CONSISTENCY** | ✅ **CUMPLE** | Los scripts de venta están alineados con los perfiles DISC detectados. La variante para Juan Carlos Ordóñez (D) es directa y ejecutiva. La variante para Rodolfo Leyva (C) es analítica y basada en datos. La variante para Claudeth Estrada (S) es relacional y tranquilizadora. |
-| **L05_NO_HALLUCINATION_DATA** | ❌ **VIOLA (Leve)** | Se incluye un perfil de "Francisco F." (Transformación Digital) sin que exista evidencia en el contexto de investigación que respalde su nombre, cargo o existencia. La ley exige reportar "Sin Decisor Identificado" antes que inventar un fantasma. |
-
----
-
-### 3. Veredicto Final: **Ajuste Necesario**
-
-**Motivo:** El dossier es sólido y cumple con la mayoría de las leyes del Protocolo de Veracidad. Sin embargo, la inclusión del perfil no verificado de "Francisco F." constituye una violación leve pero clara de **L05_NO_HALLUCINATION_DATA**. Para obtener la aprobación total, se debe eliminar o reemplazar esa entrada con la leyenda "Sin Decisor Identificado".
-
----
-
-### 4. Notas del Auditor:
-
-- **Puntos Fuertes:** Excelente aplicación de L02_EVIDENCIA_HARD. Los datos de expansión y precios están correctamente anclados a fuentes reales. La segmentación DISC (L04) es precisa y los scripts de venta están bien calibrados para cada perfil.
-- **Punto Débil:** La inclusión de "Francisco F." es un error de integridad. Aunque es un detalle menor, en un protocolo de veracidad, cualquier dato no verificado compromete la credibilidad del entregable. Se recomienda eliminar esa fila de la tabla de contacto.
-- **Recomendación:** Corregir la tabla de "Mapa de Poder y Decisores" eliminando la entrada de "Francisco F." y reemplazándola con "Sin Decisor Identificado para el rol de Transformación Digital". Una vez realizado este ajuste, el dossier estará listo para su aprobación final.

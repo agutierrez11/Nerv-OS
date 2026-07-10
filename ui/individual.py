@@ -1,18 +1,37 @@
 import streamlit as st
 import re
+import unicodedata
 from pathlib import Path
 from src.toku_radar.crew import NervCrew
 from core.logger import logger
 from core.database import db
 from core.telegram_logger import send_telegram_notification
 
+def clean_filename(text):
+    if not text:
+        return ""
+    nfkd_form = unicodedata.normalize('NFKD', text)
+    only_ascii = nfkd_form.encode('ASCII', 'ignore').decode('utf-8')
+    return re.sub(r'[^\w\-]', '_', only_ascii).strip('_')
+
 def render_individual_tab(companies_data, output_dir, user_active=None):
     st.subheader("// Configurar Analisis Forense")
 
     col1, col2 = st.columns(2)
     with col1:
-        empresa_opciones = [r["empresa"] for r in companies_data] + ["[ Escribir manualmente ]"]
-        empresa_sel = st.selectbox("Empresa objetivo", empresa_opciones)
+        empresa_opciones = []
+        for r in companies_data:
+            rank = r.get("rank", 0)
+            score = r.get("score", 0)
+            name = r.get("empresa", "")
+            priority = "Especial" if score == 98 else ("Alta" if score >= 95 else "Media/Baja")
+            if rank and score:
+                empresa_opciones.append(f"{rank:02d}. {name} ({score}% - {priority})")
+            else:
+                empresa_opciones.append(name)
+        empresa_opciones.append("[ Escribir manualmente ]")
+
+        empresa_sel = st.selectbox("Empresa objetivo (Ordenadas por Prioridad 80/20)", empresa_opciones)
 
         if empresa_sel == "[ Escribir manualmente ]":
             empresa = st.text_input("Nombre de la empresa", placeholder="ej: Walmart México")
@@ -20,7 +39,8 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
             url_cliente = st.text_input("Sitio Web / URL de la empresa", placeholder="ej: https://www.walmart.com.mx")
             pitch = st.text_area("Propuesta de Valor (Vendedor)", placeholder="ej: Orquestacion de Pagos")
         else:
-            row = next(r for r in companies_data if r["empresa"] == empresa_sel)
+            idx = empresa_opciones.index(empresa_sel)
+            row = companies_data[idx]
             empresa = row["empresa"]
             sector = row["sector"]
             url_cliente = st.text_input("Sitio Web / URL de la empresa", value=row.get("url", ""))
@@ -67,7 +87,7 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
             )
 
     # Verificar si ya existe un dossier guardado localmente para evitar regenerarlo
-    safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_') if empresa else ""
+    safe_name = clean_filename(empresa) if empresa else ""
     file_path = output_dir / f"{safe_name}.md" if safe_name else None
     
     if file_path and file_path.exists():
@@ -113,10 +133,25 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
                 st.session_state[f"dossier_{empresa}"] = dossier_limpio
                 
                 # Guardar automáticamente en el output_dir para consulta posterior
-                safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
+                safe_name = clean_filename(empresa)
                 (output_dir / f"{safe_name}.md").write_text(dossier_limpio, encoding="utf-8")
                 
-                status.update(label="✅ Analisis Completado y Guardado en Local", state="complete")
+                # Guardar automáticamente en la bóveda de Obsidian si existe
+                vault_path = Path("/home/antonio/Desktop/Toku_WarRoom_Vault")
+                if vault_path.exists():
+                    try:
+                        from core.obsidian_linker import link_dossier
+                        dossier_linked = link_dossier(dossier_limpio, str(vault_path))
+                    except Exception as le:
+                        logger.error(f"Error running obsidian linker during auto-save: {le}")
+                        dossier_linked = dossier_limpio
+                    try:
+                        (vault_path / f"{safe_name}.md").write_text(dossier_linked, encoding="utf-8")
+                        st.toast(f"📂 Dossier auto-guardado en Obsidian.")
+                    except Exception as ve:
+                        logger.error(f"Error guardando automático en bóveda Obsidian: {ve}")
+                
+                status.update(label="✅ Analisis Completado y Guardado en Local / Obsidian", state="complete")
                 
                 vendedor_name = user_active.get("name", "Invitado") if user_active else "Invitado"
                 is_toku_mode = user_active.get("is_toku", False) if user_active else False
@@ -151,25 +186,88 @@ def render_individual_tab(companies_data, output_dir, user_active=None):
             with col_ed2:
                 st.markdown("⭐ **Califica la Calidad**")
                 rating = st.select_slider("Feedback RLHF", options=["Pobre", "Regular", "Bueno", "Excelente", "Elite"], value="Bueno")
+                
+                # Casilla para Informacion Post-Mortem / Datos Reales
+                post_mortem = st.text_area(
+                    "Información Post Mortem:", 
+                    placeholder="Ej: Wappalyzer detecta Paypal y PayU como pasarelas reales. Objeciones, etc.",
+                    height=120
+                )
+                
                 if st.button("Guardar Feedback"):
+                    from datetime import datetime
+                    
+                    # 1. Append post-mortem info if present
+                    if post_mortem.strip():
+                        post_mortem_text = f"\n\n## 📝 INFORMACIÓN POST-MORTEM\n- **Fecha:** {datetime.now().strftime('%Y-%m-%d %H:%M')}\n- **Calidad del Dossier:** {rating}\n- **Notas Adicionales (Post-Mortem):** {post_mortem}\n"
+                        final_dossier_with_pm = final_dossier + post_mortem_text
+                    else:
+                        final_dossier_with_pm = final_dossier
+                    
+                    # 2. Build Supabase payload
                     feedback_payload = {
                         "empresa": empresa,
                         "rating": rating,
-                        "content_corrected": final_dossier,
+                        "content_corrected": final_dossier_with_pm,
                         "vendedor": user_active.get("vendedor_name", "Toku") if user_active else "Toku",
                         "user_role": user_active.get("role", "Otro") if user_active else "Otro",
                         "user_industry": user_active.get("industry", "General") if user_active else "General"
                     }
+                    
+                    # 3. Resolve paths and run the Obsidian linker to auto-wikilink concepts
+                    safe_name = clean_filename(empresa)
+                    vault_path = Path("/home/antonio/Desktop/Toku_WarRoom_Vault")
+                    
+                    if vault_path.exists():
+                        try:
+                            from core.obsidian_linker import link_dossier
+                            final_dossier_linked = link_dossier(final_dossier_with_pm, str(vault_path))
+                        except Exception as le:
+                            logger.error(f"Error running obsidian linker: {le}")
+                            final_dossier_linked = final_dossier_with_pm
+                    else:
+                        final_dossier_linked = final_dossier_with_pm
+                    
+                    # 4. Save locally in the app output dir
+                    try:
+                        (output_dir / f"{safe_name}.md").write_text(final_dossier_linked, encoding="utf-8")
+                        st.session_state[f"dossier_{empresa}"] = final_dossier_linked
+                        st.toast("💾 Dossier guardado localmente en la caché de la aplicación.")
+                    except Exception as fe:
+                        logger.error(f"Error guardando archivo local de app: {fe}")
+                    
+                    # 5. Save to Obsidian vault if it exists
+                    if vault_path.exists():
+                        filepath = vault_path / f"{safe_name}.md"
+                        if not filepath.exists():
+                            # Look for potential matches, e.g. safe_name_Reporte.md or similar
+                            candidates = list(vault_path.glob(f"{safe_name}*.md"))
+                            if candidates:
+                                candidates.sort(key=lambda p: len(p.name))
+                                filepath = candidates[0]
+                        try:
+                            filepath.write_text(final_dossier_linked, encoding="utf-8")
+                            st.toast(f"📂 Dossier y notas Post-Mortem vinculados y guardados en Obsidian: {filepath.name}")
+                        except Exception as ve:
+                            logger.error(f"Error guardando en bóveda Obsidian: {ve}")
+                            st.error(f"No se pudo guardar en Obsidian: {ve}")
+                    else:
+                        st.warning("⚠️ No se encontró la bóveda de Obsidian en la ruta predeterminada.")
+                    
+                    # 6. Sync with Supabase (update payload with linked version)
+                    feedback_payload["content_corrected"] = final_dossier_linked
                     res = db.save_feedback(feedback_payload)
                     if res:
-                        st.toast(f"✅ Feedback '{rating}' guardado en Supabase. El sistema usará esto para mejorar futuros reportes.")
+                        st.toast(f"🎯 Feedback '{rating}' sincronizado con Supabase.")
                     else:
-                        st.error("Error al conectar con Supabase. Feedback guardado solo en memoria local.")
+                        st.info("Nota: Supabase inalcanzable. Datos guardados en Obsidian local.")
+                    
+                    st.rerun()
         
         st.markdown(final_dossier)
         
         # Guardar y Compartir
-        safe_name = re.sub(r'[^\w\-]', '_', empresa).strip('_')
+        safe_name = clean_filename(empresa)
         
         col_btn1, col_btn2 = st.columns(2)
         with col_btn1:

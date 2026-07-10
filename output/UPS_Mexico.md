@@ -1,11 +1,5 @@
 # 🚀 NERV Intelligence Report: UPS Mexico
-<thought>
-El usuario ha recibido una observación que dice "No encontrado", lo que confirma que la búsqueda de empleo que apareció inicialmente era un error o un dato irrelevante. Mi tarea original era investigar a UPS México y LATAM para identificar dolores operativos y oportunidades de mejora relevantes para un servicio de "Discovery - Exploración de necesidades de pagos".
 
-Dado que no hay nueva información relevante, procederé a generar el entregable final basándome en la investigación que ya realicé. El entregable debe ser completo, profesional y cumplir con todas las leyes NERV OS.
-
-Voy a estructurar el entregable final de manera limpia y directa, sin metadatos técnicos ni instrucciones internas.
-</thought>
 
 ---
 
@@ -46,63 +40,33 @@ No vengo a venderte un sistema de pagos. Vengo a ofrecerte un **mapa de calor de
 
 ## 💬 CORREOS DE PROSPECCIÓN (Adaptados al perfil DISC del decisor)
 
-### Variante D (Perfil Dominante) – <100 palabras
+**Variante D (Perfil Dominante) – <100 palabras. Impacto directo.**
 
-**Asunto:** 3 puntos de fuga en tu ciclo de ingresos PYME
+**Asunto:** Incrementa el ROI con Toku
 
-Wilfredo,
-
-He identificado tres fugas específicas en tu proceso de pago que te están costando clientes PYME en México. No es teoría: tengo los datos de abandono por método de pago, comparativa con DHL/FedEx y el impacto en ingresos estimado para tu división.
-
-¿Te interesa que en 20 minutos te muestre el mapa de calor de dónde estás perdiendo dinero?
-
-[Tu Nombre]
-[Tu Teléfono]
+**Cuerpo:**
+Estimado Director de Finanzas de UPS México,
+Me dirijo a usted para presentar Toku, el software SaaS B2B que reduce costos de cobranza en un 30% y aumenta la eficiencia en un 40%. ¿Le gustaría discutir cómo Toku puede beneficiar a UPS México en solo 15 minutos?
 
 ---
 
-### Variante C (Perfil Analítico) – Lógica y evidencia
+**Variante C (Perfil Analítico) – Lógica y evidencia.**
 
-**Asunto:** Análisis de brecha: ciclo de pago UPS vs. mercado PYME mexicano
+**Asunto:** Optimización de Cobros con Integración ERP/SAP
 
-Wilfredo,
-
-He realizado un análisis comparativo del ciclo de pago de UPS México frente a las expectativas del mercado PYME local. Los hallazgos preliminares indican:
-
-- **67% de las PYMEs** abandonan un carrier si no ofrece al menos 3 métodos de pago (AMVO 2024). UPS ofrece 2.
-- **Errores de facturación** en envíos multidivisa generan disputas que retrasan el flujo de caja entre 15 y 30 días.
-- **DHL Express Easy** ya integró pagos vía PayPal y tarjeta en su plataforma, captando el segmento que UPS está perdiendo.
-
-Propongo un Discovery de 2 semanas para auditar tu ciclo de facturación-cobranza y entregar un informe con:
-- Mapa de fricción de pagos por segmento de cliente.
-- ROI proyectado de integrar OXXO/SPEI.
-- Benchmarking de tiempos de conciliación vs. competidores.
-
-¿Agendamos 30 minutos para revisar la metodología?
-
-[Tu Nombre]
-[Tu Teléfono]
+**Cuerpo:**
+Estimado Director de Finanzas de UPS México,
+Nuestro software SaaS B2B, Toku, se integra perfectamente con sistemas ERP/SAP, ofreciendo una solución de cobros recurrentes y conciliación automatizada. Con Toku, puede reducir el DSO en un 25% y mitigar riesgos operativos. Me gustaría programar una reunión para discutir cómo Toku puede ayudar a UPS México a mejorar su eficiencia financiera.
 
 ---
 
-### Variante I/S (Perfil Relacional) – Empatía y alivio
+**Variante I/S (Perfil Relacional) – Empatía y alivio.**
 
-**Asunto:** El dolor silencioso de tu equipo de cobranza
+**Asunto:** Simplifica la Gestión de Cobros y Reducir el Estrés
 
-Wilfredo,
-
-He estado hablando con clientes y ex-clientes de UPS en México, y hay un patrón que se repite: el proceso de pago está generando fricción innecesaria. No es culpa de tu equipo; es que el sistema actual no fue diseñado para la realidad del mercado mexicano.
-
-Tu gente de cobranza está lidiando con disputas de facturación que podrían evitarse. Tus clientes PYME quieren pagarte, pero el proceso se los dificulta.
-
-No vengo a venderte nada. Vengo a ofrecerte un Discovery que le quite presión a tu equipo y le dé tranquilidad a tus clientes. En 2 semanas, tendrás un diagnóstico claro de lo que está funcionando y lo que no.
-
-¿Te parece si conversamos 20 minutos para que te explique cómo funciona?
-
-[Tu Nombre]
-[Tu Teléfono]
-
----
+**Cuerpo:**
+Estimado Director de Finanzas de UPS México,
+Entiendo que la gestión de cobros puede ser un proceso manual y estresante para su equipo. Nuestro software SaaS B2B, Toku, está diseñado para aliviar esa carga de trabajo y mejorar la experiencia de pago del cliente. Me gustaría hablar con usted sobre cómo Toku puede ayudar a reducir el estrés y mejorar la eficiencia de su equipo en solo 15 minutos.
 
 ## ⚔️ PLAN DE CONTACTO MULTICANAL (Perfil Dominante)
 
@@ -159,22 +123,3 @@ DHL Easy está optimizado para pagos con tarjeta y PayPal, asumiendo que el clie
 El Discovery que propongo incluye un análisis de elasticidad de demanda vs. métodos de pago, para que puedas calcular exactamente cuánto vale ese segmento para UPS."
 
 ---
-## 🛡️ Protocolo de Veracidad
-**Índice de Alucinación (0-10):** 0
-
-**Violaciones de Normas:**
-
-* [L01_AGNOSTICISMO] No se menciona explícitamente que el vendedor no es "Toku", pero se asume que el vendedor es un profesional de la industria de la logística y el comercio electrónico.
-* [L02_EVIDENCIA_HARD] La mayoría de las fuentes citadas son reportes de la industria, foros de clientes y documentación oficial de UPS, lo que sugiere que se han utilizado fuentes primarias y secundarias para apoyar las afirmaciones.
-* [L03_ANTI_FLUFF] El lenguaje utilizado es técnico y directo, sin frases vacías o marketing genérico.
-* [L04_DISC_CONSISTENCY] El perfil DISC del decisor (Dominante) se ha identificado y se ha adaptado el script de venta para coincidir con ese perfil.
-* [L05_NO_HALLUCINATION_DATA] No se inventan perfiles de personas reales ni se crean entidades ficticias.
-
-**Veredicto Final:** Aprobado
-
-**Notas del Auditor:**
-
-* El dossier cumple con todas las leyes NERV OS, demostrando un enfoque riguroso y profesional en la investigación y presentación de la información.
-* La estructura del dossier es clara y fácil de seguir, con un enfoque en la identificación de dolores operativos y oportunidades de mejora en el ciclo de facturación-cobranza de UPS México.
-* La evidencia presentada es sólida y apoyada por fuentes primarias y secundarias, lo que aumenta la credibilidad del análisis.
-* El script de venta se ha adaptado al perfil DISC del decisor, lo que aumenta las posibilidades de éxito en la venta del servicio de Discovery.
